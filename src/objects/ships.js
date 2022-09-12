@@ -28,4 +28,7 @@ class Ship {
 
 const battleShip = new Ship(3);
 battleShip.hit([0, 1]);
+battleShip.hit([0, 0]);
+battleShip.hit([0, 2]);
+
 console.log(battleShip.getHitCoordinates());
