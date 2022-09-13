@@ -1,11 +1,16 @@
 /* Gameboards should be able to place ships at specific coordinates by calling the ship factory function. */
 class Gameboards {
-  constructor(size = 7, recordAttack) {
+  constructor(size = 7) {
     this.size = size;
-    recordAttack = null;
   }
+  shipCoordinates = [];
+  recordAttack = []; // array of attacked coordinates
+
   receiveAttack(coordinates) {
     // determines whether or not the attack hit a placed ship and records the coordinates.
+  }
+  addShip(shipSize) {
+    // adds the ships chosen coordinates to the shipCoordinates array
   }
 }
 // classic battleship is 7x7. Try to make it a more flexible board though!
