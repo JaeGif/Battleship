@@ -1,13 +1,8 @@
 class Ship {
-  constructor(length) {
+  constructor(length, name = null) {
+    this.name = name;
     this.length = length;
     this.hitCoordinates = [];
-    this.shipCoordinates = [
-      [0, 0],
-      [0, 1],
-      [0, 2],
-    ]; // the array is filled with coordinnates where the ship exists this can be populated by
-    // placement function
   }
   getHitCoordinates() {
     return this.hitCoordinates;

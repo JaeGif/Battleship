@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "description": "Battleship clone",
   "main": "main.js",
+  "type": "module",
   "scripts": {
     "test": "jest",
     "build": "webpack"

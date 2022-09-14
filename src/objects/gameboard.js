@@ -1,4 +1,6 @@
 /* Gameboards should be able to place ships at specific coordinates by calling the ship factory function. */
+import Ship from './ships.js';
+
 class Gameboards {
   constructor(size = 7) {
     this.size = size;
@@ -9,7 +11,15 @@ class Gameboards {
   receiveAttack(coordinates) {
     // determines whether or not the attack hit a placed ship and records the coordinates.
   }
-  addShip(shipSize) {
+
+  addShip(ship, coordinates) {
+    this.shipCoordinates.push({
+      name: ship.name,
+      location: coordinates,
+    });
+
+    // Carrier(5) Battleship(4) Cruiser(3) Submarine(3) Destroyer(2)
+    // for now add ship manually to a location using coordinates
     // adds the ships chosen coordinates to the shipCoordinates array
   }
 }
@@ -30,3 +40,7 @@ y  0  0  0  0  0  0  0  0
 v  6  0  0  0  0  0  0  0
 
 */
+let Carrier = new Ship(5, 'Carrier');
+console.log(Carrier);
+
+export default Gameboards;

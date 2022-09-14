@@ -1,4 +1,4 @@
-import Ship from './ships';
+import Ship from './ships.js';
 
 test('.hit(coord) pushes single hit to hitCoordinates', () => {
   let battleShip = new Ship(3);
