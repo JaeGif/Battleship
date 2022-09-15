@@ -13,12 +13,10 @@ class Gameboards {
   receiveAttack(coordinates) {
     // updates the gameboards data on what spaces have been hit for the DOM
     this.recordAttack.push(coordinates);
-
     for (let i = 0; i < this.shipCoordinates.length; i++) {
       // go through the list of ships placed first
       for (let j = 0; j < this.shipCoordinates[i].location.length; j++) {
         // go through the ships coordinates next
-
         if (
           // Array matching in JS has no built-ins so compare each element individually
           // there's only 2 elements per array no matter what so this method is ok.
@@ -27,7 +25,6 @@ class Gameboards {
         ) {
           // if the coords match, it's a hit
           this.shipCoordinates[i].object.hit(coordinates);
-
           // if the ship is sunk add to the graveyard
           if (this.shipCoordinates[i].object.isSunk()) {
             this.sunkShips.push(this.shipCoordinates[i].object);
