@@ -1,5 +1,6 @@
 import Gameboards from './gameboard.js';
 import Ship from './ships.js';
+
 let Carrier = new Ship(5, 'Carrier');
 let Battleship = new Ship(4, 'Battleship');
 let Cruiser = new Ship(3, 'Cruiser');
