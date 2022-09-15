@@ -9,13 +9,24 @@ class Gameboards {
   recordAttack = []; // array of attacked coordinates
 
   receiveAttack(coordinates) {
-    // determines whether or not the attack hit a placed ship and records the coordinates.
+    this.recordAttack.push(coordinates);
+
+    for (let i = 0; i < this.shipCoordinates.length; i++) {
+      for (let j = 0; j < this.shipCoordinates[i].location.length; j++) {
+        if (
+          coordinates[0] === this.shipCoordinates[i].location[j][0] &&
+          coordinates[1] === this.shipCoordinates[i].location[j][1]
+        ) {
+          return this.shipCoordinates[i].object.hit(coordinates);
+        }
+      }
+    }
   }
 
-  addShip(ship, coordinates) {
+  addShip(ship, newCoordinates) {
     this.shipCoordinates.push({
-      name: ship.name,
-      location: coordinates,
+      object: ship,
+      location: newCoordinates,
     });
 
     // Carrier(5) Battleship(4) Cruiser(3) Submarine(3) Destroyer(2)
@@ -40,7 +51,20 @@ y  0  0  0  0  0  0  0  0
 v  6  0  0  0  0  0  0  0
 
 */
-let Carrier = new Ship(5, 'Carrier');
-console.log(Carrier);
+let playerBoard = new Gameboards();
+let Battleship = new Ship(4, 'Battleship');
+let Destroyer = new Ship(2, 'Destroyer');
+
+playerBoard.addShip(Battleship, [
+  [5, 0],
+  [5, 1],
+  [5, 2],
+  [5, 3],
+]);
+playerBoard.addShip(Destroyer, [
+  [4, 0],
+  [4, 1],
+]);
+playerBoard.receiveAttack([5, 0]);
 
 export default Gameboards;
