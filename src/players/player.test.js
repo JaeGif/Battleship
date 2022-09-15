@@ -17,7 +17,7 @@ test('Player attack registers', () => {
     [0, 1],
     [0, 2],
   ]);
-  player.attack([0, 0], cpuGameboard);
+  expect(player.attack([0, 0], cpuGameboard)).toBeTruthy();
   expect(battleShip.getHitCoordinates()).toStrictEqual([[0, 0]]);
 });
 
@@ -31,7 +31,33 @@ test('Player attacks the same spot fails', () => {
     [0, 2],
   ]);
   player.attack([0, 0], cpuGameboard);
-  player.attack([0, 0], cpuGameboard);
+  expect(player.attack([0, 0], cpuGameboard)).toBeFalsy();
+  expect(battleShip.getHitCoordinates()).toStrictEqual([[0, 0]]);
+});
+
+test('CPU attack registers', () => {
+  let cpuPlayer = new Players();
+  let playerGameboard = new Gameboards();
+  let battleShip = new Ship(3);
+  playerGameboard.addShip(battleShip, [
+    [0, 0],
+    [0, 1],
+    [0, 2],
+  ]);
+  expect(cpuPlayer.attack([0, 0], playerGameboard)).toBeTruthy();
+  expect(battleShip.getHitCoordinates()).toStrictEqual([[0, 0]]);
+});
+test('CPU attacks the same spot fails', () => {
+  let cpuPlayer = new Players();
+  let playerGameboard = new Gameboards();
+  let battleShip = new Ship(3);
+  playerGameboard.addShip(battleShip, [
+    [0, 0],
+    [0, 1],
+    [0, 2],
+  ]);
+  cpuPlayer.attack([0, 0], playerGameboard);
 
   expect(battleShip.getHitCoordinates()).toStrictEqual([[0, 0]]);
+  expect(cpuPlayer.attack([0, 0], playerGameboard)).toBeFalsy();
 });
