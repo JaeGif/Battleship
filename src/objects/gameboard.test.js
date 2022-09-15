@@ -133,7 +133,5 @@ test('Attacks hit if the space is occupied', () => {
     [4, 1],
   ]);
   playerBoard.receiveAttack([5, 0]);
-  expect(playerBoard.receiveAttack([5, 0])).toBe('kjwvn');
-  /*   expect(Battleship.getHitCoordinates()).toBe([[5, 0]]);
-   */
+  expect(Battleship.getHitCoordinates()).toStrictEqual([[5, 0]]);
 });
