@@ -61,3 +61,15 @@ test('CPU attacks the same spot fails', () => {
   expect(battleShip.getHitCoordinates()).toStrictEqual([[0, 0]]);
   expect(cpuPlayer.attack([0, 0], playerGameboard)).toBeFalsy();
 });
+test('CPU random attack lands on gameboard', () => {
+  let cpuPlayer = new Players();
+  let playerGameboard = new Gameboards();
+  let battleShip = new Ship(3);
+  playerGameboard.addShip(battleShip, [
+    [0, 0],
+    [0, 1],
+    [0, 2],
+  ]);
+  cpuPlayer.cpuAttack(playerGameboard);
+  expect(playerGameboard.recordAttack.length).toBe(1);
+});
