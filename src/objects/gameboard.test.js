@@ -122,6 +122,9 @@ test('add multiple ship objects to the board', () => {
 });
 test('Attacks hit if the space is occupied', () => {
   let playerBoard = new Gameboards();
+  let Battleship = new Ship(4, 'Battleship');
+  let Destroyer = new Ship(2, 'Destroyer');
+
   playerBoard.addShip(Battleship, [
     [5, 0],
     [5, 1],
@@ -134,4 +137,25 @@ test('Attacks hit if the space is occupied', () => {
   ]);
   playerBoard.receiveAttack([5, 0]);
   expect(Battleship.getHitCoordinates()).toStrictEqual([[5, 0]]);
+  expect(playerBoard.recordAttack).toStrictEqual([[5, 0]]);
+});
+
+test('Attacks miss if the space is not occupied', () => {
+  let playerBoard = new Gameboards();
+  let Battleship = new Ship(4, 'Battleship');
+  let Destroyer = new Ship(2, 'Destroyer');
+
+  playerBoard.addShip(Battleship, [
+    [5, 0],
+    [5, 1],
+    [5, 2],
+    [5, 3],
+  ]);
+  playerBoard.addShip(Destroyer, [
+    [4, 0],
+    [4, 1],
+  ]);
+  playerBoard.receiveAttack([4, 6]);
+  expect(Battleship.getHitCoordinates()).not.toStrictEqual([[4, 6]]);
+  expect(playerBoard.recordAttack).toStrictEqual([[4, 6]]);
 });

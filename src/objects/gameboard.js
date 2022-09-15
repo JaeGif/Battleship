@@ -9,11 +9,16 @@ class Gameboards {
   recordAttack = []; // array of attacked coordinates
 
   receiveAttack(coordinates) {
+    // updates the gameboards data on what spaces have been hit for the DOM
     this.recordAttack.push(coordinates);
 
     for (let i = 0; i < this.shipCoordinates.length; i++) {
+      // go through the list of ships placed first
       for (let j = 0; j < this.shipCoordinates[i].location.length; j++) {
+        // go through the ships coordinates next
         if (
+          // Array matching in JS has no built-ins so compare each element individually
+          // there's only 2 elemeents per array no matter what so this method is ok.
           coordinates[0] === this.shipCoordinates[i].location[j][0] &&
           coordinates[1] === this.shipCoordinates[i].location[j][1]
         ) {
@@ -51,20 +56,5 @@ y  0  0  0  0  0  0  0  0
 v  6  0  0  0  0  0  0  0
 
 */
-let playerBoard = new Gameboards();
-let Battleship = new Ship(4, 'Battleship');
-let Destroyer = new Ship(2, 'Destroyer');
-
-playerBoard.addShip(Battleship, [
-  [5, 0],
-  [5, 1],
-  [5, 2],
-  [5, 3],
-]);
-playerBoard.addShip(Destroyer, [
-  [4, 0],
-  [4, 1],
-]);
-playerBoard.receiveAttack([5, 0]);
 
 export default Gameboards;
