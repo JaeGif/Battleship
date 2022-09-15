@@ -159,3 +159,62 @@ test('Attacks miss if the space is not occupied', () => {
   expect(Battleship.getHitCoordinates()).not.toStrictEqual([[4, 6]]);
   expect(playerBoard.recordAttack).toStrictEqual([[4, 6]]);
 });
+test('Gameboard knows when all ships are sunk', () => {
+  let playerBoard = new Gameboards();
+  let Battleship = new Ship(4, 'Battleship');
+  let Destroyer = new Ship(2, 'Destroyer');
+  let Cruiser = new Ship(3, 'Cruiser');
+  let Submarine = new Ship(3, 'Submarine');
+  let Carrier = new Ship(5, 'Carrier');
+  playerBoard.addShip(Carrier, [
+    [3, 0],
+    [3, 1],
+    [3, 2],
+    [3, 3],
+    [3, 4],
+  ]);
+  playerBoard.addShip(Submarine, [
+    [2, 0],
+    [2, 1],
+    [2, 2],
+  ]);
+  playerBoard.addShip(Cruiser, [
+    [1, 0],
+    [1, 1],
+    [1, 2],
+  ]);
+  playerBoard.addShip(Battleship, [
+    [5, 0],
+    [5, 1],
+    [5, 2],
+    [5, 3],
+  ]);
+  playerBoard.addShip(Destroyer, [
+    [4, 0],
+    [4, 1],
+  ]);
+
+  playerBoard.receiveAttack([5, 0]);
+  playerBoard.receiveAttack([5, 1]);
+  playerBoard.receiveAttack([5, 2]);
+  playerBoard.receiveAttack([5, 3]);
+
+  playerBoard.receiveAttack([4, 0]);
+  playerBoard.receiveAttack([4, 1]);
+
+  playerBoard.receiveAttack([3, 0]);
+  playerBoard.receiveAttack([3, 1]);
+  playerBoard.receiveAttack([3, 2]);
+  playerBoard.receiveAttack([3, 3]);
+  playerBoard.receiveAttack([3, 4]);
+
+  playerBoard.receiveAttack([2, 0]);
+  playerBoard.receiveAttack([2, 1]);
+  playerBoard.receiveAttack([2, 2]);
+
+  playerBoard.receiveAttack([1, 0]);
+  playerBoard.receiveAttack([1, 1]);
+  playerBoard.receiveAttack([1, 2]);
+
+  expect(playerBoard.allShipsSunk()).toBeTruthy();
+});
