@@ -10,3 +10,6 @@ Take turns attacking alternating the gameboard so the opponeent cannot see th lo
 
 Display idea:
 Display current players small and in the corner. Display the opponents (hidden) board larger and center frame.
+
+Learned:
+Aspect Ratio CSS Rule
