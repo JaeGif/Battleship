@@ -50,6 +50,7 @@ function playerGridListeners(gridElement) {
     'click',
     () => {
       if (GameState.turn === 'opponent') {
+        playerGridListeners(gridElement);
         return;
       }
       const player = GameState.players[0];
@@ -73,6 +74,7 @@ function opponentGridListeners(gridElement) {
     'click',
     () => {
       if (GameState.turn === 'player') {
+        opponentGridListeners(gridElement);
         return;
       }
       const opponent = GameState.players[1];
