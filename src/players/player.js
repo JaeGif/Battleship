@@ -9,9 +9,13 @@ class Players {
   constructor(name = 'Computer') {
     this.name = name;
   }
-  attack(coordinates, enemyBoard) {
+  attack(coordinateStringy, enemyBoard) {
     // checks that an attack has not been previously made
-
+    let coordinates = [
+      parseInt(coordinateStringy[0]),
+      parseInt(coordinateStringy[1]),
+    ];
+    console.log(coordinates);
     if (enemyBoard.recordAttack.length === 0) {
       enemyBoard.receiveAttack(coordinates);
       return true;

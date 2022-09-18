@@ -3,11 +3,22 @@ The game loop should set up a new game by creating Players and Gameboards.
 \For now just populate each Gameboard with predetermined coordinates. 
 You can implement a system for allowing players to place their ships later.
  */
+
 import Gameboards from './objects/gameboard.js';
 import Players from './players/player.js';
 import Ship from './objects/ships.js';
 
-function newGame(playerBoard, opponentBoard) {
+function newGame() {
+  const playerBoard = new Gameboards();
+  const opponentBoard = new Gameboards();
+  GameState.boards.push(playerBoard);
+  GameState.boards.push(opponentBoard);
+
+  const humanPlayer = new Players('Jae');
+  const computerPlayer = new Players();
+  GameState.players.push(humanPlayer);
+  GameState.players.push(computerPlayer);
+
   let Battleship = new Ship(4, 'Battleship');
   let Destroyer = new Ship(2, 'Destroyer');
   let Cruiser = new Ship(3, 'Cruiser');
@@ -71,16 +82,10 @@ function newGame(playerBoard, opponentBoard) {
   ]);
 }
 
-function gameLoop(playerBoard, opponentBoard, humanPlayer, computerPlayer) {
-  let turn = 'player';
-  while (!opponentBoard.allShipsSunk() && !playerBoard.allShipsSunk()) {
-    // if an attack is executed change turns
-    if (humanPlayer.attack() || computerPlayer.cpuAttack()) {
-      turn = changeTurn(turn);
-    }
-  }
-}
 class GameState {
   static turn = 'player';
+  static players = [];
+  static boards = [];
+  static mode = 'PvP';
 }
-export { newGame, gameLoop, GameState };
+export { newGame, GameState };

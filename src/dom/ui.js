@@ -16,7 +16,7 @@ function createBoards(size = 10) {
   for (let i = 0; i < size * size; i++) {
     const coordinateGrid = document.createElement('div');
     coordinateGrid.className = 'player-grid-elements';
-    coordinateGrid.id = `a[${playerCoordinateIterator.next().value}]`;
+    coordinateGrid.id = `a${playerCoordinateIterator.next().value}`;
     playerGridListeners(coordinateGrid);
     playerBoardContainer.appendChild(coordinateGrid);
   }
@@ -24,7 +24,7 @@ function createBoards(size = 10) {
   for (let i = 0; i < size * size; i++) {
     const coordinateGrid = document.createElement('div');
     coordinateGrid.className = 'opponent-grid-elements';
-    coordinateGrid.id = `b[${opponentCoordinateIterator.next().value}]`;
+    coordinateGrid.id = `b${opponentCoordinateIterator.next().value}`;
     opponentGridListeners(coordinateGrid);
     opponentBoardContainer.appendChild(coordinateGrid);
   }
@@ -52,8 +52,11 @@ function playerGridListeners(gridElement) {
       if (GameState.turn === 'opponent') {
         return;
       }
+      const player = GameState.players[0];
+      const enemyBoard = GameState.boards[1];
+      const coordinates = gridElement.id.slice(1).split(',');
+      player.attack(coordinates, enemyBoard);
       GameState.turn = 'opponent';
-      console.log(gridElement.id);
     },
     { once: true }
   );
@@ -66,8 +69,13 @@ function opponentGridListeners(gridElement) {
       if (GameState.turn === 'player') {
         return;
       }
+      const opponent = GameState.players[1];
+      const enemyBoard = GameState.boards[0];
+      const coordinates = gridElement.id.slice(1).split(',');
+      if (GameState.mode === 'PvP') {
+        opponent.attack(coordinates, enemyBoard);
+      }
       GameState.turn = 'player';
-      console.log(gridElement.id);
     },
     { once: true }
   );
