@@ -2,7 +2,7 @@
 import Ship from './ships.js';
 
 class Gameboards {
-  constructor(size = 7) {
+  constructor(size = 10) {
     this.size = size;
   }
   shipCoordinates = [];
