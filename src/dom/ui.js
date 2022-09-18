@@ -56,6 +56,12 @@ function playerGridListeners(gridElement) {
       const enemyBoard = GameState.boards[1];
       const coordinates = gridElement.id.slice(1).split(',');
       player.attack(coordinates, enemyBoard);
+      if (GameState.wasHit === true) {
+        gridElement.classList.add('hit');
+        GameState.wasHit = false;
+      } else {
+        gridElement.classList.add('miss');
+      }
       GameState.turn = 'opponent';
     },
     { once: true }
@@ -74,6 +80,12 @@ function opponentGridListeners(gridElement) {
       const coordinates = gridElement.id.slice(1).split(',');
       if (GameState.mode === 'PvP') {
         opponent.attack(coordinates, enemyBoard);
+        if (GameState.wasHit === true) {
+          gridElement.classList.add('hit');
+          GameState.wasHit = false;
+        } else {
+          gridElement.classList.add('miss');
+        }
       }
       GameState.turn = 'player';
     },

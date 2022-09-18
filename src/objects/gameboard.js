@@ -1,6 +1,6 @@
 /* Gameboards should be able to place ships at specific coordinates by calling the ship factory function. */
 import Ship from './ships.js';
-
+import { GameState } from '../gameloop.js';
 class Gameboards {
   constructor(size = 10) {
     this.size = size;
@@ -24,6 +24,7 @@ class Gameboards {
         ) {
           // if the coords match, it's a hit
           this.shipCoordinates[i].object.hit(coordinates);
+          GameState.wasHit = true;
           // if the ship is sunk add to the graveyard
           if (this.shipCoordinates[i].object.isSunk()) {
             this.sunkShips.push(this.shipCoordinates[i].object);

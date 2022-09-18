@@ -87,5 +87,6 @@ class GameState {
   static players = [];
   static boards = [];
   static mode = 'PvP';
+  static wasHit = false;
 }
 export { newGame, GameState };

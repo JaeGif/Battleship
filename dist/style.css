@@ -23,6 +23,12 @@ main {
 .grid-div div {
   border: solid 1px black;
 }
+.hit {
+  background-color: red;
+}
+.miss {
+  background-color: blue;
+}
 footer {
   display: flex;
   justify-content: center;
