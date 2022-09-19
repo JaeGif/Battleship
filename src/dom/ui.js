@@ -5,13 +5,12 @@ import Gameboards from '../objects/gameboard.js';
 import { GameState } from '../gameloop.js';
 
 function createBoards(size = 10) {
+  createPlayerBoard(size);
+  createOpponentBoard(size);
+}
+function createPlayerBoard(size) {
   const playerCoordinateIterator = generateCoordinateIDs(size);
-  const opponentCoordinateIterator = generateCoordinateIDs(size);
-
   const playerBoardContainer = document.getElementById('current-player-board');
-  const opponentBoardContainer = document.getElementById(
-    'current-opponent-board'
-  );
 
   for (let i = 0; i < size * size; i++) {
     const coordinateGrid = document.createElement('div');
@@ -20,6 +19,12 @@ function createBoards(size = 10) {
     playerGridListeners(coordinateGrid);
     playerBoardContainer.appendChild(coordinateGrid);
   }
+}
+function createOpponentBoard(size) {
+  const opponentCoordinateIterator = generateCoordinateIDs(size);
+  const opponentBoardContainer = document.getElementById(
+    'current-opponent-board'
+  );
 
   for (let i = 0; i < size * size; i++) {
     const coordinateGrid = document.createElement('div');

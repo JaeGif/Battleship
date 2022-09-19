@@ -83,10 +83,12 @@ function newGame() {
 }
 
 class GameState {
-  static turn = 'player';
+  // gamestate object keeps track of details about the games current state
+  static turn = 'none';
   static players = [];
   static boards = [];
   static mode = 'PvP';
   static wasHit = false;
+  static gameOver = false;
 }
 export { newGame, GameState };

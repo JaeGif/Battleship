@@ -34,8 +34,11 @@ class Gameboards {
       }
     }
   }
-
+  removeShip() {
+    return this.shipCoordinates.pop();
+  }
   addShip(ship, newCoordinates) {
+    // [[], [], []]
     this.shipCoordinates.push({
       object: ship,
       location: newCoordinates,

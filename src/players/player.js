@@ -38,6 +38,22 @@ class Players {
     let y = Math.floor(Math.random()) * enemyBoard.size;
     return this.attack([x, y], enemyBoard);
   }
+  placeShips() {}
+  cpuPlaceShips(cpuBoard) {
+    let Battleship = new Ship(4, 'Battleship');
+    let Destroyer = new Ship(2, 'Destroyer');
+    let Cruiser = new Ship(3, 'Cruiser');
+    let Submarine = new Ship(3, 'Submarine');
+    let Carrier = new Ship(5, 'Carrier');
+
+    cpuBoard.addShip(Carrier, coordinates);
+  }
+  cpuPlacementSelection() {
+    let coordinate = [];
+    let x = Math.floor(random() * 9);
+    let y = Math.floor(random() * 9);
+    console.log(x, y);
+  }
 }
 
 export default Players;
