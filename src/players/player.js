@@ -51,6 +51,23 @@ class Players {
     this._randomizeShips(board, Destroyer);
     this._randomizeShips(board, Submarine);
   }
+  isEmptySpace(coordinate, gameboard) {
+    for (let i = 0; i < gameboard.shipCoordinates.length; i++) {
+      // go through the list of ships placed first
+      for (let j = 0; j < gameboard.shipCoordinates[i].location.length; j++) {
+        // go through the ships coordinates next
+        if (
+          // Array matching in JS has no built-ins so compare each element individually
+          // there's only 2 elements per array no matter what so this method is ok.
+          coordinate[0] === gameboard.shipCoordinates[i].location[j][0] &&
+          coordinate[1] === gameboard.shipCoordinates[i].location[j][1]
+        ) {
+          return false;
+        }
+      }
+    }
+    return true;
+  }
   _randomizeShips(board, newShip, size = 10) {
     let coordinate = [];
     const shipLength = newShip.length;
@@ -82,7 +99,7 @@ class Players {
       }
     }
     for (let i = 0; i < coordinate.length; i++) {
-      if (!_isEmptySpace(i, board)) {
+      if (!this.isEmptySpace(i, board)) {
         // redoes the random choice if space is not empty
         return _randomizeShips(board, newShip, size);
       }
@@ -98,23 +115,9 @@ class Players {
       return 'y';
     }
   }
-  _isEmptySpace(coordinate, gameboard) {
-    for (let i = 0; i < gameboard.shipCoordinates.length; i++) {
-      // go through the list of ships placed first
-      for (let j = 0; j < gameboard.shipCoordinates[i].location.length; j++) {
-        // go through the ships coordinates next
-        if (
-          // Array matching in JS has no built-ins so compare each element individually
-          // there's only 2 elements per array no matter what so this method is ok.
-          coordinate[0] === gameboard.shipCoordinates[i].location[j][0] &&
-          coordinate[1] === gameboard.shipCoordinates[i].location[j][1]
-        ) {
-          return false;
-        }
-      }
-    }
-    return true;
-  }
 }
-
+let Jae = new Players('Jae');
+let JaeBoard = new Gameboards();
+Jae.randomAddShips(JaeBoard);
+console.log(JaeBoard.shipCoordinates);
 export default Players;
