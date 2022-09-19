@@ -1,16 +1,9 @@
 import Gameboards from './src/objects/gameboard.js';
 import Ship from './src/objects/ships.js';
-let battleship = new Ship(4, 'Battlship');
-let cpuBoard = new Gameboards();
-cpuBoard.addShip(battleship, [
-  [0, 1],
-  [0, 2],
-  [0, 3],
-  [0, 4],
-]);
 
-function cpuAddShips(cpuBoard, shipLength = 4, size = 10) {
+function cpuRandomizeShips(cpuBoard, newShip, size = 10) {
   let coordinate = [];
+  const shipLength = newShip.length;
   let axis = defineAxis();
   let x = Math.floor(Math.random() * 10);
   let y = Math.floor(Math.random() * 10);
@@ -38,7 +31,13 @@ function cpuAddShips(cpuBoard, shipLength = 4, size = 10) {
       coordinate.push([x, y]);
     }
   }
-  console.log(coordinate);
+  for (let i = 0; i < coordinate.length; i++) {
+    if (!isEmptySpace(i, cpuBoard)) {
+      // redoes the random choice if space is not empty
+      return cpuAddShips(cpuBoard, newShip, size);
+    }
+  }
+  cpuBoard.addShip(newShip, coordinate);
 }
 function defineAxis() {
   let axisNum = Math.floor(Math.random() * 2);
@@ -67,4 +66,5 @@ function isEmptySpace(coordinate, gameboard) {
   return true;
 }
 
-cpuAddShips(cpuBoard);
+cpuAddShips(cpuBoard, battleship);
+console.log(cpuBoard.shipCoordinates);
