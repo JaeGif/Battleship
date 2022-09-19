@@ -6,9 +6,15 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Battleship</title>
     <link rel="stylesheet" href="/dist/style.css" />
-    <script type="module" defer src="./main.js"></script>
+    <script type="module" defer src="../src/index.js"></script>
   </head>
   <body>
+    <div class="board-containers">
+      <div id="current-board"></div>
+      <div>Drag and Drop Menu</div>
+    </div>
+
+    <!-- Main Game HTML -->
     <main>
       <div class="board-containers" id="player-container-grid">
         <div class="grid-div" id="current-player-board"></div>
