@@ -52,34 +52,8 @@ function newGame() {
     [4, 0],
     [4, 1],
   ]);
-
-  opponentBoard.addShip(Carrier, [
-    [3, 0],
-    [3, 1],
-    [3, 2],
-    [3, 3],
-    [3, 4],
-  ]);
-  opponentBoard.addShip(Submarine, [
-    [2, 0],
-    [2, 1],
-    [2, 2],
-  ]);
-  opponentBoard.addShip(Cruiser, [
-    [1, 0],
-    [1, 1],
-    [1, 2],
-  ]);
-  opponentBoard.addShip(Battleship, [
-    [5, 0],
-    [5, 1],
-    [5, 2],
-    [5, 3],
-  ]);
-  opponentBoard.addShip(Destroyer, [
-    [4, 0],
-    [4, 1],
-  ]);
+  computerPlayer.randomAddShips(opponentBoard);
+  console.log(opponentBoard.shipCoordinates);
 }
 
 class GameState {
