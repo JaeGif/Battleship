@@ -104,6 +104,7 @@ class Players {
       }
     }
     board.addShip(newShip, coordinate);
+    console.log(coordinate);
   }
   _defineAxis() {
     let axisNum = Math.floor(Math.random() * 2);

@@ -11,6 +11,7 @@ import Ship from './objects/ships.js';
 function newGame() {
   const playerBoard = new Gameboards();
   const opponentBoard = new Gameboards();
+
   GameState.boards.push(playerBoard);
   GameState.boards.push(opponentBoard);
 
@@ -24,6 +25,7 @@ function newGame() {
   let Cruiser = new Ship(3, 'Cruiser');
   let Submarine = new Ship(3, 'Submarine');
   let Carrier = new Ship(5, 'Carrier');
+  computerPlayer.randomAddShips(opponentBoard);
 
   playerBoard.addShip(Carrier, [
     [3, 0],
@@ -52,7 +54,6 @@ function newGame() {
     [4, 0],
     [4, 1],
   ]);
-  computerPlayer.randomAddShips(opponentBoard);
   console.log(opponentBoard.shipCoordinates);
 }
 

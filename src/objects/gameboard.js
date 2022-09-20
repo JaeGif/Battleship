@@ -39,6 +39,7 @@ class Gameboards {
   }
   addShip(ship, newCoordinates) {
     // [[], [], []]
+    console.log(newCoordinates);
     this.shipCoordinates.push({
       object: ship,
       location: newCoordinates,
