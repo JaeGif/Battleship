@@ -7,9 +7,9 @@ let Cruiser = new Ship(3, 'Cruiser');
 let Submarine = new Ship(3, 'Submarine');
 let Destroyer = new Ship(2, 'Destroyer');
 
-test('Gameboard of size 7', () => {
+test('Gameboard of size 10', () => {
   let playerBoard = new Gameboards();
-  expect(playerBoard.size).toBe(7);
+  expect(playerBoard.size).toBe(10);
 });
 test('Gamerboard of random size range 7 - 100', () => {
   const sizeBoard = Math.random(7, 100);

@@ -15,7 +15,6 @@ class Players {
       parseInt(coordinateStringy[0]),
       parseInt(coordinateStringy[1]),
     ];
-    console.log(coordinates);
     if (enemyBoard.recordAttack.length === 0) {
       enemyBoard.receiveAttack(coordinates);
       return true;
@@ -116,8 +115,5 @@ class Players {
     }
   }
 }
-let Jae = new Players('Jae');
-let JaeBoard = new Gameboards();
-Jae.randomAddShips(JaeBoard);
-console.log(JaeBoard.shipCoordinates);
+
 export default Players;
