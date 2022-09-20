@@ -25,7 +25,7 @@ function newGame() {
   let Cruiser = new Ship(3, 'Cruiser');
   let Submarine = new Ship(3, 'Submarine');
   let Carrier = new Ship(5, 'Carrier');
-  computerPlayer.randomAddShips(opponentBoard);
+  opponentBoard.randomAddShips();
 
   playerBoard.addShip(Carrier, [
     [3, 0],

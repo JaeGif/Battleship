@@ -1,4 +1,3 @@
-/* Gameboards should be able to place ships at specific coordinates by calling the ship factory function. */
 import Ship from './ships.js';
 import { GameState } from '../gameloop.js';
 class Gameboards {
@@ -44,10 +43,84 @@ class Gameboards {
       object: ship,
       location: newCoordinates,
     });
+  }
+  randomAddShips() {
+    let Carrier = new Ship(5, 'Carrier');
+    let Battleship = new Ship(4, 'Battleship');
+    let Destroyer = new Ship(2, 'Destroyer');
+    let Cruiser = new Ship(3, 'Cruiser');
+    let Submarine = new Ship(3, 'Submarine');
 
-    // Carrier(5) Battleship(4) Cruiser(3) Submarine(3) Destroyer(2)
-    // for now add ship manually to a location using coordinates
-    // adds the ships chosen coordinates to the shipCoordinates array
+    this._randomizeShips(Carrier);
+    this._randomizeShips(Battleship);
+    this._randomizeShips(Cruiser);
+    this._randomizeShips(Destroyer);
+    this._randomizeShips(Submarine);
+  }
+  _isEmptySpace(coordinate) {
+    for (let i = 0; i < this.shipCoordinates.length; i++) {
+      // go through the list of ships placed first
+      for (let j = 0; j < this.shipCoordinates[i].location.length; j++) {
+        // go through the ships coordinates next
+        if (
+          // Array matching in JS has no built-ins so compare each element individually
+          // there's only 2 elements per array no matter what so this method is ok.
+          coordinate[0] === this.shipCoordinates[i].location[j][0] &&
+          coordinate[1] === this.shipCoordinates[i].location[j][1]
+        ) {
+          return false;
+        }
+      }
+    }
+    return true;
+  }
+  _randomizeShips(newShip, size = 10) {
+    let coordinate = [];
+    const shipLength = newShip.length;
+    let axis = this._defineAxis();
+    let x = Math.floor(Math.random() * 10);
+    let y = Math.floor(Math.random() * 10);
+    coordinate.push([x, y]);
+
+    if (axis === 'x' && x + shipLength <= size) {
+      for (let i = 0; i < shipLength - 1; i++) {
+        x++;
+        coordinate.push([x, y]);
+      }
+    } else if (axis === 'x' && x + shipLength > size) {
+      for (let i = 0; i < shipLength - 1; i++) {
+        x--;
+        coordinate.push([x, y]);
+      }
+    }
+    if (axis === 'y' && y + shipLength <= size) {
+      for (let i = 0; i < shipLength - 1; i++) {
+        y++;
+        coordinate.push([x, y]);
+      }
+    } else if (axis === 'y' && y + shipLength > size) {
+      for (let i = 0; i < shipLength - 1; i++) {
+        y--;
+        coordinate.push([x, y]);
+      }
+    }
+    for (let i = 0; i < coordinate.length; i++) {
+      if (!this._isEmptySpace(i)) {
+        // redoes the random choice if space is not empty
+        return _randomizeShips(newShip, size);
+      }
+    }
+    this.addShip(newShip, coordinate);
+    console.log(coordinate);
+  }
+  _defineAxis() {
+    let axisNum = Math.floor(Math.random() * 2);
+
+    if (axisNum === 1) {
+      return 'x';
+    } else {
+      return 'y';
+    }
   }
   getSunkShips() {
     return this.sunkShips;
@@ -59,22 +132,5 @@ class Gameboards {
     return false;
   }
 }
-// classic battleship is 7x7. Try to make it a more flexible board though!
-// keeps track of where missed attacks land on the gameboard and where hit attacks land. (on a ship) ships are not real they just mark
-// positions on the gameboard to change to red when struck and keep track of whether a ship was sunk.
-
-/* 
-      BattleShip Board Example
-x------------------------->
-      0  1  2  3  4  5  6     
-y  0  0  0  0  0  0  0  0 
-|  1  0  0  0  0  0  0  0
-|  2  0  0  0  0  0  0  0
-|  3  0  0  0  0  0  0  0
-|  4  0  0  0  0  0  0  0
-|  5  0  0  0  0  0  0  0
-v  6  0  0  0  0  0  0  0
-
-*/
 
 export default Gameboards;
