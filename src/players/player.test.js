@@ -73,10 +73,3 @@ test('CPU random attack lands on gameboard', () => {
   cpuPlayer.cpuAttack(playerGameboard);
   expect(playerGameboard.recordAttack.length).toBe(1);
 });
-test('randomAddShips adds ships', () => {
-  let player = new Players('player');
-  let playerBoard = new Gameboards();
-  player.randomAddShips(playerBoard);
-
-  expect(playerBoard.shipCoordinates).not.toBeUndefined();
-});
