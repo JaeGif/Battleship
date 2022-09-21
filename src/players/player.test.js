@@ -74,7 +74,7 @@ test('CPU random attack lands on gameboard', () => {
   cpuPlayer._cpuAttack(playerGameboard);
   expect(playerGameboard.recordAttack.length).toBe(1);
 });
-test('CPU attack pattern attacks randomly if last attack was a miss, intelligently if it was a hit, and super intelligently if a line begins to be drawn ', () => {
+test('CPU basic intellisense check', () => {
   let humanplayer = new Players('Jae');
   let cpuPlayer = new Players();
   let playerGameboard = new Gameboards();

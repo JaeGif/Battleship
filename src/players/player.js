@@ -76,27 +76,34 @@ class Players {
     }
 
     // x and y values cannot fall outside of bounds, manually shift the values
-    if (newCoordinate[0] === -1) {
-      newCoordinate[0] += 2;
+    if (!this._onAvailableSpace(newCoordinate, enemyBoard)) {
+      return this._cpuSmartMove(enemyBoard);
     }
-    if (newCoordinate[1] === -1) {
-      newCoordinate[1] += 2;
+
+    this.attack(newCoordinate, enemyBoard);
+  }
+  _onAvailableSpace(coordinates, enemyBoard) {
+    if (coordinates[0] === -1) {
+      coordinates[0] += 2;
     }
-    if (newCoordinate[0] === 10) {
-      newCoordinate[0] -= 2;
+    if (coordinates[1] === -1) {
+      coordinates[1] += 2;
     }
-    if (newCoordinate[1] === 10) {
-      newCoordinate[1] -= 2;
+    if (coordinates[0] === 10) {
+      coordinates[0] -= 2;
+    }
+    if (coordinates[1] === 10) {
+      coordinates[1] -= 2;
     }
     for (let i = 0; i < enemyBoard.recordAttack.length; i++) {
       if (
-        newCoordinate[0] === enemyBoard.recordAttack[i][0] &&
-        newCoordinate[1] === enemyBoard.recordAttack[i][1]
+        coordinates[0] === enemyBoard.recordAttack[i][0] &&
+        coordinates[1] === enemyBoard.recordAttack[i][1]
       ) {
-        return this._cpuSmartMove(enemyBoard);
+        return false;
       }
     }
-    this.attack(newCoordinate, enemyBoard);
+    return true;
   }
   _cpuKillMove(enemyBoard) {
     // if there are 2 hits in a row, signaling a likely line for a ship to reside, keeping attack in that line until the ship is sunk
@@ -111,6 +118,28 @@ class Players {
     0    0    0    0    0
     0    0    0    0    0
     */
+    let lastHit1 = [...GameState.cpuLastHit[0]];
+    let lastHit2 = [...GameState.cpuLastHit[1]];
+    let newAttack = [lastHit1, lastHit2];
+    let plusOrMinus = Math.random() < 0.5 ? -1 : 1;
+
+    console.log(lastHit1, lastHit2);
+
+    if (
+      lastHit1[0] === lastHit2[0] &&
+      Math.abs(lastHit1[1] - lastHit2[2]) === 1
+    ) {
+      newAttack[1] += plusOrMinus;
+    }
+    if (
+      lastHit1[1] === lastHit2[1] &&
+      Math.abs(lastHit1[1] - lastHit2[2]) === 1
+    ) {
+      newAttack[0] += plusOrMinus;
+    }
+    if (!this._onAvailableSpace()) {
+      return this._cpuKillMove(enemyBoard);
+    }
   }
   _cpuAttackPattern(enemyBoard) {
     // combines all possible attacks in logical fashion
