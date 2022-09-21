@@ -69,13 +69,20 @@ class Players {
     } else if (axis === 'y') {
       previousCoordinate[1] += plusOrMinus;
     }
-
+    // x and y values cannot fall outside of bounds
     if (previousCoordinate[0] === -1) {
       previousCoordinate[0] += 2;
     }
     if (previousCoordinate[1] === -1) {
       previousCoordinate[1] += 2;
     }
+    if (previousCoordinate[0] === 10) {
+      previousCoordinate[0] -= 2;
+    }
+    if (previousCoordinate[1] === 10) {
+      previousCoordinate[1] -= 2;
+    }
+
     for (let i = 0; i < enemyBoard.recordAttack.length; i++) {
       if (
         previousCoordinate[0] === enemyBoard.recordAttack[i][0] &&
