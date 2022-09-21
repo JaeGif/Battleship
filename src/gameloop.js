@@ -19,7 +19,7 @@ function newGame() {
   const computerPlayer = new Players();
   GameState.players.push(humanPlayer);
   GameState.players.push(computerPlayer);
-
+  console.log('Boards: ', GameState.boards, 'Players: ', GameState.players);
   let Battleship = new Ship(4, 'Battleship');
   let Destroyer = new Ship(2, 'Destroyer');
   let Cruiser = new Ship(3, 'Cruiser');

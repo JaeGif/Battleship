@@ -276,3 +276,7 @@ test('Gameboard knows when all ships are NOT sunk', () => {
 
   expect(playerBoard.allShipsSunk()).toBeFalsy();
 });
+
+test('randomAddShips adds to the correct gameboard', () => {
+  let gameboard = new Gameboards();
+});

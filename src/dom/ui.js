@@ -58,8 +58,8 @@ function playerGridListeners(gridElement) {
         playerGridListeners(gridElement);
         return;
       }
-      const player = GameState.players[0];
-      const enemyBoard = GameState.boards[1];
+      const player = GameState.players[1];
+      const enemyBoard = GameState.boards[0];
       const coordinates = gridElement.id.slice(1).split(',');
       player.attack(coordinates, enemyBoard);
       if (GameState.wasHit === true) {
@@ -82,8 +82,8 @@ function opponentGridListeners(gridElement) {
         opponentGridListeners(gridElement);
         return;
       }
-      const opponent = GameState.players[1];
-      const enemyBoard = GameState.boards[0];
+      const opponent = GameState.players[0];
+      const enemyBoard = GameState.boards[1];
       const coordinates = gridElement.id.slice(1).split(',');
       if (GameState.mode === 'PvP') {
         opponent.attack(coordinates, enemyBoard);

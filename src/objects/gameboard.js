@@ -107,7 +107,7 @@ class Gameboards {
     for (let i = 0; i < coordinate.length; i++) {
       if (!this._isEmptySpace(i)) {
         // redoes the random choice if space is not empty
-        return _randomizeShips(newShip, size);
+        return this._randomizeShips(newShip, size);
       }
     }
     this.addShip(newShip, coordinate);
