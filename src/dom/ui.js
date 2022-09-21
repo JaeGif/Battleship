@@ -6,8 +6,13 @@ import { GameState } from '../gameloop.js';
 
 function createBoards(size = 10) {
   createPlayerBoard(size);
-  createOpponentBoard(size);
+  if (GameState.mode === 'PvP') {
+    createOpponentBoard(size);
+  } else if (GameState.mode === 'PvC') {
+    createComputerBoard(size);
+  }
 }
+
 function createPlayerBoard(size) {
   const playerCoordinateIterator = generateCoordinateIDs(size);
   const playerBoardContainer = document.getElementById('current-player-board');
@@ -34,7 +39,19 @@ function createOpponentBoard(size) {
     opponentBoardContainer.appendChild(coordinateGrid);
   }
 }
+function createComputerBoard(size) {
+  const opponentCoordinateIterator = generateCoordinateIDs(size);
+  const opponentBoardContainer = document.getElementById(
+    'current-opponent-board'
+  );
 
+  for (let i = 0; i < size * size; i++) {
+    const coordinateGrid = document.createElement('div');
+    coordinateGrid.className = 'opponent-grid-elements';
+    coordinateGrid.id = `b${opponentCoordinateIterator.next().value}`;
+    opponentBoardContainer.appendChild(coordinateGrid);
+  }
+}
 function* generateCoordinateIDs(size) {
   let currentCoords = [0, 0];
   while (currentCoords[0] <= size - 1 && currentCoords[1] <= size - 1) {
@@ -54,7 +71,7 @@ function playerGridListeners(gridElement) {
   gridElement.addEventListener(
     'click',
     () => {
-      if (GameState.turn === 'opponent') {
+      if (GameState.turn === 'opponent' || GameState.turn === 'computer') {
         playerGridListeners(gridElement);
         return;
       }
@@ -69,7 +86,11 @@ function playerGridListeners(gridElement) {
       } else {
         gridElement.classList.add('miss');
       }
-      GameState.turn = 'opponent';
+      if (GameState.mode === 'PvP') {
+        GameState.turn = 'opponent';
+      } else if ((GameState.mode = 'PvC')) {
+        GameState.turn = 'computer';
+      }
     },
     { once: true }
   );

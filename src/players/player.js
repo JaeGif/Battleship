@@ -9,6 +9,7 @@ class Players {
   constructor(name = 'Computer') {
     this.name = name;
   }
+  previousHit = [];
   attack(coordinateStringy, enemyBoard) {
     // checks that an attack has not been previously made
     let coordinates = [
@@ -35,6 +36,7 @@ class Players {
   _cpuAttack(enemyBoard) {
     let x = Math.floor(Math.random()) * enemyBoard.size;
     let y = Math.floor(Math.random()) * enemyBoard.size;
+
     return this.attack([x, y], enemyBoard);
   }
   _defineAxis() {
@@ -59,40 +61,42 @@ class Players {
     0    0    0    0    0
     0    0    0    0    0
     */
-    let previousCoordinate = GameState.cpuLastHit; // [x, y]
+    let previousCoordinate = [];
+    previousCoordinate = [...GameState.cpuLastHit[0]]; // [x, y]
+
+    let newCoordinate = previousCoordinate;
+
     // random select + or - in any direction if possible.
-    console.log(GameState.cpuLastHit);
     const axis = this._defineAxis();
     let plusOrMinus = Math.random() < 0.5 ? -1 : 1;
     if (axis === 'x') {
-      previousCoordinate[0] += plusOrMinus;
+      newCoordinate[0] += plusOrMinus;
     } else if (axis === 'y') {
-      previousCoordinate[1] += plusOrMinus;
-    }
-    // x and y values cannot fall outside of bounds
-    if (previousCoordinate[0] === -1) {
-      previousCoordinate[0] += 2;
-    }
-    if (previousCoordinate[1] === -1) {
-      previousCoordinate[1] += 2;
-    }
-    if (previousCoordinate[0] === 10) {
-      previousCoordinate[0] -= 2;
-    }
-    if (previousCoordinate[1] === 10) {
-      previousCoordinate[1] -= 2;
+      newCoordinate[1] += plusOrMinus;
     }
 
+    // x and y values cannot fall outside of bounds, manually shift the values
+    if (newCoordinate[0] === -1) {
+      newCoordinate[0] += 2;
+    }
+    if (newCoordinate[1] === -1) {
+      newCoordinate[1] += 2;
+    }
+    if (newCoordinate[0] === 10) {
+      newCoordinate[0] -= 2;
+    }
+    if (newCoordinate[1] === 10) {
+      newCoordinate[1] -= 2;
+    }
     for (let i = 0; i < enemyBoard.recordAttack.length; i++) {
       if (
-        previousCoordinate[0] === enemyBoard.recordAttack[i][0] &&
-        previousCoordinate[1] === enemyBoard.recordAttack[i][1]
+        newCoordinate[0] === enemyBoard.recordAttack[i][0] &&
+        newCoordinate[1] === enemyBoard.recordAttack[i][1]
       ) {
-        // if attack has already beenn made, try again
         return this._cpuSmartMove(enemyBoard);
       }
     }
-    this.attack(previousCoordinate, enemyBoard);
+    this.attack(newCoordinate, enemyBoard);
   }
   _cpuKillMove(enemyBoard) {
     // if there are 2 hits in a row, signaling a likely line for a ship to reside, keeping attack in that line until the ship is sunk

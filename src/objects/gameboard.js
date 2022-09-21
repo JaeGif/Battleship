@@ -23,10 +23,18 @@ class Gameboards {
         ) {
           // if the coords match, it's a hit
           this.shipCoordinates[i].object.hit(coordinates);
-          GameState.wasHit = true;
-          // if the ship is sunk add to the graveyard
+          if (GameState.turn === 'computer') {
+            GameState.cpuLastHit.push(coordinates);
+          }
           if (this.shipCoordinates[i].object.isSunk()) {
+            // if the ship is sunk add to the graveyard
             this.sunkShips.push(this.shipCoordinates[i].object);
+            if (GameState.turn === 'computer') {
+              GameState.cpuLastHit = [];
+            }
+          }
+          if (GameState.turn === 'computer') {
+            GameState.turn === 'player';
           }
           return;
         }

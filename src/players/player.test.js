@@ -1,6 +1,7 @@
 import Players from './player.js';
 import Gameboards from '../objects/gameboard.js';
 import Ship from '../objects/ships.js';
+import { GameState } from '../gameloop.js';
 
 /* 
 let player = new Players('Jae');
@@ -74,9 +75,13 @@ test('CPU random attack lands on gameboard', () => {
   expect(playerGameboard.recordAttack.length).toBe(1);
 });
 test('CPU attack pattern attacks randomly if last attack was a miss, intelligently if it was a hit, and super intelligently if a line begins to be drawn ', () => {
+  let humanplayer = new Players('Jae');
   let cpuPlayer = new Players();
   let playerGameboard = new Gameboards();
+  let computerGameboard = new Gameboards();
+
   let battleShip = new Ship(3);
+
   playerGameboard.addShip(battleShip, [
     [0, 0],
     [0, 1],
@@ -87,8 +92,10 @@ test('CPU attack pattern attacks randomly if last attack was a miss, intelligent
     [0, 1],
     [1, 0],
   ];
+  GameState.turn = 'computer';
 
   cpuPlayer.attack([0, 0], playerGameboard);
+
   cpuPlayer._cpuSmartMove(playerGameboard);
   const coordOfAttack = playerGameboard.recordAttack[1];
   let correctlyChosen = false;
