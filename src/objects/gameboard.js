@@ -38,7 +38,6 @@ class Gameboards {
   }
   addShip(ship, newCoordinates) {
     // [[], [], []]
-    console.log(newCoordinates);
     this.shipCoordinates.push({
       object: ship,
       location: newCoordinates,
@@ -111,7 +110,6 @@ class Gameboards {
       }
     }
     this.addShip(newShip, coordinate);
-    console.log(coordinate);
   }
   _defineAxis() {
     let axisNum = Math.floor(Math.random() * 2);

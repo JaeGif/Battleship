@@ -64,6 +64,7 @@ function playerGridListeners(gridElement) {
       player.attack(coordinates, enemyBoard);
       if (GameState.wasHit === true) {
         gridElement.classList.add('hit');
+
         GameState.wasHit = false;
       } else {
         gridElement.classList.add('miss');

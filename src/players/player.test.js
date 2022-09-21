@@ -70,6 +70,36 @@ test('CPU random attack lands on gameboard', () => {
     [0, 1],
     [0, 2],
   ]);
-  cpuPlayer.cpuAttack(playerGameboard);
+  cpuPlayer._cpuAttack(playerGameboard);
   expect(playerGameboard.recordAttack.length).toBe(1);
+});
+test('CPU attack pattern attacks randomly if last attack was a miss, intelligently if it was a hit, and super intelligently if a line begins to be drawn ', () => {
+  let cpuPlayer = new Players();
+  let playerGameboard = new Gameboards();
+  let battleShip = new Ship(3);
+  playerGameboard.addShip(battleShip, [
+    [0, 0],
+    [0, 1],
+    [0, 2],
+  ]);
+  const expected = [
+    [0, 0],
+    [0, 1],
+    [1, 0],
+  ];
+
+  cpuPlayer.attack([0, 0], playerGameboard);
+  cpuPlayer._cpuSmartMove(playerGameboard);
+  const coordOfAttack = playerGameboard.recordAttack[1];
+  let correctlyChosen = false;
+  for (let i = 0; i < expected.length; i++) {
+    if (
+      coordOfAttack[0] === expected[i][0] &&
+      coordOfAttack[1] === expected[i][1]
+    ) {
+      correctlyChosen = true;
+    }
+  }
+  expect(playerGameboard.recordAttack.length).toBe(2);
+  expect(correctlyChosen).toBeTruthy();
 });
