@@ -71,12 +71,13 @@ function playerGridListeners(gridElement) {
   gridElement.addEventListener(
     'click',
     () => {
-      if (GameState.turn === 'opponent' || GameState.turn === 'computer') {
+      if (GameState.turn !== 'player') {
         playerGridListeners(gridElement);
+        console.log('wrong turn');
         return;
       }
       const player = GameState.players[1];
-      const enemyBoard = GameState.boards[0];
+      const enemyBoard = GameState.boards[1];
       const coordinates = gridElement.id.slice(1).split(',');
       player.attack(coordinates, enemyBoard);
       if (GameState.wasHit === true) {
@@ -88,12 +89,21 @@ function playerGridListeners(gridElement) {
       }
       if (GameState.mode === 'PvP') {
         GameState.turn = 'opponent';
-      } else if ((GameState.mode = 'PvC')) {
+      } else if (GameState.mode === 'PvC') {
         GameState.turn = 'computer';
       }
     },
     { once: true }
   );
+}
+function playerVsComputerLoop() {
+  let humanPlayer = GameState.players[0];
+  let computerPlayer = GameState.players[1];
+  let humanBoard = GameState.boards[0];
+  let computerBoard = GameState.boards[1];
+
+  console.log('i tried');
+  computerPlayer.cpuAttackPattern(computerBoard);
 }
 
 function opponentGridListeners(gridElement) {
@@ -105,7 +115,7 @@ function opponentGridListeners(gridElement) {
         return;
       }
       const opponent = GameState.players[0];
-      const enemyBoard = GameState.boards[1];
+      const enemyBoard = GameState.boards[0];
       const coordinates = gridElement.id.slice(1).split(',');
       if (GameState.mode === 'PvP') {
         opponent.attack(coordinates, enemyBoard);

@@ -54,12 +54,13 @@ function newGame() {
     [4, 1],
   ]);
 }
+
 class GameState {
   // gamestate object keeps track of details about the games current state
   static turn = 'player';
   static players = [];
   static boards = [];
-  static mode = 'PvC';
+  static mode = 'PvP';
   static wasHit = false;
   static cpuLastHit = [];
   static cpuTargetingAid = [];

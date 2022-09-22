@@ -23,6 +23,7 @@ class Gameboards {
         ) {
           // if the coords match, it's a hit
           this.shipCoordinates[i].object.hit(coordinates);
+          GameState.wasHit = true;
           if (GameState.turn === 'computer') {
             GameState.cpuLastHit.push(coordinates);
             if (GameState.cpuLastHit.length === 2) {
