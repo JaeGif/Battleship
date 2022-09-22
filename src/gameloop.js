@@ -7,6 +7,7 @@ You can implement a system for allowing players to place their ships later.
 import Gameboards from './objects/gameboard.js';
 import Players from './players/player.js';
 import Ship from './objects/ships.js';
+import { gameOverScreen } from './dom/ui.js';
 
 function newGame() {
   const playerBoard = new Gameboards();
@@ -56,6 +57,7 @@ function newGame() {
 }
 function gameOver() {
   console.log('Game Over');
+  gameOverScreen();
 }
 class GameState {
   // gamestate object keeps track of details about the games current state

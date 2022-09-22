@@ -81,6 +81,7 @@ function playerGridListeners(gridElement) {
       player.attack(coordinates, enemyBoard);
       if (enemyBoard.allShipsSunk()) {
         GameState.gameOver = true;
+
         gameOver();
       }
       if (GameState.wasHit === true) {
@@ -123,6 +124,7 @@ function opponentGridListeners(gridElement) {
       }
       if (enemyBoard.allShipsSunk()) {
         GameState.gameOver = true;
+
         gameOver();
       }
       GameState.turn = 'player';
@@ -133,7 +135,7 @@ function opponentGridListeners(gridElement) {
 
 function gameOverScreen() {
   const winnerNameP = document.getElementById('winner-name');
-  const numShipsRemaining = document.getElementById('');
+  const numShipsRemaining = document.getElementById('num-remaining');
   let numShips = 0;
   let winner = '';
   if (GameState.boards[0].allShipsSunk()) {
@@ -148,4 +150,4 @@ function gameOverScreen() {
   numShipsRemaining.textContent = `${winner} had ${numShips} left!`;
 }
 
-export { createBoards };
+export { createBoards, gameOverScreen };

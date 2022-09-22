@@ -16,7 +16,6 @@ const game = (() => {
       GameState.gameOver = true;
     }
   } */
-  console.log('gg');
 })();
 /*
  */
