@@ -5,6 +5,7 @@ import Gameboards from '../objects/gameboard.js';
 import { GameState, gameOver } from '../gameloop.js';
 
 function createBoards(size = 10) {
+  mainDisplay();
   createPlayerBoard(size);
   if (GameState.mode === 'PvP') {
     createOpponentBoard(size);
@@ -21,7 +22,7 @@ function createPlayerBoard(size) {
     const coordinateGrid = document.createElement('div');
     coordinateGrid.className = 'player-grid-elements';
     coordinateGrid.id = `a${playerCoordinateIterator.next().value}`;
-    playerGridListeners(coordinateGrid);
+    opponentGridListeners(coordinateGrid);
     playerBoardContainer.appendChild(coordinateGrid);
   }
 }
@@ -35,7 +36,8 @@ function createOpponentBoard(size) {
     const coordinateGrid = document.createElement('div');
     coordinateGrid.className = 'opponent-grid-elements';
     coordinateGrid.id = `b${opponentCoordinateIterator.next().value}`;
-    opponentGridListeners(coordinateGrid);
+    playerGridListeners(coordinateGrid);
+
     opponentBoardContainer.appendChild(coordinateGrid);
   }
 }
@@ -75,11 +77,11 @@ function playerGridListeners(gridElement) {
         playerGridListeners(gridElement);
         return;
       }
-      const player = GameState.players[1];
-      const enemyBoard = GameState.boards[1];
+      const player = [...GameState.players][0];
+      const opponentBoard = [...GameState.boards][1];
       const coordinates = gridElement.id.slice(1).split(',');
-      player.attack(coordinates, enemyBoard);
-      if (enemyBoard.allShipsSunk()) {
+      player.attack(coordinates, opponentBoard);
+      if (opponentBoard.allShipsSunk()) {
         GameState.gameOver = true;
 
         gameOver();
@@ -109,11 +111,11 @@ function opponentGridListeners(gridElement) {
         opponentGridListeners(gridElement);
         return;
       }
-      const opponent = GameState.players[0];
-      const enemyBoard = GameState.boards[0];
+      const opponent = [...GameState.players][1];
+      const playerBoard = [...GameState.boards][0];
       const coordinates = gridElement.id.slice(1).split(',');
       if (GameState.mode === 'PvP') {
-        opponent.attack(coordinates, enemyBoard);
+        opponent.attack(coordinates, playerBoard);
 
         if (GameState.wasHit === true) {
           gridElement.classList.add('hit');
@@ -122,7 +124,7 @@ function opponentGridListeners(gridElement) {
           gridElement.classList.add('miss');
         }
       }
-      if (enemyBoard.allShipsSunk()) {
+      if (playerBoard.allShipsSunk()) {
         GameState.gameOver = true;
 
         gameOver();
@@ -134,20 +136,34 @@ function opponentGridListeners(gridElement) {
 }
 
 function gameOverScreen() {
+  const modalContainer = document.getElementById('game-over-modal');
   const winnerNameP = document.getElementById('winner-name');
   const numShipsRemaining = document.getElementById('num-remaining');
+
   let numShips = 0;
   let winner = '';
-  if (GameState.boards[0].allShipsSunk()) {
-    winner = GameState.players[1].name;
-    numShips = 5 - GameState.boards[0].sunkShips.length;
+  if ([...GameState.boards][0].allShipsSunk()) {
+    winner = [...GameState.players][1].name;
+    numShips = 5 - [...GameState.boards][0].sunkShips.length;
   } else {
-    winner = GameState.players[0].name;
-    numShips = 5 - GameState.boards[1].sunkShips.length;
+    winner = [...GameState.players][0].name;
+    numShips = 5 - [...GameState.boards][1].sunkShips.length;
   }
 
   winnerNameP.textContent = `${winner} Won!`;
   numShipsRemaining.textContent = `${winner} had ${numShips} left!`;
+
+  modalContainer.style.display = 'flex';
+}
+
+function mainDisplay() {
+  const playerBoard = [...GameState.boards][0];
+  const computerBoard = [...GameState.boards][1];
+  const playerName = document.getElementById('player-name');
+  const opponentName = document.getElementById('player-2-name');
+
+  playerName.textContent = `${playerBoard.name}`;
+  opponentName.textContent = `${computerBoard.name}`;
 }
 
 export { createBoards, gameOverScreen };

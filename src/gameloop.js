@@ -10,16 +10,17 @@ import Ship from './objects/ships.js';
 import { gameOverScreen } from './dom/ui.js';
 
 function newGame() {
-  const playerBoard = new Gameboards();
-  const opponentBoard = new Gameboards();
+  const humanPlayer = new Players('Jae');
+  const computerPlayer = new Players('Cindy');
+
+  const playerBoard = new Gameboards(humanPlayer.name);
+  const opponentBoard = new Gameboards(computerPlayer.name);
 
   GameState.boards.push(playerBoard);
   GameState.boards.push(opponentBoard);
-
-  const humanPlayer = new Players('Jae');
-  const computerPlayer = new Players('Cindy');
   GameState.players.push(humanPlayer);
   GameState.players.push(computerPlayer);
+
   let Battleship = new Ship(4, 'Battleship');
   let Destroyer = new Ship(2, 'Destroyer');
   let Cruiser = new Ship(3, 'Cruiser');
@@ -56,7 +57,6 @@ function newGame() {
   ]);
 }
 function gameOver() {
-  console.log('Game Over');
   gameOverScreen();
 }
 class GameState {

@@ -8,9 +8,6 @@ const game = (() => {
   newGame(); // contains placing functions placed by default for now
   createBoards();
 
-  let playerBoard = GameState.boards[0];
-  let opponentBoard = GameState.boards[1];
-
   /*   while (GameState.gameOver === false) {
     if (playerBoard.allShipsSunk() || opponentBoard.allShipsSunk()) {
       GameState.gameOver = true;

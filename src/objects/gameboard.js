@@ -1,7 +1,8 @@
 import Ship from './ships.js';
 import { GameState } from '../gameloop.js';
 class Gameboards {
-  constructor(size = 10) {
+  constructor(name, size = 10) {
+    this.name = name;
     this.size = size;
   }
   shipCoordinates = [];
