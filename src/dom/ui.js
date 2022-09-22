@@ -2,7 +2,7 @@
 // generates gameboards, and on click effects
 import Players from '../players/player.js';
 import Gameboards from '../objects/gameboard.js';
-import { GameState } from '../gameloop.js';
+import { GameState, gameOver } from '../gameloop.js';
 
 function createBoards(size = 10) {
   createPlayerBoard(size);
@@ -73,13 +73,16 @@ function playerGridListeners(gridElement) {
     () => {
       if (GameState.turn !== 'player') {
         playerGridListeners(gridElement);
-        console.log('wrong turn');
         return;
       }
       const player = GameState.players[1];
       const enemyBoard = GameState.boards[1];
       const coordinates = gridElement.id.slice(1).split(',');
       player.attack(coordinates, enemyBoard);
+      if (enemyBoard.allShipsSunk()) {
+        GameState.gameOver = true;
+        gameOver();
+      }
       if (GameState.wasHit === true) {
         gridElement.classList.add('hit');
 
@@ -96,15 +99,6 @@ function playerGridListeners(gridElement) {
     { once: true }
   );
 }
-function playerVsComputerLoop() {
-  let humanPlayer = GameState.players[0];
-  let computerPlayer = GameState.players[1];
-  let humanBoard = GameState.boards[0];
-  let computerBoard = GameState.boards[1];
-
-  console.log('i tried');
-  computerPlayer.cpuAttackPattern(computerBoard);
-}
 
 function opponentGridListeners(gridElement) {
   gridElement.addEventListener(
@@ -119,6 +113,7 @@ function opponentGridListeners(gridElement) {
       const coordinates = gridElement.id.slice(1).split(',');
       if (GameState.mode === 'PvP') {
         opponent.attack(coordinates, enemyBoard);
+
         if (GameState.wasHit === true) {
           gridElement.classList.add('hit');
           GameState.wasHit = false;
@@ -126,10 +121,31 @@ function opponentGridListeners(gridElement) {
           gridElement.classList.add('miss');
         }
       }
+      if (enemyBoard.allShipsSunk()) {
+        GameState.gameOver = true;
+        gameOver();
+      }
       GameState.turn = 'player';
     },
     { once: true }
   );
+}
+
+function gameOverScreen() {
+  const winnerNameP = document.getElementById('winner-name');
+  const numShipsRemaining = document.getElementById('');
+  let numShips = 0;
+  let winner = '';
+  if (GameState.boards[0].allShipsSunk()) {
+    winner = GameState.players[1].name;
+    numShips = 5 - GameState.boards[0].sunkShips.length;
+  } else {
+    winner = GameState.players[0].name;
+    numShips = 5 - GameState.boards[1].sunkShips.length;
+  }
+
+  winnerNameP.textContent = `${winner} Won!`;
+  numShipsRemaining.textContent = `${winner} had ${numShips} left!`;
 }
 
 export { createBoards };

@@ -64,3 +64,5 @@ miss on both sides causes it to reevaluate its next target, and pick one of the 
     0  ship1 ship2 0    0    0
     0    0    0    0    0    0
     0    0    0    0    0    0
+
+2. Check all references to Gqmestate arrays for the weird reassignment bug use [...ajehg] instead!

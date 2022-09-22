@@ -16,7 +16,7 @@ function newGame() {
   GameState.boards.push(opponentBoard);
 
   const humanPlayer = new Players('Jae');
-  const computerPlayer = new Players();
+  const computerPlayer = new Players('Cindy');
   GameState.players.push(humanPlayer);
   GameState.players.push(computerPlayer);
   let Battleship = new Ship(4, 'Battleship');
@@ -54,7 +54,9 @@ function newGame() {
     [4, 1],
   ]);
 }
-
+function gameOver() {
+  console.log('Game Over');
+}
 class GameState {
   // gamestate object keeps track of details about the games current state
   static turn = 'player';
@@ -67,4 +69,4 @@ class GameState {
   static gameOver = false;
 }
 
-export { newGame, GameState };
+export { newGame, GameState, gameOver };
