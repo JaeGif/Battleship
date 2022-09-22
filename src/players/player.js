@@ -140,9 +140,15 @@ class Players {
     if (!this._onAvailableSpace()) {
       return this._cpuKillMove(enemyBoard);
     }
+    this.attack(newAttack, enemyBoard);
   }
   _cpuAttackPattern(enemyBoard) {
     // combines all possible attacks in logical fashion
+    if (GameState.cpuLastHit.length === 0) {
+      this._cpuAttack(enemyBoard);
+    } else {
+      this._cpuSmartMove(enemyBoard);
+    }
   }
 }
 

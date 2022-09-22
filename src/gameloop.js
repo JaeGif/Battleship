@@ -62,6 +62,7 @@ class GameState {
   static mode = 'PvC';
   static wasHit = false;
   static cpuLastHit = [];
+  static cpuTargetingAid = [];
   static gameOver = false;
 }
 

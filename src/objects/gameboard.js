@@ -27,7 +27,7 @@ class Gameboards {
             GameState.cpuLastHit.push(coordinates);
             if (GameState.cpuLastHit.length === 2) {
               GameState.cpuLastHit.shift();
-            }
+            } // this will need to be revisited
           }
           if (this.shipCoordinates[i].object.isSunk()) {
             // if the ship is sunk add to the graveyard

@@ -110,3 +110,28 @@ test('CPU basic intellisense check', () => {
   expect(playerGameboard.recordAttack.length).toBe(2);
   expect(correctlyChosen).toBeTruthy();
 });
+test('Kill Attack correctly attacks positions in a line', () => {
+  let humanplayer = new Players('Jae');
+  let cpuPlayer = new Players();
+  let playerGameboard = new Gameboards();
+  let computerGameboard = new Gameboards();
+
+  let carrier = new Ship(5);
+
+  playerGameboard.addShip(carrier, [
+    [2, 2],
+    [2, 3],
+    [2, 4],
+    [2, 5],
+    [2, 6],
+  ]);
+  const expected = [
+    [2, 6],
+    [2, 4],
+  ];
+  cpuPlayer.attack([2, 2], playerGameboard);
+  cpuPlayer.attack([2, 5], playerGameboard);
+  cpuPlayer._cpuKillMove(playerGameboard);
+
+  GameState.turn = 'computer';
+});
