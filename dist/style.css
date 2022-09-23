@@ -118,18 +118,29 @@ footer {
 }
 
 /* Title Screen CSS File */
+#card-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
 #title-screen {
   display: flex;
   flex-direction: column;
   justify-content: space-evenly;
   align-items: center;
-  height: 100vh;
+  height: 85vh;
+  width: 35vw;
+  border: solid black 2px;
+  border-radius: 5px;
+  background-color: mediumvioletred;
 }
 #title {
+  margin-top: -2rem;
   width: 100vw;
   text-align: center;
   height: 15vh;
-  font-size: 72px;
+  font-size: 92px;
   font-weight: 600;
   mix-blend-mode: screen;
   color: #fff;
@@ -157,15 +168,23 @@ a:visited,
 a:link {
   color: inherit;
 }
-form {
-  display: flex;
+
+#single-player-name {
+  display: none;
+  justify-content: space-between;
+  gap: 1rem;
+  align-items: center;
+}
+#multiplayer-name {
+  display: none;
   justify-content: center;
+  gap: 0rem;
   align-items: center;
 }
 input {
   height: 2rem;
   line-height: 2rem;
-  font-size: 2rem;
+  font-size: 1.5rem;
 }
 #new-game-btn {
   height: 2rem;

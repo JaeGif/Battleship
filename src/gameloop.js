@@ -10,16 +10,11 @@ import Ship from './objects/ships.js';
 import { gameOverScreen } from './dom/ui.js';
 
 function newGame() {
-  const humanPlayer = new Players('Jae');
-  const computerPlayer = new Players('Cindy');
+  const humanPlayer = [...GameState.players][0];
+  const computerPlayer = [...GameState.players][1];
 
-  const playerBoard = new Gameboards(humanPlayer.name);
-  const opponentBoard = new Gameboards(computerPlayer.name);
-
-  GameState.boards.push(playerBoard);
-  GameState.boards.push(opponentBoard);
-  GameState.players.push(humanPlayer);
-  GameState.players.push(computerPlayer);
+  const playerBoard = [...GameState.boards][0];
+  const opponentBoard = [...GameState.boards][1];
 
   let Battleship = new Ship(4, 'Battleship');
   let Destroyer = new Ship(2, 'Destroyer');
