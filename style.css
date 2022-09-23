@@ -2,9 +2,12 @@
 body {
   background-color: white;
   height: 100vh;
+  background-image: url(./assets/backgroundimg.jpg);
+  background-repeat: no-repeat;
+  background-attachment: fixed;
 }
 main {
-  display: flex;
+  display: none;
   justify-content: space-evenly;
   align-items: center;
   height: 92vh;
@@ -37,7 +40,7 @@ main {
   background-color: blue;
 }
 footer {
-  display: flex;
+  display: none;
   justify-content: center;
   align-items: center;
   width: 100vw;
@@ -107,9 +110,67 @@ footer {
   height: 5rem;
   width: auto;
 }
-#replay-btn {
+.replay-btn {
   height: 2rem;
   background-color: white;
   border: none;
   border-radius: 3px;
+}
+
+/* Title Screen CSS File */
+#title-screen {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+  align-items: center;
+  height: 100vh;
+}
+#title {
+  width: 100vw;
+  text-align: center;
+  height: 15vh;
+  font-size: 72px;
+  font-weight: 600;
+  mix-blend-mode: screen;
+  color: #fff;
+}
+#title-ship {
+  height: 5rem;
+}
+#title-gh {
+  height: 5rem;
+}
+#author-info-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+a {
+  text-decoration: none;
+}
+#author-name {
+  display: flex;
+  align-items: center;
+  gap: 3rem;
+}
+a:visited,
+a:link {
+  color: inherit;
+}
+form {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+input {
+  height: 2rem;
+  line-height: 2rem;
+  font-size: 2rem;
+}
+#new-game-btn {
+  height: 2rem;
+  width: 5rem;
+  background-color: #fff;
+  border: none;
+  border-radius: 2px;
 }
