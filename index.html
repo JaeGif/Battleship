@@ -9,19 +9,34 @@
     <script type="module" defer src="../src/index.js"></script>
   </head>
   <body>
-    <div id="title-screen">
-      <h1 id="title">Battleship</h1>
-      <img id="title-ship" src="./assets/battleship.png" />
-      <div id="author-info-container">
-        <a href="https://github.com/JaeGif"
-          ><h1 id="author-name">
-            <img id="title-gh" src="../dist/icons/github.png" />JaeG
-          </h1></a
-        >
+    <div id="card-container">
+      <div id="title-screen">
+        <h1 id="title">Battleship</h1>
+        <img id="title-ship" src="./assets/battleship.png" />
+        <div id="author-info-container">
+          <a href="https://github.com/JaeGif"
+            ><h1 id="author-name">
+              <img id="title-gh" src="../dist/icons/github.png" />JaeG
+            </h1></a
+          >
+        </div>
+        <button id="pvc">Single Player</button>
+        <button id="multiplayer">Multiplayer Local</button>
+        <form id="single-player-name">
+          <input
+            id="single-player-input"
+            type="text"
+            placeholder="Player Name"
+          /><button id="new-game-btn-solo">Start Game</button>
+        </form>
+        <form id="multiplayer-name">
+          <div>
+            <input id="player1-input" type="text" placeholder="Player1 Name" />
+            <input id="player2-input" type="text" placeholder="Player2 Name" />
+          </div>
+          <button id="new-game-btn-multiplayer">Start Game</button>
+        </form>
       </div>
-      <form>
-        <input type="text" /><button id="new-game-btn">New Game</button>
-      </form>
     </div>
     <div id="game-over-modal">
       <h1>Victory!</h1>
@@ -153,11 +168,11 @@
     <main>
       <div class="board-containers" id="player-container-grid">
         <div class="grid-div" id="current-player-board"></div>
-        <p id="player-name"></p>
+        <p id="player-name">Player 1</p>
       </div>
       <div class="board-containers" id="opponent-container">
         <div class="grid-div" id="current-opponent-board"></div>
-        <p id="player-2-name"></p>
+        <p id="player-2-name">Player 2</p>
       </div>
     </main>
     <footer>
