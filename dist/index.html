@@ -9,12 +9,26 @@
     <script type="module" defer src="../src/index.js"></script>
   </head>
   <body>
+    <div id="title-screen">
+      <h1 id="title">Battleship</h1>
+      <img id="title-ship" src="./assets/battleship.png" />
+      <div id="author-info-container">
+        <a href="https://github.com/JaeGif"
+          ><h1 id="author-name">
+            <img id="title-gh" src="../dist/icons/github.png" />JaeG
+          </h1></a
+        >
+      </div>
+      <form>
+        <input type="text" /><button id="new-game-btn">New Game</button>
+      </form>
+    </div>
     <div id="game-over-modal">
       <h1>Victory!</h1>
       <p id="winner-name"></p>
       <img id="gg-img" src="./assets/gamsi.png" />
       <p id="num-remaining"></p>
-      <button id="replay-btn">New Game</button>
+      <button class="replay-btn">New Game</button>
     </div>
     <div id="placement-page-body-container">
       <div class="board-containers">
