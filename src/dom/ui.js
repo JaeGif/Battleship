@@ -27,7 +27,7 @@ function createBoards(size = 10) {
 
   mainGameContainer.style.display = 'flex';
   const turnAnnouncement = document.getElementById('turn');
-  turnAnnouncement.textContent = `${turnPlayerName()}, start your offensive!`;
+  turnAnnouncement.textContent = `${turnPlayerName()} start your offensive!`;
 }
 
 function createPlayerBoard(size) {
