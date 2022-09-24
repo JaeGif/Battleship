@@ -116,12 +116,13 @@ class Gameboards {
         coordinate.push([x, y]);
       }
     }
-    for (let i = 0; i < coordinate.length; i++) {
-      if (!this._isEmptySpace(i)) {
-        // redoes the random choice if space is not empty
-        return this._randomizeShips(newShip, size);
-      }
+
+    if (!this._isEmptySpace(coordinate[0])) {
+      // redoes the random choice if space is not empty
+      console.log(coordinate[0]);
+      return this._randomizeShips(newShip, size);
     }
+
     this.addShip(newShip, coordinate);
   }
   _defineAxis() {

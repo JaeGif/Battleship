@@ -5,13 +5,23 @@ import Gameboards from '../objects/gameboard.js';
 import { GameState, gameOver } from '../gameloop.js';
 
 function createBoards(size = 10) {
+  const mainGameContainer = document.getElementById('game');
+
+  const placeShipsContainer = document.getElementById(
+    'placement-page-body-container'
+  );
   mainDisplay();
   createPlayerBoard(size);
   if (GameState.mode === 'PvP') {
+    console.log('pvp');
     createOpponentBoard(size);
   } else if (GameState.mode === 'PvC') {
+    console.log('pvc');
+
     createComputerBoard(size);
   }
+  placeShipsContainer.style.display = 'none';
+  mainGameContainer.style.display = 'flex';
 }
 
 function createPlayerBoard(size) {
@@ -73,6 +83,7 @@ function playerGridListeners(gridElement) {
   gridElement.addEventListener(
     'click',
     () => {
+      console.log('click');
       if (GameState.turn !== 'player') {
         playerGridListeners(gridElement);
         return;
@@ -83,7 +94,6 @@ function playerGridListeners(gridElement) {
       player.attack(coordinates, opponentBoard);
       if (opponentBoard.allShipsSunk()) {
         GameState.gameOver = true;
-
         gameOver();
       }
       if (GameState.wasHit === true) {
@@ -107,6 +117,8 @@ function opponentGridListeners(gridElement) {
   gridElement.addEventListener(
     'click',
     () => {
+      console.log('click');
+
       if (GameState.turn === 'player') {
         opponentGridListeners(gridElement);
         return;
@@ -161,7 +173,7 @@ function mainDisplay() {
   const computerBoard = [...GameState.boards][1];
   const playerName = document.getElementById('player-name');
   const opponentName = document.getElementById('player-2-name');
-
+  console.log(playerBoard);
   playerName.textContent = `${playerBoard.name}`;
   opponentName.textContent = `${computerBoard.name}`;
 }
