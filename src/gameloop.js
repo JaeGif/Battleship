@@ -8,6 +8,7 @@ import Gameboards from './objects/gameboard.js';
 import Players from './players/player.js';
 import Ship from './objects/ships.js';
 import { gameOverScreen } from './dom/ui.js';
+import { createBoards } from './dom/ui.js';
 
 function newGame() {
   const humanPlayer = [...GameState.players][0];
@@ -21,6 +22,7 @@ function newGame() {
   let Cruiser = new Ship(3, 'Cruiser');
   let Submarine = new Ship(3, 'Submarine');
   let Carrier = new Ship(5, 'Carrier');
+  console.log(opponentBoard);
   opponentBoard.randomAddShips();
 
   playerBoard.addShip(Carrier, [
@@ -50,6 +52,7 @@ function newGame() {
     [4, 0],
     [4, 1],
   ]);
+  createBoards();
 }
 function gameOver() {
   gameOverScreen();

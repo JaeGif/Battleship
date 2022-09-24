@@ -6,8 +6,7 @@ import { createBoards } from '../src/dom/ui.js';
 import { titleScreen } from './dom/title.js';
 const game = (() => {
   titleScreen();
-  newGame(); // contains placing functions placed by default for now
-  createBoards();
+  // contains placing functions placed by default for now
 
   /*   while (GameState.gameOver === false) {
     if (playerBoard.allShipsSunk() || opponentBoard.allShipsSunk()) {

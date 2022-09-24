@@ -1,5 +1,7 @@
 import { GameState } from '../gameloop.js';
 import Players from '../players/player.js';
+import { newGame } from '../gameloop.js';
+import Gameboards from '../objects/gameboard.js';
 
 function gameModeSelect() {
   const pvcButton = document.getElementById('pvc');
@@ -11,13 +13,11 @@ function gameModeSelect() {
     GameState.mode = 'PvC';
     soloForm.style.display = 'flex';
     doubleForm.style.display = 'none';
-    doubleForm.reset();
   });
   pvpButton.addEventListener('click', () => {
     GameState.mode = 'PvP';
     soloForm.style.display = 'none';
     doubleForm.style.display = 'flex';
-    soloForm.reset();
   });
 }
 
@@ -51,6 +51,7 @@ function captureNames() {
 
     addShips.style.display = 'flex';
     titleCard.style.display = 'none';
+    newGame();
   });
   newGameMultiplayer.addEventListener('click', () => {
     let player1 = new Players(player1Name.value);
@@ -68,6 +69,7 @@ function captureNames() {
     const addShips = document.getElementById('placement-page-body-container');
     addShips.style.display = 'flex';
     titleCard.style.display = 'none';
+    newGame();
   });
 }
 
