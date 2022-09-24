@@ -3,6 +3,8 @@ body {
   background-color: white;
   height: 100vh;
   background-image: url(./assets/backgroundimg.jpg);
+  background-size: cover;
+  background-position: bottom;
   background-repeat: no-repeat;
   background-attachment: fixed;
 }
