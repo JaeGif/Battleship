@@ -8,9 +8,16 @@ body {
 }
 main {
   display: none;
-  justify-content: space-evenly;
+  flex-direction: column;
+  justify-content: center;
   align-items: center;
   height: 92vh;
+}
+#highest-board-container {
+  width: 100vw;
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
 }
 .board-containers {
   display: flex;
@@ -28,16 +35,16 @@ main {
 
 .grid-div div {
   border: solid 1px black;
+  background-color: rgba(47, 117, 182, 0.8);
 }
 .grid-div div:hover {
-  border: solid 2px green;
-  background-color: pink;
+  background-color: rgba(136, 198, 195, 0.5);
 }
-.hit {
-  background-color: red;
+div .hit {
+  background-color: rgb(251, 62, 100);
 }
-.miss {
-  background-color: blue;
+div .miss {
+  background-color: gray;
 }
 footer {
   display: none;
