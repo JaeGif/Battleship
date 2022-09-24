@@ -22,6 +22,8 @@ function createBoards(size = 10) {
   }
   placeShipsContainer.style.display = 'none';
   mainGameContainer.style.display = 'flex';
+  const turnAnnouncement = document.getElementById('turn');
+  turnAnnouncement.textContent = `${turnPlayerName()}, start your offensive!`;
 }
 
 function createPlayerBoard(size) {
@@ -83,7 +85,8 @@ function playerGridListeners(gridElement) {
   gridElement.addEventListener(
     'click',
     () => {
-      console.log('click');
+      const turnAnnouncement = document.getElementById('turn');
+
       if (GameState.turn !== 'player') {
         playerGridListeners(gridElement);
         return;
@@ -98,13 +101,14 @@ function playerGridListeners(gridElement) {
       }
       if (GameState.wasHit === true) {
         gridElement.classList.add('hit');
-
+        console.log('hit');
         GameState.wasHit = false;
       } else {
         gridElement.classList.add('miss');
       }
       if (GameState.mode === 'PvP') {
         GameState.turn = 'opponent';
+        turnAnnouncement.textContent = `It's ${turnPlayerName()}'s Turn`;
       } else if (GameState.mode === 'PvC') {
         GameState.turn = 'computer';
       }
@@ -117,7 +121,7 @@ function opponentGridListeners(gridElement) {
   gridElement.addEventListener(
     'click',
     () => {
-      console.log('click');
+      const turnAnnouncement = document.getElementById('turn');
 
       if (GameState.turn === 'player') {
         opponentGridListeners(gridElement);
@@ -142,9 +146,30 @@ function opponentGridListeners(gridElement) {
         gameOver();
       }
       GameState.turn = 'player';
+      turnAnnouncement.textContent = `It's ${turnPlayerName()}'s Turn!`;
     },
     { once: true }
   );
+}
+
+function turnPlayerName() {
+  const playerBoard = [...GameState.boards][0];
+  const computerBoard = [...GameState.boards][1];
+
+  switch (GameState.turn) {
+    case 'player':
+      if (playerBoard.name === '') {
+        return 'Player 1';
+      }
+      return playerBoard.name;
+    case 'opponent':
+      if (computerBoard.name === '') {
+        return 'Player 2';
+      }
+      return computerBoard.name;
+    case 'computer':
+      return 'Computer';
+  }
 }
 
 function gameOverScreen() {
@@ -173,9 +198,17 @@ function mainDisplay() {
   const computerBoard = [...GameState.boards][1];
   const playerName = document.getElementById('player-name');
   const opponentName = document.getElementById('player-2-name');
-  console.log(playerBoard);
-  playerName.textContent = `${playerBoard.name}`;
-  opponentName.textContent = `${computerBoard.name}`;
+
+  if (playerBoard.name === '') {
+    playerName.textContent = 'Player 1';
+  } else {
+    playerName.textContent = `${playerBoard.name}`;
+  }
+  if (computerBoard.name === '') {
+    opponentName.textContent = 'Player 2';
+  } else {
+    opponentName.textContent = `${computerBoard.name}`;
+  }
 }
 
 export { createBoards, gameOverScreen };
