@@ -2,6 +2,7 @@ import { GameState } from '../gameloop.js';
 import Players from '../players/player.js';
 import { newGame } from '../gameloop.js';
 import Gameboards from '../objects/gameboard.js';
+import { audioTitle } from './audio.js';
 
 function gameModeSelect() {
   const pvcButton = document.getElementById('pvc');
@@ -11,6 +12,7 @@ function gameModeSelect() {
 
   pvcButton.addEventListener('click', () => {
     GameState.mode = 'PvC';
+
     soloForm.style.display = 'flex';
     doubleForm.style.display = 'none';
   });
@@ -19,6 +21,7 @@ function gameModeSelect() {
     soloForm.style.display = 'none';
     doubleForm.style.display = 'flex';
   });
+  audioTitle();
 }
 
 function captureNames() {

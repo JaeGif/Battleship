@@ -3,6 +3,7 @@
 import Players from '../players/player.js';
 import Gameboards from '../objects/gameboard.js';
 import { GameState, gameOver } from '../gameloop.js';
+import { audioHit, audioMiss, audioTitle, audioGame } from './audio.js';
 
 function createBoards(size = 10) {
   const mainGameContainer = document.getElementById('game');
