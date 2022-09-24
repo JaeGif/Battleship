@@ -1,4 +1,11 @@
-/* Main Game CSS File */
+@font-face {
+  font-family: Retro;
+  src: url(./assets/fonts/ARCADECLASSIC.TTF);
+}
+* {
+  font-family: Retro;
+  word-spacing: 1rem;
+}
 body {
   background-color: white;
   height: 100vh;
@@ -8,12 +15,14 @@ body {
   background-repeat: no-repeat;
   background-attachment: fixed;
 }
+/* Main Game CSS File */
+
 main {
   display: none;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  height: 92vh;
+  height: 90vh;
 }
 #highest-board-container {
   width: 100vw;
@@ -37,7 +46,7 @@ main {
 
 .grid-div div {
   border: solid 1px black;
-  background-color: rgba(47, 117, 182, 0.8);
+  background-color: rgba(47, 117, 182, 0.5);
 }
 .grid-div div:hover {
   background-color: rgba(136, 198, 195, 0.5);
@@ -48,14 +57,14 @@ div .hit {
 div .miss {
   background-color: gray;
 }
+#turn {
+  font-size: 3rem;
+}
 footer {
-  display: none;
+  display: flex;
   justify-content: center;
   align-items: center;
-  width: 100vw;
-  background-color: red;
 }
-
 /* Files for ship placement screen */
 #placement-page-body-container {
   display: none;
