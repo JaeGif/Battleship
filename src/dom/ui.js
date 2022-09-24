@@ -6,6 +6,9 @@ import { GameState, gameOver } from '../gameloop.js';
 
 function createBoards(size = 10) {
   const mainGameContainer = document.getElementById('game');
+  const mainBody = document.body;
+  mainBody.style.backgroundImage = 'none';
+  fetchBackgroundImage();
 
   const placeShipsContainer = document.getElementById(
     'placement-page-body-container'
@@ -21,6 +24,7 @@ function createBoards(size = 10) {
     createComputerBoard(size);
   }
   placeShipsContainer.style.display = 'none';
+
   mainGameContainer.style.display = 'flex';
   const turnAnnouncement = document.getElementById('turn');
   turnAnnouncement.textContent = `${turnPlayerName()}, start your offensive!`;
@@ -176,15 +180,22 @@ function gameOverScreen() {
   const modalContainer = document.getElementById('game-over-modal');
   const winnerNameP = document.getElementById('winner-name');
   const numShipsRemaining = document.getElementById('num-remaining');
+  const newGameButton = document.getElementsByClassName('replay-btn');
 
   let numShips = 0;
   let winner = '';
   if ([...GameState.boards][0].allShipsSunk()) {
     winner = [...GameState.players][1].name;
-    numShips = 5 - [...GameState.boards][0].sunkShips.length;
-  } else {
-    winner = [...GameState.players][0].name;
+    if (winner === '') {
+      winner = 'Player 1';
+    }
     numShips = 5 - [...GameState.boards][1].sunkShips.length;
+  } else {
+    if (winner === '') {
+      winner = 'Player 2';
+    }
+    winner = [...GameState.players][0].name;
+    numShips = 5 - [...GameState.boards][0].sunkShips.length;
   }
 
   winnerNameP.textContent = `${winner} Won!`;
@@ -209,6 +220,19 @@ function mainDisplay() {
   } else {
     opponentName.textContent = `${computerBoard.name}`;
   }
+}
+
+async function fetchBackgroundImage() {
+  const gifId = 'XPlcxsFs8BIKk';
+  const response = await fetch(
+    `https://api.giphy.com/v1/gifs/${gifId}?api_key=XQjjxBQQYTlh7yBaVu1JXQ6YbH5dno3B&s=cats`,
+    { mode: 'cors' }
+  );
+  const parsedData = await response.json();
+  const mainBackground = document.getElementById('main-background-img');
+  const body = document.body;
+  body.style.backgroundImage = `url(${parsedData.data.images.original.url})`;
+  return;
 }
 
 export { createBoards, gameOverScreen };
