@@ -29,9 +29,15 @@ function gameModeSelect() {
   });
   optionsButton.addEventListener('click', () => {
     const optionsMenu = document.getElementById('options-menu');
+    const credits = document.getElementById('credits');
+    const creditScroll = document.getElementById('credits-scroll');
+    credits.addEventListener('click', () => {
+      creditScroll.style.display = 'flex';
+    });
     menu.style.display = 'none';
     optionsMenu.style.display = 'flex';
     optionsBack.addEventListener('click', () => {
+      creditScroll.style.display = 'none';
       optionsMenu.style.display = 'none';
       menu.style.display = 'flex';
     });
@@ -93,12 +99,7 @@ function captureNames(titleMusic) {
     newGame();
   });
 }
-function changeToMenu() {
-  const playScreen = document.getElementById('play-card');
-  const menuScreen = document.getElementById('menu');
-  playScreen.style.display = 'none';
-  menuScreen.style.display = 'flex';
-}
+
 function titleScreen() {
   const playButton = document.getElementById('play');
   const titleScreen = document.getElementById('play-card');

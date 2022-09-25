@@ -6,6 +6,8 @@ import { GameState, gameOver } from '../gameloop.js';
 import { audioHit, audioMiss, audioTitle, audioGame } from './audio.js';
 
 function createBoards(size = 10) {
+  const gameMusic = audioGame();
+  gameMusic.play();
   const mainGameContainer = document.getElementById('game');
   const mainBody = document.body;
   mainBody.style.backgroundImage = 'none';
@@ -90,6 +92,8 @@ function playerGridListeners(gridElement) {
   gridElement.addEventListener(
     'click',
     () => {
+      const sfxHit = audioHit();
+      const sfxMiss = audioMiss();
       const turnAnnouncement = document.getElementById('turn');
 
       if (GameState.turn !== 'player') {
@@ -105,10 +109,11 @@ function playerGridListeners(gridElement) {
         gameOver();
       }
       if (GameState.wasHit === true) {
+        sfxHit.play();
         gridElement.classList.add('hit');
-        console.log('hit');
         GameState.wasHit = false;
       } else {
+        sfxMiss.play();
         gridElement.classList.add('miss');
       }
       if (GameState.mode === 'PvP') {
@@ -126,6 +131,8 @@ function opponentGridListeners(gridElement) {
   gridElement.addEventListener(
     'click',
     () => {
+      const sfxHit = audioHit();
+      const sfxMiss = audioMiss();
       const turnAnnouncement = document.getElementById('turn');
 
       if (GameState.turn === 'player') {
@@ -139,9 +146,11 @@ function opponentGridListeners(gridElement) {
         opponent.attack(coordinates, playerBoard);
 
         if (GameState.wasHit === true) {
+          sfxHit.play();
           gridElement.classList.add('hit');
           GameState.wasHit = false;
         } else {
+          sfxMiss.play();
           gridElement.classList.add('miss');
         }
       }
@@ -182,7 +191,7 @@ function gameOverScreen() {
   const winnerNameP = document.getElementById('winner-name');
   const numShipsRemaining = document.getElementById('num-remaining');
   const newGameButton = document.getElementsByClassName('replay-btn');
-
+  fetchVictoryImage();
   let numShips = 0;
   let winner = '';
   if ([...GameState.boards][0].allShipsSunk()) {
@@ -201,8 +210,11 @@ function gameOverScreen() {
 
   winnerNameP.textContent = `${winner} Won!`;
   numShipsRemaining.textContent = `${winner} had ${numShips} left!`;
-
   modalContainer.style.display = 'flex';
+
+  newGameButton.addEventListener('click', () => {
+    console.log('Clicked New Game');
+  });
 }
 
 function mainDisplay() {
@@ -230,9 +242,20 @@ async function fetchBackgroundImage() {
     { mode: 'cors' }
   );
   const parsedData = await response.json();
-  const mainBackground = document.getElementById('main-background-img');
   const body = document.body;
   body.style.backgroundImage = `url(${parsedData.data.images.original.url})`;
+  return;
+}
+
+async function fetchVictoryImage() {
+  const gifId = 'o0eOCNkn7cSD6';
+  const response = await fetch(
+    `https://api.giphy.com/v1/gifs/${gifId}?api_key=XQjjxBQQYTlh7yBaVu1JXQ6YbH5dno3B&s=cats`,
+    { mode: 'cors' }
+  );
+  const parsedData = await response.json();
+  const victoryImg = document.getElementById('gg-img');
+  victoryImg.src = parsedData.data.images.original.url;
   return;
 }
 
