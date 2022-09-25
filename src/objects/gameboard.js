@@ -12,6 +12,11 @@ class Gameboards {
   receiveAttack(coordinates) {
     // updates the gameboards data on what spaces have been hit for the DOM
     this.recordAttack.push(coordinates);
+    console.log(GameState.turn);
+    if (GameState.turn === 'computer') {
+      GameState.cpuAttacked.push(coordinates);
+    }
+    console.log(coordinates);
     for (let i = 0; i < this.shipCoordinates.length; i++) {
       // go through the list of ships placed first
       for (let j = 0; j < this.shipCoordinates[i].location.length; j++) {
@@ -23,14 +28,17 @@ class Gameboards {
           coordinates[1] === this.shipCoordinates[i].location[j][1]
         ) {
           // if the coords match, it's a hit
+          console.log(coordinates, this.shipCoordinates[i].location[j]);
           this.shipCoordinates[i].object.hit(coordinates);
           GameState.wasHit = true;
+
           if (GameState.turn === 'computer') {
             GameState.cpuLastHit.push(coordinates);
             if (GameState.cpuLastHit.length === 2) {
               GameState.cpuLastHit.shift();
-            } // this will need to be revisited
+            }
           }
+
           if (this.shipCoordinates[i].object.isSunk()) {
             // if the ship is sunk add to the graveyard
             this.sunkShips.push(this.shipCoordinates[i].object);
@@ -41,10 +49,6 @@ class Gameboards {
               GameState.cpuLastHit = [];
             }
           }
-          if (GameState.turn === 'computer') {
-            GameState.turn === 'player';
-          }
-          return;
         }
       }
     }
@@ -71,6 +75,7 @@ class Gameboards {
     this._randomizeShips(Cruiser);
     this._randomizeShips(Destroyer);
     this._randomizeShips(Submarine);
+    console.log(this.shipCoordinates);
   }
   _isEmptySpace(coordinate) {
     for (let i = 0; i < this.shipCoordinates.length; i++) {
@@ -122,7 +127,6 @@ class Gameboards {
 
     if (!this._isEmptySpace(coordinate[0])) {
       // redoes the random choice if space is not empty
-      console.log(coordinate[0]);
       return this._randomizeShips(newShip, size);
     }
 

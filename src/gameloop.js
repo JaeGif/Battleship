@@ -19,12 +19,12 @@ function newGame() {
   opponentBoard.randomAddShips();
   playerBoard.randomAddShips();
 
-  console.log(opponentBoard.shipCoordinates);
   createBoards();
 }
 function gameOver() {
   gameOverScreen();
 }
+
 class GameState {
   // gamestate object keeps track of details about the games current state
   static turn = 'player';
@@ -32,6 +32,7 @@ class GameState {
   static boards = [];
   static mode = 'PvP';
   static wasHit = false;
+  static cpuAttacked = [];
   static cpuLastHit = [];
   static cpuTargetingAid = [];
   static gameOver = false;

@@ -18,7 +18,6 @@ function gameModeSelect() {
   const optionsBack = document.getElementById('return-to-menu');
   pvcButton.addEventListener('click', () => {
     GameState.mode = 'PvC';
-
     soloForm.style.display = 'flex';
     doubleForm.style.display = 'none';
   });

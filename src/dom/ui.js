@@ -19,12 +19,9 @@ function createBoards(size = 10) {
   mainDisplay();
   createPlayerBoard(size);
   if (GameState.mode === 'PvP') {
-    console.log('pvp');
     createOpponentBoard(size);
   } else if (GameState.mode === 'PvC') {
-    console.log('pvc');
-
-    createComputerBoard(size);
+    createOpponentBoard(size);
   }
   placeShipsContainer.style.display = 'none';
 
@@ -56,7 +53,6 @@ function createOpponentBoard(size) {
     coordinateGrid.className = 'opponent-grid-elements';
     coordinateGrid.id = `b${opponentCoordinateIterator.next().value}`;
     playerGridListeners(coordinateGrid);
-
     opponentBoardContainer.appendChild(coordinateGrid);
   }
 }
@@ -129,12 +125,49 @@ function playerGridListeners(gridElement) {
         turnAnnouncement.textContent = `${hitOrMiss} It's ${turnPlayerName()}'s Turn!`;
       } else if (GameState.mode === 'PvC') {
         GameState.turn = 'computer';
+        computerGameLoop();
       }
     },
     { once: true }
   );
 }
+function computerGameLoop() {
+  let hitOrMiss = '';
+  const turnAnnouncement = document.getElementById('turn');
 
+  const sfxHit = audioHit();
+  const sfxMiss = audioMiss();
+  const computer = GameState.players[1];
+  const playerBoard = GameState.boards[0];
+  computer.cpuAttackPattern(playerBoard);
+
+  let attackedPosition =
+    [...GameState.cpuAttacked][0][0] + ',' + [...GameState.cpuAttacked][0][1];
+  GameState.cpuAttacked = [];
+  const attackedSpace = document.getElementById(`a${attackedPosition}`);
+
+  if (playerBoard.allShipsSunk()) {
+    GameState.gameOver = true;
+    gameOver();
+  }
+  if (GameState.wasHit === true) {
+    sfxHit.play();
+    attackedSpace.classList.add('hit');
+    hitOrMiss = 'Its a hit!';
+    if (GameState.sunkEventFlag === true) {
+      hitOrMiss = `You sunk the ${GameState.justSunk}!`;
+      GameState.sunkEventFlag = false;
+    }
+    GameState.wasHit = false;
+  } else {
+    sfxMiss.play();
+    hitOrMiss = 'Miss...';
+    attackedSpace.classList.add('miss');
+  }
+
+  GameState.turn = 'player';
+  turnAnnouncement.textContent = `${hitOrMiss} It's ${turnPlayerName()}'s Turn!`;
+}
 function opponentGridListeners(gridElement) {
   gridElement.addEventListener(
     'click',

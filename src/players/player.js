@@ -34,9 +34,8 @@ class Players {
     }
   }
   _cpuAttack(enemyBoard) {
-    let x = Math.floor(Math.random()) * enemyBoard.size;
-    let y = Math.floor(Math.random()) * enemyBoard.size;
-    console.log(x, y);
+    let x = Math.floor(Math.random() * 10);
+    let y = Math.floor(Math.random() * 10);
     return this.attack([x, y], enemyBoard);
   }
   _defineAxis() {
@@ -144,11 +143,7 @@ class Players {
   }
   cpuAttackPattern(enemyBoard) {
     // combines all possible attacks in logical fashion
-    if (GameState.cpuLastHit.length === 0) {
-      this._cpuAttack(enemyBoard);
-    } else {
-      this._cpuSmartMove(enemyBoard);
-    }
+    this._cpuAttack(enemyBoard);
   }
 }
 
