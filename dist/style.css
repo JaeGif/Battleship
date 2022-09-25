@@ -57,6 +57,20 @@ body {
 #menu button:hover {
   color: rgb(255, 0, 43);
 }
+/* Options Sub-Menu */
+#options-menu h1 {
+  cursor: pointer;
+}
+#options-menu h1:hover {
+  color: rgb(255, 0, 43);
+}
+#options-menu {
+  display: none;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+}
 /* Main Game CSS File */
 
 main {
