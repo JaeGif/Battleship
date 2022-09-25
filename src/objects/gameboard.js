@@ -34,6 +34,9 @@ class Gameboards {
           if (this.shipCoordinates[i].object.isSunk()) {
             // if the ship is sunk add to the graveyard
             this.sunkShips.push(this.shipCoordinates[i].object);
+            GameState.justSunk = this.shipCoordinates[i].object.name;
+            GameState.sunkEventFlag = true;
+
             if (GameState.turn === 'computer') {
               GameState.cpuLastHit = [];
             }

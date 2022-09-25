@@ -10,6 +10,7 @@
     <script type="module" defer src="../src/index.js"></script>
   </head>
   <body>
+    <!-- Title Screen -->
     <div id="play-card">
       <div class="column-wrapper">
         <h2>Totally not</h2>
@@ -17,7 +18,7 @@
       </div>
       <p id="play">Play</p>
     </div>
-
+    <!-- Game Select Modal -->
     <div id="menu">
       <button id="pvc">Single Player</button>
       <button id="multiplayer">Multiplayer Local</button>
@@ -37,8 +38,10 @@
         <button type="submit" id="new-game-btn-multiplayer">Start Game</button>
       </div>
     </div>
+    <!-- Inner Options -->
     <div id="options-menu">
       <div id="credits-scroll">
+        <!-- Credit Roll -->
         <p id="scroll-text">
           Creator: JaeGif<br />
           Music<br />
@@ -58,7 +61,7 @@
       <h1 id="credits">Artist Credits</h1>
       <h1 id="return-to-menu">Back</h1>
     </div>
-
+    <!-- Victory Modal -->
     <div id="game-over-modal">
       <h1>Victory!</h1>
       <p id="winner-name"></p>
@@ -66,11 +69,11 @@
       <p id="num-remaining"></p>
       <button class="replay-btn">New Game</button>
     </div>
+    <!-- Placement Pages -->
     <div id="placement-page-body-container">
       <div class="board-containers">
         <h1>Place your ships!</h1>
         <div class="grid-div" id="current-board">
-          <!-- Full sized board -->
           <div></div>
           <div></div>
           <div></div>
@@ -184,21 +187,21 @@
         </div>
       </div>
     </div>
-
-    <!-- Main Game HTML -->
+    <!-- Main Game -->
     <main id="game">
       <h3 id="turn"></h3>
       <div id="highest-board-container">
         <div class="board-containers" id="player-container-grid">
           <div class="grid-div" id="current-player-board"></div>
-          <p id="player-name">Player 1</p>
+          <h1 id="player-name">Player 1</h1>
         </div>
         <div class="board-containers" id="opponent-container">
           <div class="grid-div" id="current-opponent-board"></div>
-          <p id="player-2-name">Player 2</p>
+          <h1 id="player-2-name">Player 2</h1>
         </div>
       </div>
     </main>
+    <!-- Footer -->
     <footer>
       <div>
         <h3>

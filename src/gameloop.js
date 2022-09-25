@@ -35,6 +35,8 @@ class GameState {
   static cpuLastHit = [];
   static cpuTargetingAid = [];
   static gameOver = false;
+  static justSunk = '';
+  static sunkEventFlag = false;
 }
 
 export { newGame, GameState, gameOver };

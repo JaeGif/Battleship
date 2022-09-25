@@ -92,6 +92,8 @@ function playerGridListeners(gridElement) {
   gridElement.addEventListener(
     'click',
     () => {
+      let hitOrMiss = '';
+
       const sfxHit = audioHit();
       const sfxMiss = audioMiss();
       const turnAnnouncement = document.getElementById('turn');
@@ -111,14 +113,20 @@ function playerGridListeners(gridElement) {
       if (GameState.wasHit === true) {
         sfxHit.play();
         gridElement.classList.add('hit');
+        hitOrMiss = 'Its a hit!';
+        if (GameState.sunkEventFlag === true) {
+          hitOrMiss = `You sunk the ${GameState.justSunk}!`;
+          GameState.sunkEventFlag = false;
+        }
         GameState.wasHit = false;
       } else {
         sfxMiss.play();
+        hitOrMiss = 'Miss...';
         gridElement.classList.add('miss');
       }
       if (GameState.mode === 'PvP') {
         GameState.turn = 'opponent';
-        turnAnnouncement.textContent = `It's ${turnPlayerName()}'s Turn`;
+        turnAnnouncement.textContent = `${hitOrMiss} It's ${turnPlayerName()}'s Turn!`;
       } else if (GameState.mode === 'PvC') {
         GameState.turn = 'computer';
       }
@@ -133,6 +141,7 @@ function opponentGridListeners(gridElement) {
     () => {
       const sfxHit = audioHit();
       const sfxMiss = audioMiss();
+      let hitOrMiss = '';
       const turnAnnouncement = document.getElementById('turn');
 
       if (GameState.turn === 'player') {
@@ -148,10 +157,16 @@ function opponentGridListeners(gridElement) {
         if (GameState.wasHit === true) {
           sfxHit.play();
           gridElement.classList.add('hit');
+          hitOrMiss = 'Its a hit!';
+          if (GameState.sunkEventFlag === true) {
+            hitOrMiss = `You sunk the ${GameState.justSunk}!`;
+            GameState.sunkEventFlag = false;
+          }
           GameState.wasHit = false;
         } else {
           sfxMiss.play();
           gridElement.classList.add('miss');
+          hitOrMiss = 'Miss...';
         }
       }
       if (playerBoard.allShipsSunk()) {
@@ -160,7 +175,7 @@ function opponentGridListeners(gridElement) {
         gameOver();
       }
       GameState.turn = 'player';
-      turnAnnouncement.textContent = `It's ${turnPlayerName()}'s Turn!`;
+      turnAnnouncement.textContent = `${hitOrMiss} It's ${turnPlayerName()}'s Turn!`;
     },
     { once: true }
   );
