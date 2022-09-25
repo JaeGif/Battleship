@@ -5,8 +5,14 @@ import Gameboards from '../objects/gameboard.js';
 import { audioTitle } from './audio.js';
 
 function gameModeSelect() {
+  const titleMusic = audioTitle();
+  titleMusic.play();
+  const menu = document.getElementById('menu');
+  menu.style.display = 'flex';
+
   const pvcButton = document.getElementById('pvc');
   const pvpButton = document.getElementById('multiplayer');
+  const optionsButton = document.getElementById('options');
   const soloForm = document.getElementById('single-player-name');
   const doubleForm = document.getElementById('multiplayer-name');
 
@@ -21,10 +27,11 @@ function gameModeSelect() {
     soloForm.style.display = 'none';
     doubleForm.style.display = 'flex';
   });
-  audioTitle();
+
+  captureNames(titleMusic);
 }
 
-function captureNames() {
+function captureNames(titleMusic) {
   const newGameSolo = document.getElementById('new-game-btn-solo');
   const newGameMultiplayer = document.getElementById(
     'new-game-btn-multiplayer'
@@ -33,7 +40,7 @@ function captureNames() {
   const soloForm = document.getElementById('single-player-name');
   const doubleForm = document.getElementById('multiplayer-name');
 
-  const titleCard = document.getElementById('card-container');
+  const menu = document.getElementById('menu');
   const addShips = document.getElementById('placement-page-body-container');
 
   const soloPlayerName = document.getElementById('single-player-input');
@@ -53,7 +60,8 @@ function captureNames() {
     GameState.boards.push(opponentBoard);
 
     addShips.style.display = 'flex';
-    titleCard.style.display = 'none';
+    menu.style.display = 'none';
+    titleMusic.pause();
     newGame();
   });
   newGameMultiplayer.addEventListener('click', () => {
@@ -71,13 +79,23 @@ function captureNames() {
 
     const addShips = document.getElementById('placement-page-body-container');
     addShips.style.display = 'flex';
-    titleCard.style.display = 'none';
+    menu.style.display = 'none';
+    titleMusic.pause();
     newGame();
   });
 }
-
+function changeToMenu() {
+  const playScreen = document.getElementById('play-card');
+  const menuScreen = document.getElementById('menu');
+  playScreen.style.display = 'none';
+  menuScreen.style.display = 'flex';
+}
 function titleScreen() {
-  gameModeSelect();
-  captureNames();
+  const playButton = document.getElementById('play');
+  const titleScreen = document.getElementById('play-card');
+  playButton.addEventListener('click', () => {
+    titleScreen.style.display = 'none';
+    gameModeSelect();
+  });
 }
 export { titleScreen };

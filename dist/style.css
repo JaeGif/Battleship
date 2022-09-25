@@ -4,16 +4,58 @@
 }
 * {
   font-family: Retro;
-  word-spacing: 1rem;
+  word-spacing: 0.5rem;
 }
 body {
   background-color: white;
   height: 100vh;
-  background-image: url(./assets/backgroundimg.jpg);
+  background-image: url(./assets/battleshipbackground.png);
   background-size: cover;
   background-position: bottom;
   background-repeat: no-repeat;
   background-attachment: fixed;
+}
+#play-card {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+  align-items: center;
+  height: 100vh;
+}
+.column-wrapper {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 3rem;
+}
+#play {
+  cursor: pointer;
+  font-size: 5rem;
+  animation: blinker 1s step-start infinite;
+}
+@keyframes blinker {
+  50% {
+    color: rgb(255, 0, 43);
+  }
+}
+/* Options Menu */
+#menu {
+  display: none;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+#menu button {
+  margin: 1rem;
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 3rem;
+}
+#menu button:hover {
+  color: rgb(255, 0, 43);
 }
 /* Main Game CSS File */
 
@@ -61,7 +103,7 @@ div .miss {
   font-size: 3rem;
 }
 footer {
-  display: flex;
+  display: none;
   justify-content: center;
   align-items: center;
 }
@@ -120,7 +162,6 @@ footer {
   color: #fff;
   padding: 20px;
   padding-top: 15px;
-  font-family: 'Muli', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   border-radius: 5px;
   border: solid black 2px;
 }
