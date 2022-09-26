@@ -158,6 +158,7 @@ async function computerGameLoop() {
   }
   if (GameState.wasHit === true) {
     sfxHit.play();
+    attackedSpace.classList.remove('reveal');
     attackedSpace.classList.add('hit');
     hitOrMiss = 'Its a hit!';
     if (GameState.sunkEventFlag === true) {
@@ -299,7 +300,7 @@ function displayPlayerShips() {
         ',' +
         playerBoard.shipCoordinates[i].location[j][1];
       const gridElement = document.getElementById(`a${occupiedSpace}`);
-      gridElement.style.backgroundColor = 'green';
+      gridElement.classList.add('reveal');
     }
   }
 }

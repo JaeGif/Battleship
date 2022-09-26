@@ -33,6 +33,7 @@ function dragAndDropDisplay(i) {
   nextShipName.textContent = `Name: ${shipObjs[i].shipObj.name}`;
   nextShipLength.textContent = `Length: ${shipObjs[i].shipObj.length}`;
   const ratio = shipObjs[i].shipObj.length * 6;
+  nextShipDisplay[0].setAttribute('draggable', true);
   changeAxisBtn.addEventListener('click', () => {
     if (UiState.axis === 'x') {
       UiState.axis = 'y';

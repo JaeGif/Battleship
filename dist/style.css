@@ -16,7 +16,7 @@ body {
   background-attachment: fixed;
 }
 #play-card {
-  display: none;
+  display: flex;
   flex-direction: column;
   justify-content: space-evenly;
   align-items: center;
@@ -163,6 +163,9 @@ main {
 .grid-div div:hover {
   background-color: rgba(136, 198, 195, 0.5);
 }
+div .reveal {
+  background-color: green;
+}
 div .hit {
   background-color: rgb(251, 62, 100);
 }
@@ -179,7 +182,7 @@ footer {
 }
 /* Files for ship placement screen */
 #placement-page-body-container {
-  display: flex;
+  display: none;
   flex-direction: column;
   justify-content: space-evenly;
   align-items: center;
