@@ -180,8 +180,13 @@ footer {
 /* Files for ship placement screen */
 #placement-page-body-container {
   display: flex;
+  flex-direction: column;
   justify-content: space-evenly;
-  height: 90vh;
+  align-items: center;
+  height: 100vh;
+}
+#placement-page-body-container > h1 {
+  font-size: 3rem;
 }
 .ship-img {
   height: 6vh;
@@ -200,11 +205,11 @@ footer {
   aspect-ratio: 2/1;
 }
 .y {
-  -webkit-transform: rotate(90deg);
-  -moz-transform: rotate(90deg);
-  -o-transform: rotate(90deg);
-  -ms-transform: rotate(90deg);
-  transform: rotate(90deg);
+  -webkit-transform: rotate(90deg) translate(0, 1rem);
+  -moz-transform: rotate(90deg) translate(0, 1rem);
+  -o-transform: rotate(90deg) translate(0, 1rem);
+  -ms-transform: rotate(90deg) translate(0, 1rem);
+  transform: rotate(90deg) translate(5rem, 0rem);
 }
 #details-grouping-container {
   height: fit-content;
@@ -212,7 +217,7 @@ footer {
 }
 #ship-display-container {
   display: flex;
-  height: 100vh;
+  height: fit-content;
   flex-direction: column;
   justify-content: center;
   align-items: center;
@@ -224,11 +229,20 @@ footer {
 #change-orientation {
   background: none;
   border: none;
-  font-size: 2rem;
+  font-size: 3rem;
 }
 #change-orientation:hover {
   cursor: pointer;
   color: red;
+}
+#inner-placement-wrapper {
+  display: flex;
+  width: 100%;
+  justify-content: space-evenly;
+  align-items: center;
+}
+.board-containers h1 {
+  color: white;
 }
 /* Game Over Screen CSS File */
 #game-over-modal {
