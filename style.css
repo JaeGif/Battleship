@@ -16,7 +16,7 @@ body {
   background-attachment: fixed;
 }
 #play-card {
-  display: flex;
+  display: none;
   flex-direction: column;
   justify-content: space-evenly;
   align-items: center;
@@ -179,7 +179,7 @@ footer {
 }
 /* Files for ship placement screen */
 #placement-page-body-container {
-  display: none;
+  display: flex;
   justify-content: space-evenly;
   height: 90vh;
 }
