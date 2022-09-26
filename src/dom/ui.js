@@ -125,16 +125,21 @@ function playerGridListeners(gridElement) {
         turnAnnouncement.textContent = `${hitOrMiss} It's ${turnPlayerName()}'s Turn!`;
       } else if (GameState.mode === 'PvC') {
         GameState.turn = 'computer';
+        turnAnnouncement.textContent = `${hitOrMiss} It's ${turnPlayerName()}'s Turn!`;
+
         computerGameLoop();
       }
     },
     { once: true }
   );
 }
-function computerGameLoop() {
+function sleep(ms) {
+  return new Promise((resolve) => setTimeout(resolve, ms));
+}
+async function computerGameLoop() {
   let hitOrMiss = '';
   const turnAnnouncement = document.getElementById('turn');
-
+  await sleep(1000);
   const sfxHit = audioHit();
   const sfxMiss = audioMiss();
   const computer = GameState.players[1];
