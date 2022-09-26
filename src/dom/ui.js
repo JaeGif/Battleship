@@ -327,4 +327,4 @@ async function fetchVictoryImage() {
   return;
 }
 
-export { createBoards, gameOverScreen };
+export { createBoards, gameOverScreen, generateCoordinateIDs };

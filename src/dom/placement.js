@@ -2,8 +2,19 @@ import Players from '../players/player.js';
 import Gameboards from '../objects/gameboard.js';
 import Ship from '../objects/ships.js';
 import { GameState } from '../gameloop.js';
+import { generateCoordinateIDs } from './ui.js';
 class UiState {
   static axis = 'x';
+}
+function dynamicallyGenerateBoard(size = 10) {
+  const coordinateIterator = generateCoordinateIDs(size);
+  const boardContainer = document.getElementById('placement-board');
+
+  for (let i = 0; i < size * size; i++) {
+    const coordinateGrid = document.createElement('div');
+    coordinateGrid.id = `${coordinateIterator.next().value}`;
+    boardContainer.appendChild(coordinateGrid);
+  }
 }
 function dragAndDropDisplay(i) {
   const nextShipDisplay = document.getElementsByClassName('ship-img');
@@ -66,4 +77,5 @@ function makeShipArray() {
   ];
   return shipArray;
 }
+dynamicallyGenerateBoard();
 dragAndDropDisplay(0);
