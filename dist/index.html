@@ -7,7 +7,7 @@
     <title>Battleship</title>
     <link rel="icon" href="./icons/icoin.png" />
     <link rel="stylesheet" href="/dist/style.css" />
-    <script type="module" defer src="../src/index.js"></script>
+    <script type="module" defer src="../src/dom/placement.js"></script>
   </head>
   <body>
     <!-- Title Screen -->
@@ -65,7 +65,7 @@
     <div id="game-over-modal">
       <h1>Victory!</h1>
       <p id="winner-name"></p>
-      <img id="gg-img" src="./assets/gamsi.png" />
+      <img id="gg-img" />
       <p id="num-remaining"></p>
       <button class="replay-btn">New Game</button>
     </div>
@@ -180,10 +180,14 @@
       <div id="ship-display-container">
         <div id="details-grouping-container">
           <div id="unplaced-ship-container">
-            <img class="ship-img carrier" src="./assets/carrier.png" />
+            <img
+              class="ship-img"
+              src="../dist/assets/ships/battleship.png"
+              alt="whereship"
+            />
           </div>
-          <p>Name: Carrier</p>
-          <p>Length: 5</p>
+          <p id="ship-name">Name: Carrier</p>
+          <p id="ship-length">Length: 5</p>
         </div>
       </div>
     </div>

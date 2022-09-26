@@ -133,13 +133,14 @@ function playerGridListeners(gridElement) {
     { once: true }
   );
 }
-function sleep(ms) {
+function sleep() {
+  const ms = Math.random() * 1500;
   return new Promise((resolve) => setTimeout(resolve, ms));
 }
 async function computerGameLoop() {
   let hitOrMiss = '';
   const turnAnnouncement = document.getElementById('turn');
-  await sleep(1000);
+  await sleep();
   const sfxHit = audioHit();
   const sfxMiss = audioMiss();
   const computer = GameState.players[1];

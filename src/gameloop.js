@@ -16,6 +16,7 @@ function newGame() {
 
   const playerBoard = [...GameState.boards][0];
   const opponentBoard = [...GameState.boards][1];
+
   opponentBoard.randomAddShips();
   playerBoard.randomAddShips();
 
