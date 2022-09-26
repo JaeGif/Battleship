@@ -2,11 +2,15 @@ import Players from '../players/player.js';
 import Gameboards from '../objects/gameboard.js';
 import Ship from '../objects/ships.js';
 import { GameState } from '../gameloop.js';
-
+class UiState {
+  static axis = 'x';
+}
 function dragAndDropDisplay(i) {
   const nextShipDisplay = document.getElementsByClassName('ship-img');
   const nextShipName = document.getElementById('ship-name');
   const nextShipLength = document.getElementById('ship-length');
+  const changeAxisBtn = document.getElementById('change-orientation');
+  const imgContainer = document.getElementById('unplaced-ship-container');
 
   const humanPlayer = [...GameState.players][0];
   const computerPlayer = [...GameState.players][1];
@@ -17,7 +21,34 @@ function dragAndDropDisplay(i) {
   nextShipDisplay.src = `${shipObjs[i].shipSrcImg}`;
   nextShipName.textContent = `Name: ${shipObjs[i].shipObj.name}`;
   nextShipLength.textContent = `Length: ${shipObjs[i].shipObj.length}`;
-  console.log(nextShipDisplay.src);
+  const ratio = shipObjs[i].shipObj.length * 6;
+  changeAxisBtn.addEventListener('click', () => {
+    if (UiState.axis === 'x') {
+      UiState.axis = 'y';
+      nextShipDisplay[0].classList.add('y');
+      imgContainer.style.height = `${ratio}vh`;
+    } else {
+      UiState.axis = 'x';
+      nextShipDisplay[0].classList.remove('y');
+      imgContainer.style.height = 'fit-content';
+    }
+  });
+}
+function changeOrientation() {
+  const imgContainer = document.getElementById('details-grouping-container');
+  const changeAxisBtn = document.getElementById('change-orientation');
+  const nextShipDisplay = document.getElementsByClassName('ship-img');
+  changeAxisBtn.addEventListener('click', () => {
+    if (UiState.axis === 'x') {
+      UiState.axis = 'y';
+      nextShipDisplay[0].classList.add('y');
+      imgContainer.style.height = 'fit-content';
+    } else {
+      UiState.axis = 'x';
+      nextShipDisplay[0].classList.remove('y');
+      imgContainer.style.height = ``;
+    }
+  });
 }
 function makeShipArray() {
   let Carrier = new Ship(5, 'carrier');
@@ -35,4 +66,4 @@ function makeShipArray() {
   ];
   return shipArray;
 }
-dragAndDropDisplay(2);
+dragAndDropDisplay(0);

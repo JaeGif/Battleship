@@ -199,21 +199,36 @@ footer {
 .destroyer {
   aspect-ratio: 2/1;
 }
+.y {
+  -webkit-transform: rotate(90deg);
+  -moz-transform: rotate(90deg);
+  -o-transform: rotate(90deg);
+  -ms-transform: rotate(90deg);
+  transform: rotate(90deg);
+}
 #details-grouping-container {
   height: fit-content;
-  border: solid 1px black;
   padding: 1rem;
 }
 #ship-display-container {
   display: flex;
+  height: 100vh;
   flex-direction: column;
   justify-content: center;
   align-items: center;
 }
 #unplaced-ship-container {
-  display: flex;
   height: fit-content;
   width: fit-content;
+}
+#change-orientation {
+  background: none;
+  border: none;
+  font-size: 2rem;
+}
+#change-orientation:hover {
+  cursor: pointer;
+  color: red;
 }
 /* Game Over Screen CSS File */
 #game-over-modal {
