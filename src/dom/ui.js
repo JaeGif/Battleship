@@ -21,6 +21,7 @@ function createBoards(size = 10) {
   if (GameState.mode === 'PvP') {
     createOpponentBoard(size);
   } else if (GameState.mode === 'PvC') {
+    displayPlayerShips();
     createOpponentBoard(size);
   }
   placeShipsContainer.style.display = 'none';
@@ -29,7 +30,6 @@ function createBoards(size = 10) {
   const turnAnnouncement = document.getElementById('turn');
   turnAnnouncement.textContent = `${turnPlayerName()} start your offensive!`;
 }
-
 function createPlayerBoard(size) {
   const playerCoordinateIterator = generateCoordinateIDs(size);
   const playerBoardContainer = document.getElementById('current-player-board');
@@ -287,7 +287,21 @@ function mainDisplay() {
     opponentName.textContent = `${computerBoard.name}`;
   }
 }
+function displayPlayerShips() {
+  let occupiedSpace = '';
 
+  const playerBoard = [...GameState.boards][0];
+  for (let i = 0; i < playerBoard.shipCoordinates.length; i++) {
+    for (let j = 0; j < playerBoard.shipCoordinates[i].location.length; j++) {
+      occupiedSpace =
+        playerBoard.shipCoordinates[i].location[j][0] +
+        ',' +
+        playerBoard.shipCoordinates[i].location[j][1];
+      const gridElement = document.getElementById(`a${occupiedSpace}`);
+      gridElement.style.backgroundColor = 'green';
+    }
+  }
+}
 async function fetchBackgroundImage() {
   const gifId = 'XPlcxsFs8BIKk';
   const response = await fetch(

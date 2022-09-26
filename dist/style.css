@@ -173,7 +173,7 @@ div .miss {
   font-size: 3rem;
 }
 footer {
-  display: flex;
+  display: none;
   justify-content: center;
   align-items: center;
 }
