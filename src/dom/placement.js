@@ -13,9 +13,32 @@ function dynamicallyGenerateBoard(size = 10) {
   for (let i = 0; i < size * size; i++) {
     const coordinateGrid = document.createElement('div');
     coordinateGrid.id = `${coordinateIterator.next().value}`;
+    addDragDropListener(coordinateGrid);
     boardContainer.appendChild(coordinateGrid);
   }
 }
+function addDragDropListener(target) {
+  const source = document.getElementsByClassName('ship-img')[0];
+  source.addEventListener('dragstart', (e) => {
+    e.dataTransfer.clearData();
+    e.dataTransfer.setData('text/plain', e.target.classList[0]);
+  });
+  target.addEventListener('dragover', (e) => {
+    e.preventDefault();
+  });
+  source.addEventListener('dragend', (e) => {
+    console.log('over');
+  });
+  target.addEventListener('drop', (e) => {
+    e.preventDefault();
+    const data = e.dataTransfer.getData('text');
+    const source = document.getElementsByClassName(data);
+
+    e.target.appendChild(source[0]);
+  });
+}
+
+/* Display */
 function dragAndDropDisplay(i) {
   const nextShipDisplay = document.getElementsByClassName('ship-img');
   const nextShipName = document.getElementById('ship-name');
@@ -27,8 +50,9 @@ function dragAndDropDisplay(i) {
   const computerPlayer = [...GameState.players][1];
   const playerBoard = [...GameState.boards][0];
   const opponentBoard = [...GameState.boards][1];
+
   const shipObjs = makeShipArray();
-  nextShipDisplay[0].classList.add(`${shipObjs[i].shipObj.name}`);
+  nextShipDisplay[0].id = `${shipObjs[i].shipObj.name}`;
   nextShipDisplay.src = `${shipObjs[i].shipSrcImg}`;
   nextShipName.textContent = `Name: ${shipObjs[i].shipObj.name}`;
   nextShipLength.textContent = `Length: ${shipObjs[i].shipObj.length}`;
@@ -45,23 +69,9 @@ function dragAndDropDisplay(i) {
       imgContainer.style.height = 'fit-content';
     }
   });
+  addDragDropListener(nextShipDisplay[0]);
 }
-function changeOrientation() {
-  const imgContainer = document.getElementById('details-grouping-container');
-  const changeAxisBtn = document.getElementById('change-orientation');
-  const nextShipDisplay = document.getElementsByClassName('ship-img');
-  changeAxisBtn.addEventListener('click', () => {
-    if (UiState.axis === 'x') {
-      UiState.axis = 'y';
-      nextShipDisplay[0].classList.add('y');
-      imgContainer.style.height = 'fit-content';
-    } else {
-      UiState.axis = 'x';
-      nextShipDisplay[0].classList.remove('y');
-      imgContainer.style.height = ``;
-    }
-  });
-}
+
 function makeShipArray() {
   let Carrier = new Ship(5, 'carrier');
   let Battleship = new Ship(4, 'battleship');
@@ -78,5 +88,6 @@ function makeShipArray() {
   ];
   return shipArray;
 }
+
 dynamicallyGenerateBoard();
 dragAndDropDisplay(0);

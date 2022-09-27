@@ -16,7 +16,7 @@ body {
   background-attachment: fixed;
 }
 #play-card {
-  display: flex;
+  display: none;
   flex-direction: column;
   justify-content: space-evenly;
   align-items: center;
@@ -77,7 +77,6 @@ body {
   height: 100%;
   text-align: center;
 
-  /* animation properties */
   -moz-transform: translateY(100%);
   -webkit-transform: translateY(100%);
   transform: translateY(100%);
@@ -159,7 +158,10 @@ main {
 .grid-div div {
   border: solid 1px black;
   background-color: rgba(47, 117, 182, 0.5);
+  max-width: 6.5vh;
+  overflow: visible;
 }
+
 .grid-div div:hover {
   background-color: rgba(136, 198, 195, 0.5);
 }
@@ -180,9 +182,9 @@ footer {
   justify-content: center;
   align-items: center;
 }
-/* Files for ship placement screen */
+/* Ship Placement screen */
 #placement-page-body-container {
-  display: none;
+  display: flex;
   flex-direction: column;
   justify-content: space-evenly;
   align-items: center;
@@ -193,18 +195,20 @@ footer {
 }
 .ship-img {
   height: 6vh;
+  position: relative;
+  z-index: 1;
 }
-.battleship {
+#battleship {
   aspect-ratio: 4/1;
 }
-.carrier {
+#carrier {
   aspect-ratio: 5/1;
 }
-.cruiser,
-.submarine {
+#cruiser,
+#submarine {
   aspect-ratio: 3/1;
 }
-.destroyer {
+#destroyer {
   aspect-ratio: 2/1;
 }
 .y {
