@@ -159,6 +159,7 @@ main {
   border: solid 1px black;
   background-color: rgba(47, 117, 182, 0.5);
   max-width: 6.5vh;
+  max-height: 6.5vh;
   overflow: visible;
 }
 
@@ -212,11 +213,11 @@ footer {
   aspect-ratio: 2/1;
 }
 .y {
-  -webkit-transform: rotate(90deg) translate(0, 1rem);
-  -moz-transform: rotate(90deg) translate(0, 1rem);
-  -o-transform: rotate(90deg) translate(0, 1rem);
-  -ms-transform: rotate(90deg) translate(0, 1rem);
-  transform: rotate(90deg) translate(5rem, 0rem);
+  -webkit-transform: rotate(90deg) translate(0, 5rem);
+  -moz-transform: rotate(90deg) translate(0, 5rem);
+  -o-transform: rotate(90deg) translate(0, 5rem);
+  -ms-transform: rotate(90deg) translate(0, 5rem);
+  transform: rotate(90deg) translate(0, 5rem);
 }
 #details-grouping-container {
   height: fit-content;
@@ -232,6 +233,12 @@ footer {
 #unplaced-ship-container {
   height: fit-content;
   width: fit-content;
+}
+div.ship-drag-position {
+  background-color: green;
+}
+div.invalid-placement {
+  background-color: red;
 }
 #change-orientation {
   background: none;
