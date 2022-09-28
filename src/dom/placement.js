@@ -22,6 +22,7 @@ class UiState {
   static currentShipIndex = 0;
   static currentPlacementBoard = 'player';
 }
+
 function dynamicallyGenerateBoard(size = 10) {
   const coordinateIterator = generateCoordinateIDs(size);
   const boardContainer = document.getElementById('placement-board');
@@ -40,7 +41,11 @@ function addDragDropListener(target) {
     xTargetId = xTargetId.split(',');
 
     if (UiState.axis === 'x') {
-      for (let i = 0; i < 5; i++) {
+      for (
+        let i = 0;
+        i < UiState.currentShip[UiState.currentShipIndex].shipObj.length;
+        i++
+      ) {
         let x = xTargetId[0];
         let y = parseInt(xTargetId[1]) + i;
         let coordId = x + ',' + y;
@@ -52,7 +57,11 @@ function addDragDropListener(target) {
     let xTargetId = target.id;
     xTargetId = xTargetId.split(',');
     if (UiState.axis === 'x') {
-      for (let i = 0; i < 5; i++) {
+      for (
+        let i = 0;
+        i < UiState.currentShip[UiState.currentShipIndex].shipObj.length;
+        i++
+      ) {
         let x = xTargetId[0];
         let y = parseInt(xTargetId[1]) + i;
         let coordId = x + ',' + y;
@@ -68,19 +77,34 @@ function addDragDropListener(target) {
     xTargetId = xTargetId.split(',');
     let finalArray = [];
     if (
-      (UiState.axis === 'x' && parseInt(xTargetId[1]) + 4 > 9) ||
-      (UiState.axis === 'y' && parseInt(xTargetId[0]) + 4 > 9)
+      (UiState.axis === 'x' &&
+        parseInt(xTargetId[1]) +
+          UiState.currentShip[UiState.currentShipIndex].shipObj.length -
+          1 >
+          9) ||
+      (UiState.axis === 'y' &&
+        parseInt(xTargetId[0]) +
+          UiState.currentShip[UiState.currentShipIndex].shipObj.length -
+          1 >
+          9)
     ) {
-      // 4 to be replaced with shiplength -1
       return false;
     }
     if (UiState.axis === 'x') {
-      for (let i = 0; i < 5; i++) {
+      for (
+        let i = 0;
+        i < UiState.currentShip[UiState.currentShipIndex].shipObj.length;
+        i++
+      ) {
         finalArray.push([parseInt(xTargetId[0]), parseInt(xTargetId[1]) + i]);
       }
     }
     if (UiState.axis === 'y') {
-      for (let i = 0; i < 5; i++) {
+      for (
+        let i = 0;
+        i < UiState.currentShip[UiState.currentShipIndex].shipObj.length;
+        i++
+      ) {
         finalArray.push([parseInt(xTargetId[0] + i), parseInt(xTargetId[1])]);
       }
     }
@@ -92,16 +116,18 @@ function addDragDropListener(target) {
 
     addShipToBoard(finalArray);
     resetAxis();
-    UiState.currentShipIndex++;
-    if (UiState.currentShipIndex >= 5) {
-      console.log('moving on');
-      return;
-    }
-
+    nextShipIteration();
     dragAndDropDisplay();
   });
 }
+function nextShipIteration() {
+  UiState.currentShipIndex++;
 
+  if (UiState.currentShipIndex >= 5) {
+    console.log('moving on');
+    return;
+  }
+}
 function resetAxis() {
   UiState.axis = 'x';
   const imgContainer = document.getElementById('unplaced-ship-container');
@@ -206,3 +232,5 @@ function placementPage() {
   changeAxisButton();
 }
 placementPage();
+
+export { UiState, placementPage };
