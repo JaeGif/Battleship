@@ -67,33 +67,53 @@ function addDragDropListener(target) {
     let xTargetId = target.id;
     xTargetId = xTargetId.split(',');
     let finalArray = [];
+    if (
+      (UiState.axis === 'x' && parseInt(xTargetId[1]) + 4 > 9) ||
+      (UiState.axis === 'y' && parseInt(xTargetId[0]) + 4 > 9)
+    ) {
+      // 4 to be replaced with shiplength -1
+      return false;
+    }
     if (UiState.axis === 'x') {
       for (let i = 0; i < 5; i++) {
         finalArray.push([parseInt(xTargetId[0]), parseInt(xTargetId[1]) + i]);
-
-        let x = xTargetId[0];
-        let y = parseInt(xTargetId[1]) + i;
-        let coordId = x + ',' + y;
-        let coveredCoordinate = document.getElementById(`${coordId}`);
       }
     }
+    if (UiState.axis === 'y') {
+      for (let i = 0; i < 5; i++) {
+        finalArray.push([parseInt(xTargetId[0] + i), parseInt(xTargetId[1])]);
+      }
+    }
+
     const data = e.dataTransfer.getData('text');
     const source = document.getElementById(data);
     e.target.appendChild(source);
     source.setAttribute('draggable', false);
+
     addShipToBoard(finalArray);
+    resetAxis();
     UiState.currentShipIndex++;
     if (UiState.currentShipIndex >= 5) {
       console.log('moving on');
       return;
     }
+
     dragAndDropDisplay();
   });
+}
+
+function resetAxis() {
+  UiState.axis = 'x';
+  const imgContainer = document.getElementById('unplaced-ship-container');
+
+  let allShipsList = document.getElementsByClassName('ship-img');
+
+  allShipsList[UiState.currentShipIndex].classList.remove('y');
+  imgContainer.style.height = 'fit-content';
 }
 function addShipImgDragListeners() {
   let source =
     document.getElementsByClassName('ship-img')[UiState.currentShipIndex];
-  console.log(source);
   source.addEventListener('dragstart', (e) => {
     e.dataTransfer.clearData();
     e.dataTransfer.setData('text/plain', e.target.id);
@@ -116,7 +136,6 @@ function addShipToBoard(shipCoords) {
 }
 /* Display */
 function dragAndDropDisplay() {
-  console.log(UiState.currentShipIndex);
   const nextShipDisplay = document.createElement('img');
   nextShipDisplay.className = 'ship-img';
   const nextShipName = document.getElementById('ship-name');
@@ -157,7 +176,6 @@ function makeShipArray() {
     { shipObj: Submarine, shipSrcImg: '../dist/assets/ships/submarine.png' },
   ];
   UiState.currentShip = shipArray;
-  console.log(UiState.currentShip);
 }
 
 function changeAxisButton() {
@@ -172,7 +190,6 @@ function changeAxisButton() {
     if (UiState.axis === 'x') {
       UiState.axis = 'y';
       allShipsList[UiState.currentShipIndex].classList.add('y');
-      console.log(allShipsList[UiState.currentShipIndex]);
       imgContainer.style.height = `${ratio}vh`;
     } else {
       UiState.axis = 'x';
@@ -182,7 +199,10 @@ function changeAxisButton() {
   });
 }
 
-dynamicallyGenerateBoard(10);
-makeShipArray();
-dragAndDropDisplay();
-changeAxisButton();
+function placementPage() {
+  dynamicallyGenerateBoard();
+  makeShipArray();
+  dragAndDropDisplay();
+  changeAxisButton();
+}
+placementPage();
