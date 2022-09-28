@@ -212,12 +212,41 @@ footer {
 #destroyer {
   aspect-ratio: 2/1;
 }
-.y {
-  -webkit-transform: rotate(90deg) translate(0, 5rem);
-  -moz-transform: rotate(90deg) translate(0, 5rem);
-  -o-transform: rotate(90deg) translate(0, 5rem);
-  -ms-transform: rotate(90deg) translate(0, 5rem);
-  transform: rotate(90deg) translate(0, 5rem);
+
+#submarine.y {
+  -webkit-transform: rotate(90deg) translate(3.5rem, 2.5rem);
+  -moz-transform: rotate(90deg) translate(3.5rem, 2.5rem);
+  -o-transform: rotate(90deg) translate(3.5rem, 2.5rem);
+  -ms-transform: rotate(90deg) translate(3.5rem, 2.5rem);
+  transform: rotate(90deg) translate(3.5rem, 2.5rem);
+}
+#destroyer.y {
+  -webkit-transform: rotate(90deg) translate(2rem, 1rem);
+  -moz-transform: rotate(90deg) translate(2rem, 1rem);
+  -o-transform: rotate(90deg) translate(2rem, 1rem);
+  -ms-transform: rotate(90deg) translate(2rem, 1rem);
+  transform: rotate(90deg) translate(2rem, 1rem);
+}
+#carrier.y {
+  -webkit-transform: rotate(90deg) translate(6.5rem, 5.5rem);
+  -moz-transform: rotate(90deg) translate(6.5rem, 5.5rem);
+  -o-transform: rotate(90deg) translate(6.5rem, 5.5rem);
+  -ms-transform: rotate(90deg) translate(6.5rem, 5.5rem);
+  transform: rotate(90deg) translate(6.5rem, 5.5rem);
+}
+#battleship.y {
+  -webkit-transform: rotate(90deg) translate(5rem, 4rem);
+  -moz-transform: rotate(90deg) translate(5rem, 4rem);
+  -o-transform: rotate(90deg) translate(5rem, 4rem);
+  -ms-transform: rotate(90deg) translate(5rem, 4rem);
+  transform: rotate(90deg) translate(5rem, 4rem);
+}
+#cruiser.y {
+  -webkit-transform: rotate(90deg) translate(3.25rem, 2.5rem);
+  -moz-transform: rotate(90deg) translate(3.25rem, 2.5rem);
+  -o-transform: rotate(90deg) translate(3.25rem, 2.5rem);
+  -ms-transform: rotate(90deg) translate(3.25rem, 2.5rem);
+  transform: rotate(90deg) translate(3.25rem, 2.5rem);
 }
 #details-grouping-container {
   height: fit-content;
@@ -234,7 +263,7 @@ footer {
   height: fit-content;
   width: fit-content;
 }
-div.ship-drag-position {
+div.ship-position {
   background-color: green;
 }
 div.invalid-placement {

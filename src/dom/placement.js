@@ -76,7 +76,9 @@ function addDragDropListener(target) {
     let xTargetId = target.id;
     xTargetId = xTargetId.split(',');
     let finalArray = [];
+
     if (
+      // check out of bounds
       (UiState.axis === 'x' &&
         parseInt(xTargetId[1]) +
           UiState.currentShip[UiState.currentShipIndex].shipObj.length -
@@ -105,8 +107,31 @@ function addDragDropListener(target) {
         i < UiState.currentShip[UiState.currentShipIndex].shipObj.length;
         i++
       ) {
-        finalArray.push([parseInt(xTargetId[0] + i), parseInt(xTargetId[1])]);
+        finalArray.push([parseInt(xTargetId[0]) + i, parseInt(xTargetId[1])]);
       }
+    }
+    if (UiState.currentPlacementBoard === 'player') {
+      const playerBoard = [...GameState.boards][0];
+      for (let i = 0; i < finalArray.length; i++) {
+        for (let j = 0; j < playerBoard.shipCoordinates.length; j++) {
+          for (
+            let k = 0;
+            k < playerBoard.shipCoordinates[j].location.length;
+            k++
+          ) {
+            if (
+              finalArray[i][0] ===
+                playerBoard.shipCoordinates[j].location[k][0] &&
+              finalArray[i][1] === playerBoard.shipCoordinates[j].location[k][1]
+            ) {
+              return false;
+            }
+          }
+        }
+      }
+      console.log(playerBoard.shipCoordinates);
+    } else if (UiState.currentPlacementBoard === 'opponent') {
+      const opponentBoard = [...GameState.boards][1];
     }
 
     const data = e.dataTransfer.getData('text');
@@ -131,10 +156,6 @@ function nextShipIteration() {
 function resetAxis() {
   UiState.axis = 'x';
   const imgContainer = document.getElementById('unplaced-ship-container');
-
-  let allShipsList = document.getElementsByClassName('ship-img');
-
-  allShipsList[UiState.currentShipIndex].classList.remove('y');
   imgContainer.style.height = 'fit-content';
 }
 function addShipImgDragListeners() {
