@@ -16,7 +16,7 @@ body {
   background-attachment: fixed;
 }
 #play-card {
-  display: none;
+  display: flex;
   flex-direction: column;
   justify-content: space-evenly;
   align-items: center;
@@ -185,7 +185,7 @@ footer {
 }
 /* Ship Placement screen */
 #placement-page-body-container {
-  display: flex;
+  display: none;
   flex-direction: column;
   justify-content: space-evenly;
   align-items: center;

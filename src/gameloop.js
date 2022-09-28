@@ -9,6 +9,7 @@ import Players from './players/player.js';
 import Ship from './objects/ships.js';
 import { gameOverScreen } from './dom/ui.js';
 import { createBoards } from './dom/ui.js';
+import { placementPage } from './dom/placement.js';
 
 function newGame() {
   const humanPlayer = [...GameState.players][0];
@@ -17,10 +18,13 @@ function newGame() {
   const playerBoard = [...GameState.boards][0];
   const opponentBoard = [...GameState.boards][1];
 
-  opponentBoard.randomAddShips();
-  playerBoard.randomAddShips();
-
-  createBoards();
+  if (GameState.mode === 'PvC') {
+    placementPage();
+  } else {
+    opponentBoard.randomAddShips();
+    playerBoard.randomAddShips();
+    createBoards();
+  }
 }
 function gameOver() {
   gameOverScreen();

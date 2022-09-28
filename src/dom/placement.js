@@ -2,19 +2,7 @@ import Players from '../players/player.js';
 import Gameboards from '../objects/gameboard.js';
 import Ship from '../objects/ships.js';
 import { GameState } from '../gameloop.js';
-import { generateCoordinateIDs } from './ui.js';
-
-let humanPlayer = new Players('Jae');
-let computerPlayer = new Players('Computer');
-
-GameState.players.push(humanPlayer);
-GameState.players.push(computerPlayer);
-
-const playerBoard = new Gameboards('Jae');
-const opponentBoard = new Gameboards('Computer');
-
-GameState.boards.push(playerBoard);
-GameState.boards.push(opponentBoard);
+import { generateCoordinateIDs, createBoards } from './ui.js';
 
 class UiState {
   static axis = 'x';
@@ -110,28 +98,10 @@ function addDragDropListener(target) {
         finalArray.push([parseInt(xTargetId[0]) + i, parseInt(xTargetId[1])]);
       }
     }
-    if (UiState.currentPlacementBoard === 'player') {
-      const playerBoard = [...GameState.boards][0];
-      for (let i = 0; i < finalArray.length; i++) {
-        for (let j = 0; j < playerBoard.shipCoordinates.length; j++) {
-          for (
-            let k = 0;
-            k < playerBoard.shipCoordinates[j].location.length;
-            k++
-          ) {
-            if (
-              finalArray[i][0] ===
-                playerBoard.shipCoordinates[j].location[k][0] &&
-              finalArray[i][1] === playerBoard.shipCoordinates[j].location[k][1]
-            ) {
-              return false;
-            }
-          }
-        }
-      }
-      console.log(playerBoard.shipCoordinates);
-    } else if (UiState.currentPlacementBoard === 'opponent') {
-      const opponentBoard = [...GameState.boards][1];
+
+    // check for overlapping ships
+    if (!isNotOverlapping(finalArray)) {
+      return false;
     }
 
     const data = e.dataTransfer.getData('text');
@@ -145,12 +115,43 @@ function addDragDropListener(target) {
     dragAndDropDisplay();
   });
 }
+function isNotOverlapping(finalArray) {
+  let board;
+  if (UiState.currentPlacementBoard === 'player') {
+    board = [...GameState.boards][0];
+  } else {
+    board = [...GameState.boards][1];
+  }
+  const playerBoard = [...GameState.boards][0];
+  for (let i = 0; i < finalArray.length; i++) {
+    for (let j = 0; j < playerBoard.shipCoordinates.length; j++) {
+      for (let k = 0; k < playerBoard.shipCoordinates[j].location.length; k++) {
+        if (
+          finalArray[i][0] === playerBoard.shipCoordinates[j].location[k][0] &&
+          finalArray[i][1] === playerBoard.shipCoordinates[j].location[k][1]
+        ) {
+          return false;
+        }
+      }
+    }
+  }
+  return true;
+}
 function nextShipIteration() {
   UiState.currentShipIndex++;
 
   if (UiState.currentShipIndex >= 5) {
-    console.log('moving on');
-    return;
+    const mainGamePage = document.getElementById('game');
+    const shipPlacementPage = document.getElementById(
+      'placement-page-body-container'
+    );
+    if (GameState.mode === 'PvC') {
+      const opponentBoard = [...GameState.boards][1];
+      opponentBoard.randomAddShips();
+    }
+    shipPlacementPage.style.display = 'none';
+    mainGamePage.style.display = 'flex';
+    createBoards();
   }
 }
 function resetAxis() {
@@ -247,11 +248,15 @@ function changeAxisButton() {
 }
 
 function placementPage() {
+  const shipPlacementPage = document.getElementById(
+    'placement-page-body-container'
+  );
+  shipPlacementPage.display = 'flex';
+
   dynamicallyGenerateBoard();
   makeShipArray();
   dragAndDropDisplay();
   changeAxisButton();
 }
-placementPage();
 
 export { UiState, placementPage };
