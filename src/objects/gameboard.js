@@ -12,11 +12,9 @@ class Gameboards {
   receiveAttack(coordinates) {
     // updates the gameboards data on what spaces have been hit for the DOM
     this.recordAttack.push(coordinates);
-    console.log(GameState.turn);
     if (GameState.turn === 'computer') {
       GameState.cpuAttacked.push(coordinates);
     }
-    console.log(coordinates);
     for (let i = 0; i < this.shipCoordinates.length; i++) {
       // go through the list of ships placed first
       for (let j = 0; j < this.shipCoordinates[i].location.length; j++) {
@@ -28,8 +26,7 @@ class Gameboards {
           coordinates[1] === this.shipCoordinates[i].location[j][1]
         ) {
           // if the coords match, it's a hit
-          console.log(coordinates, this.shipCoordinates[i].location[j]);
-          console.log(this.shipCoordinates[i]);
+
           this.shipCoordinates[i].object.hit(coordinates);
           GameState.wasHit = true;
 
@@ -42,6 +39,7 @@ class Gameboards {
 
           if (this.shipCoordinates[i].object.isSunk()) {
             // if the ship is sunk add to the graveyard
+            console.log(this.shipCoordinates[i].object);
             this.sunkShips.push(this.shipCoordinates[i].object);
             GameState.justSunk = this.shipCoordinates[i].object.name;
             GameState.sunkEventFlag = true;
@@ -76,7 +74,6 @@ class Gameboards {
     this._randomizeShips(Cruiser);
     this._randomizeShips(Destroyer);
     this._randomizeShips(Submarine);
-    console.log(this.shipCoordinates);
   }
   _isEmptySpace(coordinate) {
     for (let i = 0; i < this.shipCoordinates.length; i++) {

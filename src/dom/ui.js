@@ -4,8 +4,12 @@ import Players from '../players/player.js';
 import Gameboards from '../objects/gameboard.js';
 import { GameState, gameOver } from '../gameloop.js';
 import { audioHit, audioMiss, audioTitle, audioGame } from './audio.js';
+import { titleScreen } from './title.js';
+import { UiState } from './placement.js';
 
 function createBoards(size = 10) {
+  fetchVictoryImage();
+
   const gameMusic = audioGame();
   gameMusic.play();
   const mainGameContainer = document.getElementById('game');
@@ -53,19 +57,6 @@ function createOpponentBoard(size) {
     coordinateGrid.className = 'opponent-grid-elements';
     coordinateGrid.id = `b${opponentCoordinateIterator.next().value}`;
     playerGridListeners(coordinateGrid);
-    opponentBoardContainer.appendChild(coordinateGrid);
-  }
-}
-function createComputerBoard(size) {
-  const opponentCoordinateIterator = generateCoordinateIDs(size);
-  const opponentBoardContainer = document.getElementById(
-    'current-opponent-board'
-  );
-
-  for (let i = 0; i < size * size; i++) {
-    const coordinateGrid = document.createElement('div');
-    coordinateGrid.className = 'opponent-grid-elements';
-    coordinateGrid.id = `b${opponentCoordinateIterator.next().value}`;
     opponentBoardContainer.appendChild(coordinateGrid);
   }
 }
@@ -143,13 +134,13 @@ async function computerGameLoop() {
   await sleep();
   const sfxHit = audioHit();
   const sfxMiss = audioMiss();
-  const computer = GameState.players[1];
-  const playerBoard = GameState.boards[0];
+  const computer = [...GameState.players][1];
+  const playerBoard = [...GameState.boards][0];
   computer.cpuAttackPattern(playerBoard);
-
   let attackedPosition =
     [...GameState.cpuAttacked][0][0] + ',' + [...GameState.cpuAttacked][0][1];
-  GameState.cpuAttacked = [];
+  [...GameState.cpuAttacked] = [];
+
   const attackedSpace = document.getElementById(`a${attackedPosition}`);
 
   if (playerBoard.allShipsSunk()) {
@@ -246,20 +237,17 @@ function gameOverScreen() {
   const winnerNameP = document.getElementById('winner-name');
   const numShipsRemaining = document.getElementById('num-remaining');
   const newGameButton = document.getElementsByClassName('replay-btn');
-  fetchVictoryImage();
   let numShips = 0;
-  let winner = '';
+  let winner;
   if ([...GameState.boards][0].allShipsSunk()) {
     winner = [...GameState.players][1].name;
-    if (winner === '') {
-      winner = 'Player 1';
-    }
+    console.log(winner);
+
     numShips = 5 - [...GameState.boards][1].sunkShips.length;
   } else {
-    if (winner === '') {
-      winner = 'Player 2';
-    }
     winner = [...GameState.players][0].name;
+    console.log(winner);
+
     numShips = 5 - [...GameState.boards][0].sunkShips.length;
   }
 
@@ -268,7 +256,7 @@ function gameOverScreen() {
   modalContainer.style.display = 'flex';
 
   newGameButton.addEventListener('click', () => {
-    console.log('Clicked New Game');
+    titleScreen();
   });
 }
 

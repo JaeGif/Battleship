@@ -74,6 +74,82 @@ test('CPU random attack lands on gameboard', () => {
   cpuPlayer._cpuAttack(playerGameboard);
   expect(playerGameboard.recordAttack.length).toBe(1);
 });
+test('CPU random attack cannot land on already hit spot', () => {
+  let cpuPlayer = new Players();
+  let playerGameboard = new Gameboards();
+  let battleShip = new Ship(3);
+  playerGameboard.addShip(battleShip, [
+    [0, 0],
+    [0, 1],
+    [0, 2],
+  ]);
+
+  cpuPlayer._cpuAttack(playerGameboard);
+  cpuPlayer._cpuAttack(playerGameboard);
+  cpuPlayer._cpuAttack(playerGameboard);
+  cpuPlayer._cpuAttack(playerGameboard);
+  cpuPlayer._cpuAttack(playerGameboard);
+  cpuPlayer._cpuAttack(playerGameboard);
+  cpuPlayer._cpuAttack(playerGameboard);
+  cpuPlayer._cpuAttack(playerGameboard);
+  cpuPlayer._cpuAttack(playerGameboard);
+  cpuPlayer._cpuAttack(playerGameboard);
+  cpuPlayer._cpuAttack(playerGameboard);
+  cpuPlayer._cpuAttack(playerGameboard);
+  cpuPlayer._cpuAttack(playerGameboard);
+  cpuPlayer._cpuAttack(playerGameboard);
+  cpuPlayer._cpuAttack(playerGameboard);
+  cpuPlayer._cpuAttack(playerGameboard);
+  cpuPlayer._cpuAttack(playerGameboard);
+  cpuPlayer._cpuAttack(playerGameboard);
+  cpuPlayer._cpuAttack(playerGameboard);
+  cpuPlayer._cpuAttack(playerGameboard);
+  cpuPlayer._cpuAttack(playerGameboard);
+  cpuPlayer._cpuAttack(playerGameboard);
+  cpuPlayer._cpuAttack(playerGameboard);
+  cpuPlayer._cpuAttack(playerGameboard);
+  cpuPlayer._cpuAttack(playerGameboard);
+  cpuPlayer._cpuAttack(playerGameboard);
+  cpuPlayer._cpuAttack(playerGameboard);
+  cpuPlayer._cpuAttack(playerGameboard);
+  cpuPlayer._cpuAttack(playerGameboard);
+  cpuPlayer._cpuAttack(playerGameboard);
+  cpuPlayer._cpuAttack(playerGameboard);
+  cpuPlayer._cpuAttack(playerGameboard);
+  cpuPlayer._cpuAttack(playerGameboard);
+  cpuPlayer._cpuAttack(playerGameboard);
+  cpuPlayer._cpuAttack(playerGameboard);
+  cpuPlayer._cpuAttack(playerGameboard);
+  cpuPlayer._cpuAttack(playerGameboard);
+  cpuPlayer._cpuAttack(playerGameboard);
+  cpuPlayer._cpuAttack(playerGameboard);
+  cpuPlayer._cpuAttack(playerGameboard);
+  cpuPlayer._cpuAttack(playerGameboard);
+  cpuPlayer._cpuAttack(playerGameboard);
+  cpuPlayer._cpuAttack(playerGameboard);
+  cpuPlayer._cpuAttack(playerGameboard);
+  cpuPlayer._cpuAttack(playerGameboard);
+  cpuPlayer._cpuAttack(playerGameboard);
+  cpuPlayer._cpuAttack(playerGameboard);
+  cpuPlayer._cpuAttack(playerGameboard);
+  cpuPlayer._cpuAttack(playerGameboard);
+  cpuPlayer._cpuAttack(playerGameboard);
+  let hitTwice = false;
+  // [[0, 0], [0, 1], [0, 0]]
+  for (let i = 0; i < playerGameboard.receiveAttack.length; i++) {
+    for (let j = 1; j < playerGameboard.receiveAttack.length; j++) {
+      if (
+        playerGameboard.receiveAttack[i][0] ===
+          playerGameboard.receiveAttack[j][0] &&
+        playerGameboard.receiveAttack[i][1] ===
+          playerGameboard.receiveAttack[j][1]
+      ) {
+        hitTwice = true;
+      }
+    }
+  }
+  expect(hitTwice).toBeFalsy();
+});
 test('CPU basic intellisense check', () => {
   let humanplayer = new Players('Jae');
   let cpuPlayer = new Players();
@@ -110,7 +186,7 @@ test('CPU basic intellisense check', () => {
   expect(playerGameboard.recordAttack.length).toBe(2);
   expect(correctlyChosen).toBeTruthy();
 });
-test('Kill Attack correctly attacks positions in a line', () => {
+/* test('Kill Attack correctly attacks positions in a line', () => {
   let humanplayer = new Players('Jae');
   let cpuPlayer = new Players();
   let playerGameboard = new Gameboards();
@@ -135,3 +211,4 @@ test('Kill Attack correctly attacks positions in a line', () => {
 
   GameState.turn = 'computer';
 });
+ */

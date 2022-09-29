@@ -16,6 +16,7 @@ class Players {
       parseInt(coordinateStringy[0]),
       parseInt(coordinateStringy[1]),
     ];
+
     if (enemyBoard.recordAttack.length === 0) {
       enemyBoard.receiveAttack(coordinates);
       return true;
@@ -23,8 +24,8 @@ class Players {
     for (let i = 0; i < enemyBoard.recordAttack.length; i++) {
       if (
         !(
-          coordinates[0] === enemyBoard.recordAttack[i][0] &&
-          coordinates[1] === enemyBoard.recordAttack[i][1]
+          coordinates[0] == enemyBoard.recordAttack[i][0] &&
+          coordinates[1] == enemyBoard.recordAttack[i][1]
         )
       ) {
         enemyBoard.receiveAttack(coordinates);
@@ -36,7 +37,13 @@ class Players {
   _cpuAttack(enemyBoard) {
     let x = Math.floor(Math.random() * 10);
     let y = Math.floor(Math.random() * 10);
-    return this.attack([x, y], enemyBoard);
+    if (!this._onAvailableSpace([x, y], enemyBoard)) {
+      console.log('rejected', x, y);
+      return this._cpuAttack(enemyBoard);
+    } else {
+      console.log('passed', x, y);
+      this.attack([x, y], enemyBoard);
+    }
   }
   _defineAxis() {
     let axisNum = Math.floor(Math.random() * 2);
@@ -117,12 +124,10 @@ class Players {
     0    0    0    0    0
     0    0    0    0    0
     */
-    let lastHit1 = [...GameState.cpuLastHit[0]];
-    let lastHit2 = [...GameState.cpuLastHit[1]];
+    let lastHit1 = [...GameState.cpuLastHit][0];
+    let lastHit2 = [...GameState.cpuLastHit][1];
     let newAttack = [lastHit1, lastHit2];
     let plusOrMinus = Math.random() < 0.5 ? -1 : 1;
-
-    console.log(lastHit1, lastHit2);
 
     if (
       lastHit1[0] === lastHit2[0] &&

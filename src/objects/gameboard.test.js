@@ -11,11 +11,6 @@ test('Gameboard of size 10', () => {
   let playerBoard = new Gameboards();
   expect(playerBoard.size).toBe(10);
 });
-test('Gamerboard of random size range 7 - 100', () => {
-  const sizeBoard = Math.random(7, 100);
-  let playerBoard = new Gameboards(sizeBoard);
-  expect(playerBoard.size).toBe(sizeBoard);
-});
 
 test('add Carrier location', () => {
   let playerBoard = new Gameboards();
@@ -275,8 +270,4 @@ test('Gameboard knows when all ships are NOT sunk', () => {
   playerBoard.receiveAttack([1, 1]);
 
   expect(playerBoard.allShipsSunk()).toBeFalsy();
-});
-
-test('randomAddShips adds to the correct gameboard', () => {
-  let gameboard = new Gameboards();
 });
