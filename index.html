@@ -28,12 +28,23 @@
           id="single-player-input"
           type="text"
           placeholder="Player Name"
+          value=""
         /><button type="button" id="new-game-btn-solo">Start Game</button>
       </div>
       <div id="multiplayer-name">
         <div>
-          <input id="player1-input" type="text" placeholder="Player1 Name" />
-          <input id="player2-input" type="text" placeholder="Player2 Name" />
+          <input
+            id="player1-input"
+            type="text"
+            placeholder="Player1 Name"
+            value=""
+          />
+          <input
+            id="player2-input"
+            type="text"
+            placeholder="Player2 Name"
+            value=""
+          />
         </div>
         <button type="submit" id="new-game-btn-multiplayer">Start Game</button>
       </div>
@@ -64,9 +75,9 @@
     <!-- Victory Modal -->
     <div id="game-over-modal">
       <h1>Victory!</h1>
-      <p id="winner-name"></p>
+      <h2 id="winner-name"></h2>
       <img id="gg-img" />
-      <p id="num-remaining"></p>
+      <h2 id="num-remaining"></h2>
       <button class="replay-btn">New Game</button>
     </div>
     <!-- Placement Pages -->
