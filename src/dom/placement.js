@@ -259,10 +259,13 @@ function changeAxisButton() {
   changeAxisBtn.addEventListener('click', () => {
     let allShipsList = document.getElementsByClassName('ship-img');
     if (UiState.axis === 'x') {
+      console.log('click x');
       UiState.axis = 'y';
       allShipsList[UiState.currentShipIndex].classList.add('y');
       imgContainer.style.height = `${ratio}vh`;
     } else {
+      console.log('click y');
+
       UiState.axis = 'x';
       allShipsList[UiState.currentShipIndex].classList.remove('y');
       imgContainer.style.height = 'fit-content';
@@ -270,7 +273,7 @@ function changeAxisButton() {
   });
 }
 function resetPlacement() {
-  UiState.axis = 'x';
+  resetAxis();
   UiState.currentShip = [];
   UiState.currentShipIndex = 0;
   UiState.currentPlacementBoard = 'opponent';
@@ -296,8 +299,8 @@ function placementPage() {
   makeShipArray();
   if (UiState.currentPlacementBoard === 'player') {
     dragAndDropDisplay();
+    changeAxisButton();
   }
-  changeAxisButton();
 }
 
 export { UiState, placementPage };
