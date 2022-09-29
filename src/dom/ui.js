@@ -103,6 +103,7 @@ function playerGridListeners(gridElement) {
         hitOrMiss = 'Its a hit!';
         if (GameState.sunkEventFlag === true) {
           hitOrMiss = `You sunk the ${GameState.justSunk}!`;
+
           GameState.sunkEventFlag = false;
         }
         GameState.wasHit = false;
@@ -153,7 +154,7 @@ async function computerGameLoop() {
     attackedSpace.classList.add('hit');
     hitOrMiss = 'Its a hit!';
     if (GameState.sunkEventFlag === true) {
-      hitOrMiss = `You sunk the ${GameState.justSunk}!`;
+      hitOrMiss = `Computer sunk the ${GameState.justSunk}!`;
       GameState.sunkEventFlag = false;
     }
     GameState.wasHit = false;

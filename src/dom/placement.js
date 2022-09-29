@@ -107,6 +107,7 @@ function addDragDropListener(target) {
     const data = e.dataTransfer.getData('text');
     const source = document.getElementById(data);
     e.target.appendChild(source);
+
     source.setAttribute('draggable', false);
 
     addShipToBoard(finalArray);
