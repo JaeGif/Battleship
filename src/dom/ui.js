@@ -255,7 +255,7 @@ function gameOverScreen() {
   modalContainer.style.display = 'flex';
 
   newGameButton.addEventListener('click', () => {
-    titleScreen();
+    location.reload();
   });
 }
 

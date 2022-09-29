@@ -290,6 +290,13 @@ function resetPlacement() {
 }
 
 function placementPage() {
+  const placementBoardName = document.getElementById('placement-board-name');
+  let name = [...GameState.players][1].name;
+  if (name === '') {
+    name = 'Player 2';
+  }
+
+  placementBoardName.textContent = `${name}'s board`;
   const shipPlacementPage = document.getElementById(
     'placement-page-body-container'
   );
@@ -298,6 +305,11 @@ function placementPage() {
   dynamicallyGenerateBoard();
   makeShipArray();
   if (UiState.currentPlacementBoard === 'player') {
+    name = [...GameState.players][0].name;
+    if (name === '') {
+      name = 'Player 1';
+    }
+    placementBoardName.textContent = `${name}'s board`;
     dragAndDropDisplay();
     changeAxisButton();
   }
