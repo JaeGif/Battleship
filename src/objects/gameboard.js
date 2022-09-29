@@ -29,6 +29,7 @@ class Gameboards {
         ) {
           // if the coords match, it's a hit
           console.log(coordinates, this.shipCoordinates[i].location[j]);
+          console.log(this.shipCoordinates[i]);
           this.shipCoordinates[i].object.hit(coordinates);
           GameState.wasHit = true;
 

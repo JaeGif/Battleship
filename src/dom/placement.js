@@ -112,7 +112,9 @@ function addDragDropListener(target) {
     addShipToBoard(finalArray);
     resetAxis();
     nextShipIteration();
-    dragAndDropDisplay();
+    if (UiState.currentShipIndex < 5) {
+      dragAndDropDisplay();
+    }
   });
 }
 function isNotOverlapping(finalArray) {
@@ -170,14 +172,15 @@ function addShipImgDragListeners() {
 function addShipToBoard(shipCoords) {
   if (UiState.currentPlacementBoard === 'player') {
     const playerBoard = [...GameState.boards][0];
+    console.log([...UiState.currentShip][UiState.currentShipIndex]);
     playerBoard.addShip(
-      UiState.currentShip[UiState.currentShipIndex],
+      [...UiState.currentShip][UiState.currentShipIndex].shipObj,
       shipCoords
     );
   } else if (UiState.currentPlacementBoard === 'opponent') {
     const opponentBoard = [...GameState.boards][1];
     opponentBoard.addShip(
-      UiState.currentShip[UiState.currentShipIndex],
+      [...UiState.currentShip][UiState.currentShipIndex].shipObj,
       shipCoords
     );
   }
@@ -194,6 +197,7 @@ function dragAndDropDisplay() {
 
   addShipImgDragListeners();
 
+  console.log([...UiState.currentShip][UiState.currentShipIndex].shipObj.name);
   nextShipDisplay.id = `${
     [...UiState.currentShip][UiState.currentShipIndex].shipObj.name
   }`;
