@@ -235,7 +235,7 @@ function gameOverScreen() {
   const modalContainer = document.getElementById('game-over-modal');
   const winnerNameP = document.getElementById('winner-name');
   const numShipsRemaining = document.getElementById('num-remaining');
-  const newGameButton = document.getElementsByClassName('replay-btn');
+  const newGameButton = document.getElementsByClassName('replay-btn')[0];
   let numShips = 0;
   let winner;
   if ([...GameState.boards][0].allShipsSunk()) {
