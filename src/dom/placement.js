@@ -234,11 +234,11 @@ function makeShipArray() {
   let Submarine = new Ship(3, 'submarine');
 
   let shipArray = [
-    { shipObj: Carrier, shipSrcImg: '/assets/ships/carrier.png' },
-    { shipObj: Battleship, shipSrcImg: '/assets/ships/battleship.png' },
-    { shipObj: Destroyer, shipSrcImg: '/assets/ships/gamsi.png' },
-    { shipObj: Cruiser, shipSrcImg: '/assets/ships/frigate.png' },
-    { shipObj: Submarine, shipSrcImg: '/assets/ships/submarine.png' },
+    { shipObj: Carrier, shipSrcImg: './assets/ships/carrier.png' },
+    { shipObj: Battleship, shipSrcImg: './assets/ships/battleship.png' },
+    { shipObj: Destroyer, shipSrcImg: './assets/ships/gamsi.png' },
+    { shipObj: Cruiser, shipSrcImg: './assets/ships/frigate.png' },
+    { shipObj: Submarine, shipSrcImg: './assets/ships/submarine.png' },
   ];
   UiState.currentShip = shipArray;
 }
