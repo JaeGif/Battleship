@@ -2,8 +2,7 @@
 The game is played against the computer, so make ‘computer’ players capable of making random plays.
  The AI does not have to be smart, but it should know whether or not a given move is legal.
  (i.e. it shouldn’t shoot the same coordinate twice). */
-import Gameboards from '../objects/gameboard.js';
-import Ship from '../objects/ships.js';
+
 import { GameState } from '../gameloop.js';
 class Players {
   constructor(name = 'Computer') {
@@ -38,10 +37,8 @@ class Players {
     let x = Math.floor(Math.random() * 10);
     let y = Math.floor(Math.random() * 10);
     if (!this._onAvailableSpace([x, y], enemyBoard)) {
-      console.log('rejected', x, y);
       return this._cpuAttack(enemyBoard);
     } else {
-      console.log('passed', x, y);
       this.attack([x, y], enemyBoard);
     }
   }

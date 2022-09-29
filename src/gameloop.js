@@ -4,19 +4,10 @@ The game loop should set up a new game by creating Players and Gameboards.
 You can implement a system for allowing players to place their ships later.
  */
 
-import Gameboards from './objects/gameboard.js';
-import Players from './players/player.js';
-import Ship from './objects/ships.js';
 import { gameOverScreen } from './dom/ui.js';
-import { createBoards } from './dom/ui.js';
 import { placementPage } from './dom/placement.js';
 
 function newGame() {
-  const humanPlayer = [...GameState.players][0];
-  const computerPlayer = [...GameState.players][1];
-
-  const playerBoard = [...GameState.boards][0];
-  const opponentBoard = [...GameState.boards][1];
   placementPage();
 }
 function gameOver() {

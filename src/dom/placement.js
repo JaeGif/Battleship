@@ -14,7 +14,6 @@ class UiState {
 function dynamicallyGenerateBoard(size = 10) {
   const coordinateIterator = generateCoordinateIDs(size);
   const boardContainer = document.getElementById('placement-board');
-  console.log('yyet');
   for (let i = 0; i < size * size; i++) {
     const coordinateGrid = document.createElement('div');
     coordinateGrid.id = `${coordinateIterator.next().value}`;
@@ -106,7 +105,6 @@ function addDragDropListener(target) {
     }
 
     const data = e.dataTransfer.getData('text');
-    console.log('data');
     const source = document.getElementById(data);
     e.target.appendChild(source);
 
@@ -143,8 +141,7 @@ function isNotOverlapping(finalArray) {
 }
 function nextShipIteration() {
   UiState.currentShipIndex++;
-  console.log(UiState.currentShipIndex);
-  console.log(UiState.currentShip);
+
   if (UiState.currentShipIndex >= 5) {
     const mainGamePage = document.getElementById('game');
     const shipPlacementPage = document.getElementById(
@@ -160,7 +157,6 @@ function nextShipIteration() {
       // switch boards
 
       resetPlacement();
-      console.log('reset');
       return placementPage();
     }
     shipPlacementPage.style.display = 'none';
@@ -181,7 +177,6 @@ function addShipImgDragListeners() {
   } else {
     source =
       document.getElementsByClassName('ship-img')[UiState.currentShipIndex];
-    console.log(source);
   }
 
   source.addEventListener('dragstart', (e) => {
@@ -192,7 +187,6 @@ function addShipImgDragListeners() {
 function addShipToBoard(shipCoords) {
   if (UiState.currentPlacementBoard === 'player') {
     const playerBoard = [...GameState.boards][0];
-    console.log([...UiState.currentShip][UiState.currentShipIndex]);
     playerBoard.addShip(
       [...UiState.currentShip][UiState.currentShipIndex].shipObj,
       shipCoords
@@ -259,13 +253,10 @@ function changeAxisButton() {
   changeAxisBtn.addEventListener('click', () => {
     let allShipsList = document.getElementsByClassName('ship-img');
     if (UiState.axis === 'x') {
-      console.log('click x');
       UiState.axis = 'y';
       allShipsList[UiState.currentShipIndex].classList.add('y');
       imgContainer.style.height = `${ratio}vh`;
     } else {
-      console.log('click y');
-
       UiState.axis = 'x';
       allShipsList[UiState.currentShipIndex].classList.remove('y');
       imgContainer.style.height = 'fit-content';

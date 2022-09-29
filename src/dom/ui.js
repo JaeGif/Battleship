@@ -1,11 +1,8 @@
 // displays gameboards based on whose turn it is.
 // generates gameboards, and on click effects
-import Players from '../players/player.js';
-import Gameboards from '../objects/gameboard.js';
+
 import { GameState, gameOver } from '../gameloop.js';
 import { audioHit, audioMiss, audioTitle, audioGame } from './audio.js';
-import { titleScreen } from './title.js';
-import { UiState } from './placement.js';
 
 function createBoards(size = 10) {
   fetchVictoryImage();
@@ -240,12 +237,10 @@ function gameOverScreen() {
   let winner;
   if ([...GameState.boards][0].allShipsSunk()) {
     winner = [...GameState.players][1].name;
-    console.log(winner);
 
     numShips = 5 - [...GameState.boards][1].sunkShips.length;
   } else {
     winner = [...GameState.players][0].name;
-    console.log(winner);
 
     numShips = 5 - [...GameState.boards][0].sunkShips.length;
   }
