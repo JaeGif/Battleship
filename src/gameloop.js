@@ -17,14 +17,7 @@ function newGame() {
 
   const playerBoard = [...GameState.boards][0];
   const opponentBoard = [...GameState.boards][1];
-
-  if (GameState.mode === 'PvC') {
-    placementPage();
-  } else {
-    opponentBoard.randomAddShips();
-    playerBoard.randomAddShips();
-    createBoards();
-  }
+  placementPage();
 }
 function gameOver() {
   gameOverScreen();

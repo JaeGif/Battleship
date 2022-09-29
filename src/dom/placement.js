@@ -14,7 +14,7 @@ class UiState {
 function dynamicallyGenerateBoard(size = 10) {
   const coordinateIterator = generateCoordinateIDs(size);
   const boardContainer = document.getElementById('placement-board');
-
+  console.log('yyet');
   for (let i = 0; i < size * size; i++) {
     const coordinateGrid = document.createElement('div');
     coordinateGrid.id = `${coordinateIterator.next().value}`;
@@ -22,6 +22,7 @@ function dynamicallyGenerateBoard(size = 10) {
     boardContainer.appendChild(coordinateGrid);
   }
 }
+
 function addDragDropListener(target) {
   target.addEventListener('dragover', (e) => {
     e.preventDefault();
@@ -105,6 +106,7 @@ function addDragDropListener(target) {
     }
 
     const data = e.dataTransfer.getData('text');
+    console.log('data');
     const source = document.getElementById(data);
     e.target.appendChild(source);
 
@@ -125,13 +127,12 @@ function isNotOverlapping(finalArray) {
   } else {
     board = [...GameState.boards][1];
   }
-  const playerBoard = [...GameState.boards][0];
   for (let i = 0; i < finalArray.length; i++) {
-    for (let j = 0; j < playerBoard.shipCoordinates.length; j++) {
-      for (let k = 0; k < playerBoard.shipCoordinates[j].location.length; k++) {
+    for (let j = 0; j < board.shipCoordinates.length; j++) {
+      for (let k = 0; k < board.shipCoordinates[j].location.length; k++) {
         if (
-          finalArray[i][0] === playerBoard.shipCoordinates[j].location[k][0] &&
-          finalArray[i][1] === playerBoard.shipCoordinates[j].location[k][1]
+          finalArray[i][0] === board.shipCoordinates[j].location[k][0] &&
+          finalArray[i][1] === board.shipCoordinates[j].location[k][1]
         ) {
           return false;
         }
@@ -142,7 +143,8 @@ function isNotOverlapping(finalArray) {
 }
 function nextShipIteration() {
   UiState.currentShipIndex++;
-
+  console.log(UiState.currentShipIndex);
+  console.log(UiState.currentShip);
   if (UiState.currentShipIndex >= 5) {
     const mainGamePage = document.getElementById('game');
     const shipPlacementPage = document.getElementById(
@@ -151,6 +153,15 @@ function nextShipIteration() {
     if (GameState.mode === 'PvC') {
       const opponentBoard = [...GameState.boards][1];
       opponentBoard.randomAddShips();
+    } else if (
+      GameState.mode === 'PvP' &&
+      UiState.currentPlacementBoard === 'player'
+    ) {
+      // switch boards
+
+      resetPlacement();
+      console.log('reset');
+      return placementPage();
     }
     shipPlacementPage.style.display = 'none';
     mainGamePage.style.display = 'flex';
@@ -163,8 +174,16 @@ function resetAxis() {
   imgContainer.style.height = 'fit-content';
 }
 function addShipImgDragListeners() {
-  let source =
-    document.getElementsByClassName('ship-img')[UiState.currentShipIndex];
+  let source;
+  if (UiState.currentPlacementBoard === 'player') {
+    source =
+      document.getElementsByClassName('ship-img')[UiState.currentShipIndex];
+  } else {
+    source =
+      document.getElementsByClassName('ship-img')[UiState.currentShipIndex];
+    console.log(source);
+  }
+
   source.addEventListener('dragstart', (e) => {
     e.dataTransfer.clearData();
     e.dataTransfer.setData('text/plain', e.target.id);
@@ -198,7 +217,6 @@ function dragAndDropDisplay() {
 
   addShipImgDragListeners();
 
-  console.log([...UiState.currentShip][UiState.currentShipIndex].shipObj.name);
   nextShipDisplay.id = `${
     [...UiState.currentShip][UiState.currentShipIndex].shipObj.name
   }`;
@@ -251,6 +269,22 @@ function changeAxisButton() {
     }
   });
 }
+function resetPlacement() {
+  UiState.axis = 'x';
+  UiState.currentShip = [];
+  UiState.currentShipIndex = 0;
+  UiState.currentPlacementBoard = 'opponent';
+
+  const boardContainer = document.getElementById('placement-board');
+  while (boardContainer.firstChild) {
+    boardContainer.removeChild(boardContainer.lastChild);
+  }
+  const imgContainer = document.getElementById('unplaced-ship-container');
+  while (imgContainer.firstChild) {
+    imgContainer.lastChild.className = '';
+    imgContainer.removeChild(imgContainer.lastChild);
+  }
+}
 
 function placementPage() {
   const shipPlacementPage = document.getElementById(
@@ -260,7 +294,9 @@ function placementPage() {
 
   dynamicallyGenerateBoard();
   makeShipArray();
-  dragAndDropDisplay();
+  if (UiState.currentPlacementBoard === 'player') {
+    dragAndDropDisplay();
+  }
   changeAxisButton();
 }
 

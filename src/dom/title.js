@@ -42,10 +42,10 @@ function gameModeSelect() {
     });
   });
 
-  captureNames(titleMusic);
+  captureNames();
 }
 
-function captureNames(titleMusic) {
+function captureNames() {
   const newGameSolo = document.getElementById('new-game-btn-solo');
   const newGameMultiplayer = document.getElementById(
     'new-game-btn-multiplayer'
@@ -75,7 +75,6 @@ function captureNames(titleMusic) {
 
     addShips.style.display = 'flex';
     menu.style.display = 'none';
-    titleMusic.pause();
     newGame();
   });
   newGameMultiplayer.addEventListener('click', () => {
@@ -91,10 +90,8 @@ function captureNames(titleMusic) {
     GameState.boards.push(playerBoard);
     GameState.boards.push(opponentBoard);
 
-    const addShips = document.getElementById('placement-page-body-container');
     addShips.style.display = 'flex';
     menu.style.display = 'none';
-    titleMusic.pause();
     newGame();
   });
 }

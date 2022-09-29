@@ -10,8 +10,6 @@ import { UiState } from './placement.js';
 function createBoards(size = 10) {
   fetchVictoryImage();
 
-  const gameMusic = audioGame();
-  gameMusic.play();
   const mainGameContainer = document.getElementById('game');
   const mainBody = document.body;
   mainBody.style.backgroundImage = 'none';
