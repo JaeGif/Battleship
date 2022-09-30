@@ -1,5 +1,3 @@
-import Players from '../players/player.js';
-import Gameboards from '../objects/gameboard.js';
 import Ship from '../objects/ships.js';
 import { GameState } from '../gameloop.js';
 import { generateCoordinateIDs, createBoards } from './ui.js';
