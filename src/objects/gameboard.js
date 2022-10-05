@@ -1,5 +1,6 @@
 import Ship from './ships.js';
-import { GameState, CpuGameState } from '../gameloop.js';
+import { GameState, CpuGameState } from './stateManagers.js';
+
 class Gameboards {
   constructor(name, size = 10) {
     this.name = name;
