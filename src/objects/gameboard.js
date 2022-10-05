@@ -1,5 +1,5 @@
 import Ship from './ships.js';
-import { GameState } from '../gameloop.js';
+import { GameState, CpuGameState } from '../gameloop.js';
 class Gameboards {
   constructor(name, size = 10) {
     this.name = name;
@@ -31,9 +31,10 @@ class Gameboards {
           GameState.wasHit = true;
 
           if (GameState.turn === 'computer') {
-            GameState.cpuLastHit.push(coordinates);
-            if (GameState.cpuLastHit.length === 2) {
-              GameState.cpuLastHit.shift();
+            CpuGameState.cpuLastHit.push(coordinates);
+
+            if (CpuGameState.cpuLastHit.length === 2) {
+              CpuGameState.cpuLastHit.shift();
             }
           }
 
@@ -44,12 +45,15 @@ class Gameboards {
             GameState.sunkEventFlag = true;
 
             if (GameState.turn === 'computer') {
-              GameState.cpuLastHit = [];
+              CpuGameState.cpuLastHit = [];
             }
           }
+          return true;
         }
       }
     }
+
+    return false;
   }
   removeShip() {
     return this.shipCoordinates.pop();

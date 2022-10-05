@@ -110,9 +110,11 @@ function captureNames() {
 function titleScreen() {
   const playButton = document.getElementById('play');
   const titleScreen = document.getElementById('play-card');
+
   playButton.addEventListener('click', () => {
     titleScreen.style.display = 'none';
     gameModeSelect();
   });
 }
+
 export { titleScreen };
