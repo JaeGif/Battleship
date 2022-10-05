@@ -110,6 +110,12 @@ function captureNames() {
 function titleScreen() {
   const playButton = document.getElementById('play');
   const titleScreen = document.getElementById('play-card');
+  window.addEventListener('keypress', function (e) {
+    if (e.key === 'Enter') {
+      titleScreen.style.display = 'none';
+      gameModeSelect();
+    }
+  });
   playButton.addEventListener('click', () => {
     titleScreen.style.display = 'none';
     gameModeSelect();
