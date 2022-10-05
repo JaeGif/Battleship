@@ -16,6 +16,7 @@ function gameModeSelect() {
   const soloForm = document.getElementById('single-player-name');
   const doubleForm = document.getElementById('multiplayer-name');
   const optionsBack = document.getElementById('return-to-menu');
+
   pvcButton.addEventListener('click', () => {
     GameState.mode = 'PvC';
     soloForm.style.display = 'flex';
@@ -36,15 +37,25 @@ function gameModeSelect() {
     menu.style.display = 'none';
     optionsMenu.style.display = 'flex';
     optionsBack.addEventListener('click', () => {
-      creditScroll.style.display = 'none';
-      optionsMenu.style.display = 'none';
-      menu.style.display = 'flex';
+      exitOptionsHandler();
+    });
+    window.addEventListener('keypress', function (e) {
+      if (e.key === 'Enter') {
+        exitOptionsHandler();
+      }
     });
   });
 
   captureNames();
 }
-
+function exitOptionsHandler() {
+  const optionsMenu = document.getElementById('options-menu');
+  const menu = document.getElementById('menu');
+  const creditScroll = document.getElementById('credits-scroll');
+  creditScroll.style.display = 'none';
+  optionsMenu.style.display = 'none';
+  menu.style.display = 'flex';
+}
 function captureNames() {
   const newGameSolo = document.getElementById('new-game-btn-solo');
   const newGameMultiplayer = document.getElementById(

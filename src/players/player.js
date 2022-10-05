@@ -108,41 +108,7 @@ class Players {
     }
     return true;
   }
-  _cpuKillMove(enemyBoard) {
-    // if there are 2 hits in a row, signaling a likely line for a ship to reside, keeping attack in that line until the ship is sunk
-    // or there is a miss.
-    /* 
-    mock board
-    0    0    next 0    0
-    0    0    hit  0    0 
-    0    0    hit  0    0
-    0    0    next 0    0 
-    0    0    0    0    0
-    0    0    0    0    0
-    0    0    0    0    0
-    */
-    let lastHit1 = [...GameState.cpuLastHit][0];
-    let lastHit2 = [...GameState.cpuLastHit][1];
-    let newAttack = [lastHit1, lastHit2];
-    let plusOrMinus = Math.random() < 0.5 ? -1 : 1;
 
-    if (
-      lastHit1[0] === lastHit2[0] &&
-      Math.abs(lastHit1[1] - lastHit2[2]) === 1
-    ) {
-      newAttack[1] += plusOrMinus;
-    }
-    if (
-      lastHit1[1] === lastHit2[1] &&
-      Math.abs(lastHit1[1] - lastHit2[2]) === 1
-    ) {
-      newAttack[0] += plusOrMinus;
-    }
-    if (!this._onAvailableSpace()) {
-      return this._cpuKillMove(enemyBoard);
-    }
-    this.attack(newAttack, enemyBoard);
-  }
   cpuAttackPattern(enemyBoard) {
     // combines all possible attacks in logical fashion
     this._cpuAttack(enemyBoard);
