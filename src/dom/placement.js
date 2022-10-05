@@ -1,13 +1,6 @@
 import Ship from '../objects/ships.js';
-import { GameState } from '../gameloop.js';
 import { generateCoordinateIDs, createBoards } from './ui.js';
-
-class UiState {
-  static axis = 'x';
-  static currentShip = [];
-  static currentShipIndex = 0;
-  static currentPlacementBoard = 'player';
-}
+import { GameState, UiState } from '../objects/stateManagers.js';
 
 function dynamicallyGenerateBoard(size = 10) {
   const coordinateIterator = generateCoordinateIDs(size);
@@ -304,4 +297,4 @@ function placementPage() {
   }
 }
 
-export { UiState, placementPage };
+export { placementPage };

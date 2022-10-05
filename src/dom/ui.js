@@ -1,7 +1,7 @@
 // displays gameboards based on whose turn it is.
 // generates gameboards, and on click effects
-
-import { GameState, gameOver } from '../gameloop.js';
+import { GameState } from '../objects/stateManagers.js';
+import { gameOver } from '../gameloop.js';
 import { audioHit, audioMiss } from './audio.js';
 
 function createBoards(size = 10) {
@@ -135,7 +135,6 @@ async function computerGameLoop() {
   computer.cpuAttackPattern(playerBoard);
   let attackedPosition =
     [...GameState.cpuAttacked][0][0] + ',' + [...GameState.cpuAttacked][0][1];
-  console.log(attackedPosition);
   GameState.cpuAttacked = [];
 
   const attackedSpace = document.getElementById(`a${attackedPosition}`);

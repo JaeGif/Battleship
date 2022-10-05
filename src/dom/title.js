@@ -1,4 +1,4 @@
-import { GameState } from '../gameloop.js';
+import { GameState } from '../objects/stateManagers.js';
 import Players from '../players/player.js';
 import { newGame } from '../gameloop.js';
 import Gameboards from '../objects/gameboard.js';

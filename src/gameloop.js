@@ -14,21 +14,4 @@ function gameOver() {
   gameOverScreen();
 }
 
-class GameState {
-  // gamestate object keeps track of details about the games current state
-  static turn = 'player';
-  static players = [];
-  static boards = [];
-  static mode = 'PvP';
-  static wasHit = false;
-  static cpuAttacked = [];
-  static gameOver = false;
-  static justSunk = '';
-  static sunkEventFlag = false;
-}
-class CpuGameState {
-  static cpuLastHit = [];
-  static cpuTargetingAid = [];
-  static attempts = 0;
-}
-export { newGame, GameState, CpuGameState, gameOver };
+export { newGame, gameOver };
