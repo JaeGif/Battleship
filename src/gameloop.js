@@ -22,11 +22,13 @@ class GameState {
   static mode = 'PvP';
   static wasHit = false;
   static cpuAttacked = [];
-  static cpuLastHit = [];
-  static cpuTargetingAid = [];
   static gameOver = false;
   static justSunk = '';
   static sunkEventFlag = false;
 }
-
-export { newGame, GameState, gameOver };
+class CpuGameState {
+  static cpuLastHit = [];
+  static cpuTargetingAid = [];
+  static attempts = 0;
+}
+export { newGame, GameState, CpuGameState, gameOver };

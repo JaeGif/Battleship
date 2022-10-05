@@ -3,7 +3,7 @@ The game is played against the computer, so make ‘computer’ players capable 
  The AI does not have to be smart, but it should know whether or not a given move is legal.
  (i.e. it shouldn’t shoot the same coordinate twice). */
 
-import { GameState } from '../gameloop.js';
+import { GameState, CpuGameState } from '../gameloop.js';
 class Players {
   constructor(name = 'Computer') {
     this.name = name;
@@ -52,52 +52,72 @@ class Players {
     }
   }
   _cpuSmartMove(enemyBoard) {
-    // attack a neighboring position from where the last attack landed.
-    // ex.
-    /* 
-    mock board
-    0    0    0    0    0
-    0    0    next 0    0 
-    0    next hit  next 0
-    0    0    next 0    0 
-    0    0    0    0    0
-    0    0    0    0    0
-    0    0    0    0    0
-    */
-    let previousCoordinate = [];
-    previousCoordinate = [...GameState.cpuLastHit[0]]; // [x, y]
+    const lastHit = [
+      [...CpuGameState.cpuLastHit][0][0],
+      [...CpuGameState.cpuLastHit][0][1],
+    ];
+    let coordinates = [];
+    let x = lastHit[0];
+    let y = lastHit[1];
 
-    let newCoordinate = previousCoordinate;
-
-    // random select + or - in any direction if possible.
-    const axis = this._defineAxis();
-    let plusOrMinus = Math.random() < 0.5 ? -1 : 1;
-    if (axis === 'x') {
-      newCoordinate[0] += plusOrMinus;
-    } else if (axis === 'y') {
-      newCoordinate[1] += plusOrMinus;
+    if (CpuGameState.attempts === 0) {
+      x++;
+      coordinates.push(x);
+      coordinates.push(y);
+    }
+    if (CpuGameState.attempts === 1) {
+      y++;
+      coordinates.push(x);
+      coordinates.push(y);
+    }
+    if (CpuGameState.attempts === 2) {
+      y--;
+      coordinates.push(x);
+      coordinates.push(y);
+    }
+    if (CpuGameState.attempts === 3) {
+      x--;
+      coordinates.push(x);
+      coordinates.push(y);
     }
 
-    // x and y values cannot fall outside of bounds, manually shift the values
-    if (!this._onAvailableSpace(newCoordinate, enemyBoard)) {
+    if (coordinates[0] === -1) {
+      CpuGameState.attempts++;
+      return this._cpuSmartMove(enemyBoard);
+    }
+    if (coordinates[1] === -1) {
+      CpuGameState.attempts++;
+      return this._cpuSmartMove(enemyBoard);
+    }
+    if (coordinates[0] === 10) {
+      CpuGameState.attempts++;
+      return this._cpuSmartMove(enemyBoard);
+    }
+    if (coordinates[1] === 10) {
+      CpuGameState.attempts++;
       return this._cpuSmartMove(enemyBoard);
     }
 
-    this.attack(newCoordinate, enemyBoard);
+    if (
+      !this._onAvailableSpace(coordinates, enemyBoard) &&
+      CpuGameState.attempts < 4
+    ) {
+      CpuGameState.attempts++;
+      return this._cpuSmartMove(enemyBoard);
+    } else if (
+      this._onAvailableSpace(coordinates, enemyBoard) &&
+      CpuGameState.attempts < 4
+    ) {
+      CpuGameState.attempts = 0;
+
+      return this.attack(coordinates, enemyBoard);
+    }
+
+    CpuGameState.attempts = 0;
+    this._cpuAttack(enemyBoard);
   }
+
   _onAvailableSpace(coordinates, enemyBoard) {
-    if (coordinates[0] === -1) {
-      coordinates[0] += 2;
-    }
-    if (coordinates[1] === -1) {
-      coordinates[1] += 2;
-    }
-    if (coordinates[0] === 10) {
-      coordinates[0] -= 2;
-    }
-    if (coordinates[1] === 10) {
-      coordinates[1] -= 2;
-    }
     for (let i = 0; i < enemyBoard.recordAttack.length; i++) {
       if (
         coordinates[0] === enemyBoard.recordAttack[i][0] &&
@@ -111,7 +131,11 @@ class Players {
 
   cpuAttackPattern(enemyBoard) {
     // combines all possible attacks in logical fashion
-    this._cpuAttack(enemyBoard);
+    if (CpuGameState.cpuLastHit.length === 0) {
+      this._cpuAttack(enemyBoard);
+    } else {
+      this._cpuSmartMove(enemyBoard);
+    }
   }
 }
 

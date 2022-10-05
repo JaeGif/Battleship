@@ -116,4 +116,5 @@ function titleScreen() {
     gameModeSelect();
   });
 }
+
 export { titleScreen };

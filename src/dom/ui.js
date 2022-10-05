@@ -2,7 +2,7 @@
 // generates gameboards, and on click effects
 
 import { GameState, gameOver } from '../gameloop.js';
-import { audioHit, audioMiss, audioTitle, audioGame } from './audio.js';
+import { audioHit, audioMiss } from './audio.js';
 
 function createBoards(size = 10) {
   fetchVictoryImage();
@@ -135,7 +135,8 @@ async function computerGameLoop() {
   computer.cpuAttackPattern(playerBoard);
   let attackedPosition =
     [...GameState.cpuAttacked][0][0] + ',' + [...GameState.cpuAttacked][0][1];
-  [...GameState.cpuAttacked] = [];
+  console.log(attackedPosition);
+  GameState.cpuAttacked = [];
 
   const attackedSpace = document.getElementById(`a${attackedPosition}`);
 
@@ -297,7 +298,6 @@ async function fetchBackgroundImage() {
   body.style.backgroundImage = `url(${parsedData.data.images.original.url})`;
   return;
 }
-
 async function fetchVictoryImage() {
   const gifId = 'o0eOCNkn7cSD6';
   const response = await fetch(
