@@ -8,6 +8,7 @@ class Players {
   constructor(name = 'Computer') {
     this.name = name;
   }
+  attackCharges = 0;
   previousHit = [];
   attack(coordinateStringy, enemyBoard) {
     // checks that an attack has not been previously made
@@ -145,14 +146,16 @@ class Players {
     // this will go circularly in order of top left -> top right -> bottom right -> bottom left -> top left
     let count = 0;
     let adjacentMatrixElements = [];
-    const topLeft = [coordinates[0]--, coordinates[1]--];
-    const topMiddle = [coordinates[0]--, coordinates[1]];
-    const topRight = [coordinates[0]--, coordinates[1]++];
-    const centerRight = [coordinates[0], coordinates[1]++];
-    const bottomRight = [coordinates[0]++, coordinates[1]++];
-    const bottomMiddle = [coordinates[0]++, coordinates[1]];
-    const bottomLeft = [coordinates[0]++, coordinates[1]--];
-    const centerLeft = [coordinates[0], coordinates[1]--];
+    console.log(coordinates);
+    let intCoords = [parseInt(coordinates[0]), parseInt(coordinates[1])];
+    const topLeft = [intCoords[0] - 1, intCoords[1] - 1];
+    const topMiddle = [intCoords[0] - 1, intCoords[1]];
+    const topRight = [intCoords[0] - 1, intCoords[1] + 1];
+    const centerRight = [intCoords[0], intCoords[1] + 1];
+    const bottomRight = [intCoords[0] + 1, intCoords[1] + 1];
+    const bottomMiddle = [intCoords[0] + 1, intCoords[1]];
+    const bottomLeft = [intCoords[0] + 1, intCoords[1] - 1];
+    const centerLeft = [intCoords[0], intCoords[1] - 1];
 
     const temporaryArray = [
       topLeft,

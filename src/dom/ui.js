@@ -34,8 +34,14 @@ function createBoards(size = 10) {
 function uniqueAttackButtonListeners() {
   const radarButton = document.getElementById('radar-attack');
   radarButton.addEventListener('click', () => {
-    GameState.selectedAttack = 'radar';
-    console.log('radar-select');
+    if (GameState.turn === 'player') {
+      if ([...GameState.players][0].attackCharges >= 4) {
+        GameState.selectedAttack = 'radar';
+        console.log('radar-select');
+      } else {
+        console.log('not enough juicers!');
+      }
+    }
   });
 }
 function createPlayerBoard(size) {
@@ -98,7 +104,9 @@ function playerGridListeners(gridElement) {
       const coordinates = gridElement.id.slice(1).split(',');
       if (GameState.selectedAttack === 'attack') {
         player.attack(coordinates, opponentBoard);
+        player.attackCharges++;
       } else if (GameState.selectedAttack === 'radar') {
+        player.attackCharges -= 4;
         let count = player.radarAttack(coordinates, opponentBoard);
         gridElement.textContent = `${count}`;
         gridElement.style.textAlign = 'center';
