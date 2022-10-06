@@ -81,6 +81,7 @@ class Gameboards {
   }
   _isEmptySpace(coordinate) {
     for (let k = 0; k < coordinate.length; k++) {
+      // through all coordinates in the soon to be placed coords
       for (let i = 0; i < this.shipCoordinates.length; i++) {
         // go through the list of ships placed first
         for (let j = 0; j < this.shipCoordinates[i].location.length; j++) {
@@ -96,12 +97,6 @@ class Gameboards {
         }
       }
     }
-    console.log(
-      'incoming coords: ',
-      coordinate,
-      'Already plotted coords: ',
-      this.shipCoordinates
-    );
     return true;
   }
   _randomizeShips(newShip, size = 10) {
