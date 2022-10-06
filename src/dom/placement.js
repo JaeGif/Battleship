@@ -296,5 +296,5 @@ function placementPage() {
     changeAxisButton();
   }
 }
-
+function randomizeShipPlacementHandler() {}
 export { placementPage };

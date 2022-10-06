@@ -3,6 +3,7 @@
 import { GameState } from '../objects/stateManagers.js';
 import { gameOver } from '../gameloop.js';
 import { audioHit, audioMiss } from './audio.js';
+import Gameboards from '../objects/gameboard.js';
 
 function createBoards(size = 10) {
   fetchVictoryImage();
