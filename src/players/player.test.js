@@ -1,7 +1,7 @@
 import Players from './player.js';
 import Gameboards from '../objects/gameboard.js';
 import Ship from '../objects/ships.js';
-import { GameState } from '../gameloop.js';
+import GameState from '../objects/stateManagers.js';
 
 /* 
 let player = new Players('Jae');

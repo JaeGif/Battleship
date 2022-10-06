@@ -137,6 +137,71 @@ class Players {
       this._cpuSmartMove(enemyBoard);
     }
   }
+  radarAttack(coordinates, enemyBoard) {
+    // reveals the number of adjacent and diagonal ships to the placement of the radar. The radar drop itself counts as an attacked space
+    this.attack(coordinates, enemyBoard);
+
+    // there are 8 total adjacent elements, discounting out of bounds possibilities
+    // this will go circularly in order of top left -> top right -> bottom right -> bottom left -> top left
+    let count = 0;
+    let adjacentMatrixElements = [];
+    const topLeft = [coordinates[0]--, coordinates[1]--];
+    const topMiddle = [coordinates[0]--, coordinates[1]];
+    const topRight = [coordinates[0]--, coordinates[1]++];
+    const centerRight = [coordinates[0], coordinates[1]++];
+    const bottomRight = [coordinates[0]++, coordinates[1]++];
+    const bottomMiddle = [coordinates[0]++, coordinates[1]];
+    const bottomLeft = [coordinates[0]++, coordinates[1]--];
+    const centerLeft = [coordinates[0], coordinates[1]--];
+
+    const temporaryArray = [
+      topLeft,
+      topMiddle,
+      topRight,
+      centerRight,
+      bottomRight,
+      bottomMiddle,
+      bottomLeft,
+      centerLeft,
+    ];
+
+    for (let i = 0; i < temporaryArray.length; i++) {
+      // if in bound push to adjacency matrix
+      if (
+        temporaryArray[i][0] < 10 &&
+        temporaryArray[i][1] < 10 &&
+        temporaryArray[i][0] >= 0 &&
+        temporaryArray[i][1] >= 0
+      ) {
+        adjacentMatrixElements.push(temporaryArray[i]);
+      }
+    }
+    // compare against occupied spaces
+    for (let k = 0; k < adjacentMatrixElements.length; k++) {
+      for (let i = 0; i < enemyBoard.shipCoordinates.length; i++) {
+        // go through the list of ships placed first
+        for (
+          let j = 0;
+          j < enemyBoard.shipCoordinates[i].location.length;
+          j++
+        ) {
+          // go through the ships coordinates next
+          if (
+            // Array matching in JS has no built-ins so compare each element individually
+            // there's only 2 elements per array no matter what so this method is ok.
+            adjacentMatrixElements[k][0] ===
+              enemyBoard.shipCoordinates[i].location[j][0] &&
+            adjacentMatrixElements[k][1] ===
+              enemyBoard.shipCoordinates[i].location[j][1]
+          ) {
+            count++;
+          }
+        }
+      }
+    }
+    return count;
+  }
+  sniperAttack(enemyBoard) {}
 }
 
 export default Players;
