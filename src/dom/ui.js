@@ -24,6 +24,7 @@ function createBoards(size = 10) {
     displayPlayerShips();
     createOpponentBoard(size);
   }
+
   uniqueAttackButtonListeners();
   placeShipsContainer.style.display = 'none';
 
@@ -33,13 +34,24 @@ function createBoards(size = 10) {
 }
 function uniqueAttackButtonListeners() {
   const radarButton = document.getElementById('radar-attack');
+  const radarAttackOpponent = document.getElementById('radar-attack-opponent');
+  radarAttackOpponent.addEventListener('click', () => {
+    if (GameState.turn === 'opponent') {
+      if ([...GameState.players][1].attackCharges >= 4) {
+        GameState.selectedAttack = 'radar';
+      } else {
+        const announcement = document.getElementById('turn');
+        announcement.textContent = `You dont have enough energy!`;
+      }
+    }
+  });
   radarButton.addEventListener('click', () => {
     if (GameState.turn === 'player') {
       if ([...GameState.players][0].attackCharges >= 4) {
         GameState.selectedAttack = 'radar';
-        console.log('radar-select');
       } else {
-        console.log('not enough juicers!');
+        const announcement = document.getElementById('turn');
+        announcement.textContent = `You dont have enough energy!`;
       }
     }
   });
@@ -94,6 +106,7 @@ function playerGridListeners(gridElement) {
       const sfxHit = audioHit();
       const sfxMiss = audioMiss();
       const turnAnnouncement = document.getElementById('turn');
+      const playerEnergyDisplay = document.getElementById('player-energy');
 
       if (GameState.turn !== 'player') {
         playerGridListeners(gridElement);
@@ -105,8 +118,10 @@ function playerGridListeners(gridElement) {
       if (GameState.selectedAttack === 'attack') {
         player.attack(coordinates, opponentBoard);
         player.attackCharges++;
+        playerEnergyDisplay.textContent = `Energy: ${player.attackCharges}`;
       } else if (GameState.selectedAttack === 'radar') {
         player.attackCharges -= 4;
+        playerEnergyDisplay.textContent = `Energy: ${player.attackCharges}`;
         let count = player.radarAttack(coordinates, opponentBoard);
         gridElement.textContent = `${count}`;
         gridElement.style.textAlign = 'center';
@@ -197,6 +212,7 @@ function opponentGridListeners(gridElement) {
       const sfxMiss = audioMiss();
       let hitOrMiss = '';
       const turnAnnouncement = document.getElementById('turn');
+      const opponentEnergyDisplay = document.getElementById('opponent-energy');
 
       if (GameState.turn === 'player') {
         opponentGridListeners(gridElement);
@@ -206,7 +222,20 @@ function opponentGridListeners(gridElement) {
       const playerBoard = [...GameState.boards][0];
       const coordinates = gridElement.id.slice(1).split(',');
       if (GameState.mode === 'PvP') {
-        opponent.attack(coordinates, playerBoard);
+        if (GameState.selectedAttack === 'attack') {
+          opponent.attack(coordinates, playerBoard);
+          opponent.attackCharges++;
+          opponentEnergyDisplay.textContent = `Energy: ${opponent.attackCharges}`;
+        } else if (GameState.selectedAttack === 'radar') {
+          opponent.attackCharges -= 4;
+          opponentEnergyDisplay.textContent = `Energy: ${opponent.attackCharges}`;
+          let count = opponent.radarAttack(coordinates, playerBoard);
+          gridElement.textContent = `${count}`;
+          gridElement.style.textAlign = 'center';
+          gridElement.style.padding = '.5rem';
+          gridElement.style.fontSize = '2rem';
+          GameState.selectedAttack = 'attack';
+        }
 
         if (GameState.wasHit === true) {
           sfxHit.play();

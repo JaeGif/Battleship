@@ -213,11 +213,33 @@ div .miss {
 #turn {
   font-size: 3rem;
 }
+
+.special-attacks-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+}
+.special-attacks-wrapper button {
+  background: none;
+  border: none;
+  font-size: 1.5rem;
+  cursor: pointer;
+}
+.special-attacks-wrapper button:hover {
+  color: red;
+}
+.special-attacks-wrapper h2 {
+  margin: 0;
+  padding: 0;
+}
+
 footer {
   display: none;
   justify-content: center;
   align-items: center;
 }
+
 /* Ship Placement screen */
 #placement-page-body-container {
   display: none;

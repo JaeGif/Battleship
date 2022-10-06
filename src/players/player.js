@@ -146,7 +146,7 @@ class Players {
     // this will go circularly in order of top left -> top right -> bottom right -> bottom left -> top left
     let count = 0;
     let adjacentMatrixElements = [];
-    console.log(coordinates);
+
     let intCoords = [parseInt(coordinates[0]), parseInt(coordinates[1])];
     const topLeft = [intCoords[0] - 1, intCoords[1] - 1];
     const topMiddle = [intCoords[0] - 1, intCoords[1]];
