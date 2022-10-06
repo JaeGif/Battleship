@@ -308,7 +308,9 @@ function randomizeShipPlacementHandler() {
     playerBoard.randomAddShips();
     UiState.currentShipIndex = 5;
     nextShipIteration();
-    dragAndDropDisplay();
+    if (GameState.mode === 'PvP') {
+      dragAndDropDisplay();
+    }
   } else if (UiState.currentPlacementBoard === 'opponent') {
     const opponentBoard = [...GameState.boards][1];
     opponentBoard.randomAddShips();

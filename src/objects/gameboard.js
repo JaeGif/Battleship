@@ -80,17 +80,20 @@ class Gameboards {
     this._randomizeShips(Submarine);
   }
   _isEmptySpace(coordinate) {
-    for (let i = 0; i < this.shipCoordinates.length; i++) {
-      // go through the list of ships placed first
-      for (let j = 0; j < this.shipCoordinates[i].location.length; j++) {
-        // go through the ships coordinates next
-        if (
-          // Array matching in JS has no built-ins so compare each element individually
-          // there's only 2 elements per array no matter what so this method is ok.
-          coordinate[0] === this.shipCoordinates[i].location[j][0] &&
-          coordinate[1] === this.shipCoordinates[i].location[j][1]
-        ) {
-          return false;
+    for (let k = 0; k < coordinate.length; k++) {
+      // through all coordinates in the soon to be placed coords
+      for (let i = 0; i < this.shipCoordinates.length; i++) {
+        // go through the list of ships placed first
+        for (let j = 0; j < this.shipCoordinates[i].location.length; j++) {
+          // go through the ships coordinates next
+          if (
+            // Array matching in JS has no built-ins so compare each element individually
+            // there's only 2 elements per array no matter what so this method is ok.
+            coordinate[k][0] === this.shipCoordinates[i].location[j][0] &&
+            coordinate[k][1] === this.shipCoordinates[i].location[j][1]
+          ) {
+            return false;
+          }
         }
       }
     }
@@ -126,8 +129,7 @@ class Gameboards {
         coordinate.push([x, y]);
       }
     }
-
-    if (!this._isEmptySpace(coordinate[0])) {
+    if (!this._isEmptySpace(coordinate)) {
       // redoes the random choice if space is not empty
       return this._randomizeShips(newShip, size);
     }
