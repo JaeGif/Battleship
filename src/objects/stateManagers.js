@@ -21,4 +21,9 @@ class UiState {
   static currentShipIndex = 0;
   static currentPlacementBoard = 'player';
 }
-export { GameState, CpuGameState, UiState };
+class AudioState {
+  static volume = 1;
+  static song = 'assets/sfx/we-are-8-bit.mp3';
+  static currentlyPlaying = {};
+}
+export { GameState, CpuGameState, UiState, AudioState };
