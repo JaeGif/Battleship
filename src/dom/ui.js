@@ -24,11 +24,19 @@ function createBoards(size = 10) {
     displayPlayerShips();
     createOpponentBoard(size);
   }
+  uniqueAttackButtonListeners();
   placeShipsContainer.style.display = 'none';
 
   mainGameContainer.style.display = 'flex';
   const turnAnnouncement = document.getElementById('turn');
   turnAnnouncement.textContent = `${turnPlayerName()} start your offensive!`;
+}
+function uniqueAttackButtonListeners() {
+  const radarButton = document.getElementById('radar-attack');
+  radarButton.addEventListener('click', () => {
+    GameState.selectedAttack = 'radar';
+    console.log('radar-select');
+  });
 }
 function createPlayerBoard(size) {
   const playerCoordinateIterator = generateCoordinateIDs(size);
@@ -88,7 +96,16 @@ function playerGridListeners(gridElement) {
       const player = [...GameState.players][0];
       const opponentBoard = [...GameState.boards][1];
       const coordinates = gridElement.id.slice(1).split(',');
-      player.attack(coordinates, opponentBoard);
+      if (GameState.selectedAttack === 'attack') {
+        player.attack(coordinates, opponentBoard);
+      } else if (GameState.selectedAttack === 'radar') {
+        let count = player.radarAttack(coordinates, opponentBoard);
+        gridElement.textContent = `${count}`;
+        gridElement.style.textAlign = 'center';
+        gridElement.style.padding = '.5rem';
+        gridElement.style.fontSize = '2rem';
+        GameState.selectedAttack = 'attack';
+      }
       if (opponentBoard.allShipsSunk()) {
         GameState.gameOver = true;
         gameOver();
@@ -121,6 +138,7 @@ function playerGridListeners(gridElement) {
     { once: true }
   );
 }
+
 function sleep() {
   const ms = Math.random() * 1500;
   return new Promise((resolve) => setTimeout(resolve, ms));

@@ -9,6 +9,7 @@ class GameState {
   static gameOver = false;
   static justSunk = '';
   static sunkEventFlag = false;
+  static selectedAttack = 'attack';
 }
 class CpuGameState {
   static cpuLastHit = [];
@@ -26,4 +27,5 @@ class AudioState {
   static song = 'assets/sfx/we-are-8-bit.mp3';
   static currentlyPlaying = {};
 }
+
 export { GameState, CpuGameState, UiState, AudioState };
