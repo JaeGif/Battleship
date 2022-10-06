@@ -85,7 +85,42 @@ body {
   -webkit-animation: my-animation 10s linear infinite;
   animation: my-animation 10s linear infinite;
 }
+/* Music Menu */
 
+#sfx-modal {
+  display: none;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+#volume-selection-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 1rem;
+}
+hr {
+  border-color: black;
+  width: 100%;
+}
+#music-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+#music-selection-wrapper {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  line-height: 1rem;
+}
+#volume-selection {
+  font-size: 2rem;
+}
+.selected {
+  color: purple;
+}
 /* for Firefox */
 @-moz-keyframes my-animation {
   from {

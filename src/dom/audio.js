@@ -1,19 +1,23 @@
+import { AudioState } from '../objects/stateManagers.js';
 function audioHit() {
   const hit = new Audio('assets/sfx/hit.wav');
+  hit.volume = AudioState.volume;
   return hit;
 }
 function audioMiss() {
   const miss = new Audio('assets/sfx/miss.mp3');
+  miss.volume = AudioState.volume;
   return miss;
 }
-function audioTitle() {
+function audioWeAre() {
   const title = new Audio('assets/sfx/we-are-8-bit.mp3');
   title.loop = true;
   return title;
 }
-function audioGame() {
+function audioCantEscape() {
   const game = new Audio('assets/sfx/cant-escape-fight-8-bit.mp3');
   game.loop = true;
   return game;
 }
-export { audioHit, audioMiss, audioTitle, audioGame };
+
+export { audioHit, audioMiss, audioWeAre, audioCantEscape };
