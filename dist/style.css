@@ -269,12 +269,15 @@ div.ship-position {
 div.invalid-placement {
   background-color: red;
 }
-#change-orientation {
+#change-orientation,
+#randomize-button {
+  margin: 1rem;
   background: none;
   border: none;
   font-size: 3rem;
 }
-#change-orientation:hover {
+#change-orientation:hover,
+#randomize-button:hover {
   cursor: pointer;
   color: red;
 }

@@ -272,7 +272,10 @@ function resetPlacement() {
 }
 
 function placementPage() {
+  const randomizeButton = document.getElementById('randomize-button');
+  randomizeButton.addEventListener('click', randomizeShipPlacementHandler);
   const placementBoardName = document.getElementById('placement-board-name');
+
   let name = [...GameState.players][1].name;
   if (name === '') {
     name = 'Player 2';
@@ -294,6 +297,23 @@ function placementPage() {
     placementBoardName.textContent = `${name}'s board`;
     dragAndDropDisplay();
     changeAxisButton();
+  }
+}
+
+function randomizeShipPlacementHandler() {
+  if (UiState.currentPlacementBoard === 'player') {
+    const randomizeButton = document.getElementById('randomize-button');
+    randomizeButton.removeEventListener('click', randomizeShipPlacementHandler);
+    const playerBoard = [...GameState.boards][0];
+    playerBoard.randomAddShips();
+    UiState.currentShipIndex = 5;
+    nextShipIteration();
+    dragAndDropDisplay();
+  } else if (UiState.currentPlacementBoard === 'opponent') {
+    const opponentBoard = [...GameState.boards][1];
+    opponentBoard.randomAddShips();
+    UiState.currentShipIndex = 5;
+    nextShipIteration();
   }
 }
 
