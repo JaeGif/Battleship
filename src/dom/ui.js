@@ -137,7 +137,6 @@ function uniqueAttackButtonListeners() {
   });
 }
 function alternateAxis(e) {
-  console.log('alte');
   if (e.code === 'Space') {
     if (UiState.axis === 'x') {
       UiState.axis = 'y';
