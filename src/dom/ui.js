@@ -114,7 +114,7 @@ function uniqueAttackButtonListeners() {
   );
   strikeButton.addEventListener('click', () => {
     if (GameState.turn === 'player') {
-      if ([...GameState.players][0].attackCharges >= 9) {
+      if ([...GameState.players][0].attackCharges >= 14) {
         GameState.selectedAttack = 'strike';
       } else {
         const announcement = document.getElementById('turn');
@@ -124,7 +124,7 @@ function uniqueAttackButtonListeners() {
   });
   strikeAttackOpponent.addEventListener('click', () => {
     if (GameState.turn === 'opponent') {
-      if ([...GameState.players][1].attackCharges >= 9) {
+      if ([...GameState.players][1].attackCharges >= 14) {
         GameState.selectedAttack = 'strike';
       } else {
         const announcement = document.getElementById('turn');
@@ -308,7 +308,7 @@ function playerGridListeners(gridElement) {
         }
         GameState.selectedAttack = 'attack';
       } else if (GameState.selectedAttack === 'strike') {
-        player.attackCharges -= 9;
+        player.attackCharges -= 14;
         playerEnergyDisplay.textContent = `Energy: ${player.attackCharges}`;
         const hitArray = player.strikeAttack(
           coordinates,
@@ -444,6 +444,23 @@ function opponentGridListeners(gridElement) {
             bombedElement.classList.add('permanently-revoke-events');
           }
           GameState.selectedAttack = 'attack';
+        } else if (GameState.selectedAttack === 'strike') {
+          opponent.attackCharges -= 14;
+          opponentEnergyDisplay.textContent = `Energy: ${opponent.attackCharges}`;
+          const hitArray = opponent.strikeAttack(
+            coordinates,
+            UiState.axis,
+            playerBoard
+          );
+          for (let i = 0; i < hitArray.length; i++) {
+            opponent.attack(hitArray[i], playerBoard);
+            // disable listeners on hit spots
+            let elementIdString = 'a' + hitArray[i][0] + ',' + hitArray[i][1];
+            const bombedElement = document.getElementById(`${elementIdString}`);
+            bombedElement.classList.add('permanently-revoke-events');
+          }
+          GameState.selectedAttack = 'attack';
+          UiState.axis = 'x';
         }
 
         if (GameState.wasHit === true) {
