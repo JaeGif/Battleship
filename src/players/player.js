@@ -204,7 +204,42 @@ class Players {
     }
     return count;
   }
-  sniperAttack(enemyBoard) {}
+  sniperAttack(enemyBoard) {
+    // sniper shot attacks a random unhit enemy position
+    if (recordAttack.length === 0) {
+      // this isn't currently possible to enter due to ennergy costs, but it may become useful
+      // in further patches to the game.
+      return this.attack(
+        [
+          enemyBoard.shipCoordinates[0].location[0][0],
+          enemyBoard.shipCoordinates[0].location[0][1],
+        ],
+        enemyBoard
+      );
+    }
+    for (let i = 0; i < enemyBoard.shipCoordinates.length; i++) {
+      // go through the list of ships placed first
+      for (let j = 0; j < enemyBoard.shipCoordinates[i].location.length; j++) {
+        for (let k = 0; k < enemyBoard.recordAttack.length; k++) {
+          if (
+            enemyBoard.shipCoordinates[i].location[j][0] !==
+              enemyBoard.recordAttack[k][0] &&
+            enemyBoard.shipCoordinates[i].location[j][1] !==
+              enemyBoard.recordAttack[k][1]
+          ) {
+            return this.attack(
+              [
+                enemyBoard.shipCoordinates[i].location[j][0],
+                enemyBoard.shipCoordinates[i].location[j][1],
+              ],
+              enemyBoard
+            );
+          }
+        }
+      }
+    }
+    return false;
+  }
 }
 
 export default Players;

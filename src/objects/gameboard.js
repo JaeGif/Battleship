@@ -9,7 +9,6 @@ class Gameboards {
   shipCoordinates = [];
   recordAttack = []; // array of attacked coordinates
   sunkShips = [];
-
   receiveAttack(coordinates) {
     // updates the gameboards data on what spaces have been hit for the DOM
     this.recordAttack.push(coordinates);
@@ -53,7 +52,6 @@ class Gameboards {
         }
       }
     }
-
     return false;
   }
   removeShip() {
