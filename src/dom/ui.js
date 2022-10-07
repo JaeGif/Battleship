@@ -202,6 +202,11 @@ function sniperSpecialBoardCover() {
       { once: true }
     );
   } else if (GameState.turn === 'opponnent') {
+    for (let i = 0; i < playerBoardContainer.children.length; i++) {
+      if (playerBoardContainer.children[i].tagName === 'DIV') {
+        playerBoardContainer.children[i].classList.add('revoke-events');
+      }
+    }
     playerBoardContainer.addEventListener(
       'click',
       () => {
