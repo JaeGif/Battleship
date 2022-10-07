@@ -544,10 +544,15 @@ function gameOverScreen() {
   let winner;
   if ([...GameState.boards][0].allShipsSunk()) {
     winner = [...GameState.players][1].name;
-
+    if ([...GameState.players][1].name === '') {
+      winner = 'Player 2';
+    }
     numShips = 5 - [...GameState.boards][1].sunkShips.length;
   } else {
     winner = [...GameState.players][0].name;
+    if ([...GameState.players][0].name === '') {
+      winner = 'Player 2';
+    }
 
     numShips = 5 - [...GameState.boards][0].sunkShips.length;
   }
