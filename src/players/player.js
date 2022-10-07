@@ -289,11 +289,12 @@ class Players {
     }
     return finalHits;
   }
-  strikeAttack(coordinate, axis, enemyBoard) {
+  strikeAttack(incCoordinate, axis, enemyBoard) {
     let row = [];
     let column = [];
     let finalColumn = [];
     let finalRow = [];
+    let coordinate = [parseInt(incCoordinate[0]), parseInt(incCoordinate[1])];
     let newCoordinate = coordinate;
     let originalCoordinate = coordinate;
     finalColumn.push(coordinate);

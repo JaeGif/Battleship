@@ -1,6 +1,6 @@
 // displays gameboards based on whose turn it is.
 // generates gameboards, and on click effects
-import { GameState } from '../objects/stateManagers.js';
+import { GameState, UiState } from '../objects/stateManagers.js';
 import { gameOver } from '../gameloop.js';
 import { audioHit, audioMiss } from './audio.js';
 import Gameboards from '../objects/gameboard.js';
@@ -101,6 +101,31 @@ function uniqueAttackButtonListeners() {
     if (GameState.turn === 'opponent') {
       if ([...GameState.players][1].attackCharges >= 4) {
         GameState.selectedAttack = 'bomb';
+      } else {
+        const announcement = document.getElementById('turn');
+        announcement.textContent = `You dont have enough energy!`;
+      }
+    }
+  });
+  // strike
+  const strikeButton = document.getElementById('strike-attack');
+  const strikeAttackOpponent = document.getElementById(
+    'strike-attack-opponent'
+  );
+  strikeButton.addEventListener('click', () => {
+    if (GameState.turn === 'player') {
+      if ([...GameState.players][0].attackCharges >= 9) {
+        GameState.selectedAttack = 'strike';
+      } else {
+        const announcement = document.getElementById('turn');
+        announcement.textContent = `You dont have enough energy!`;
+      }
+    }
+  });
+  strikeAttackOpponent.addEventListener('click', () => {
+    if (GameState.turn === 'opponent') {
+      if ([...GameState.players][1].attackCharges >= 9) {
+        GameState.selectedAttack = 'strike';
       } else {
         const announcement = document.getElementById('turn');
         announcement.textContent = `You dont have enough energy!`;
@@ -282,6 +307,23 @@ function playerGridListeners(gridElement) {
           bombedElement.classList.add('permanently-revoke-events');
         }
         GameState.selectedAttack = 'attack';
+      } else if (GameState.selectedAttack === 'strike') {
+        player.attackCharges -= 9;
+        playerEnergyDisplay.textContent = `Energy: ${player.attackCharges}`;
+        const hitArray = player.strikeAttack(
+          coordinates,
+          UiState.axis,
+          opponentBoard
+        );
+        for (let i = 0; i < hitArray.length; i++) {
+          player.attack(hitArray[i], opponentBoard);
+          // disable listeners on hit spots
+          let elementIdString = 'b' + hitArray[i][0] + ',' + hitArray[i][1];
+          const bombedElement = document.getElementById(`${elementIdString}`);
+          bombedElement.classList.add('permanently-revoke-events');
+        }
+        GameState.selectedAttack = 'attack';
+        UiState.axis = 'x';
       }
 
       if (opponentBoard.allShipsSunk()) {
