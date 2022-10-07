@@ -64,7 +64,7 @@ function uniqueAttackButtonListeners() {
 
   sniperButton.addEventListener('click', () => {
     if (GameState.turn === 'player') {
-      if ([...GameState.players][0].attackCharges >= 5) {
+      if ([...GameState.players][0].attackCharges >= 7) {
         GameState.selectedAttack = 'sniper';
         sniperSpecialBoardCover();
       } else {
@@ -75,8 +75,9 @@ function uniqueAttackButtonListeners() {
   });
   sniperAttackOpponent.addEventListener('click', () => {
     if (GameState.turn === 'opponent') {
-      if ([...GameState.players][1].attackCharges >= 5) {
+      if ([...GameState.players][1].attackCharges >= 7) {
         GameState.selectedAttack = 'sniper';
+        sniperSpecialBoardCover();
       } else {
         const announcement = document.getElementById('turn');
         announcement.textContent = `You dont have enough energy!`;
@@ -89,7 +90,7 @@ function uniqueAttackButtonListeners() {
 
   bombButton.addEventListener('click', () => {
     if (GameState.turn === 'player') {
-      if ([...GameState.players][0].attackCharges >= 4) {
+      if ([...GameState.players][0].attackCharges >= 5) {
         GameState.selectedAttack = 'bomb';
       } else {
         const announcement = document.getElementById('turn');
@@ -99,7 +100,7 @@ function uniqueAttackButtonListeners() {
   });
   bombAttackOpponent.addEventListener('click', () => {
     if (GameState.turn === 'opponent') {
-      if ([...GameState.players][1].attackCharges >= 4) {
+      if ([...GameState.players][1].attackCharges >= 5) {
         GameState.selectedAttack = 'bomb';
       } else {
         const announcement = document.getElementById('turn');
@@ -159,7 +160,7 @@ function sniperSpecialBoardCover() {
     opponentBoardContainer.addEventListener(
       'click',
       () => {
-        player.attackCharges -= 5;
+        player.attackCharges -= 7;
         playerEnergyDisplay.textContent = `Energy: ${player.attackCharges}`;
         const snipedCoordinates = player.sniperAttack(opponentBoard);
         // get id of sniped coord
@@ -193,7 +194,7 @@ function sniperSpecialBoardCover() {
     playerBoardContainer.addEventListener(
       'click',
       () => {
-        opponent.attackCharges -= 5;
+        opponent.attackCharges -= 7;
         opponentEnergyDisplay.textContent = `Energy: ${opponent.attackCharges}`;
         const snipedCoordinates = opponent.sniperAttack(playerBoard);
         // get id of sniped coord
@@ -296,7 +297,7 @@ function playerGridListeners(gridElement) {
         gridElement.style.fontSize = '2rem';
         GameState.selectedAttack = 'attack';
       } else if (GameState.selectedAttack === 'bomb') {
-        player.attackCharges -= 4;
+        player.attackCharges -= 5;
         playerEnergyDisplay.textContent = `Energy: ${player.attackCharges}`;
         const hitArray = player.bombAttack(coordinates, opponentBoard);
         for (let i = 0; i < hitArray.length; i++) {
@@ -433,7 +434,7 @@ function opponentGridListeners(gridElement) {
           gridElement.style.fontSize = '2rem';
           GameState.selectedAttack = 'attack';
         } else if (GameState.selectedAttack === 'bomb') {
-          opponent.attackCharges -= 4;
+          opponent.attackCharges -= 5;
           opponentEnergyDisplay.textContent = `Energy: ${opponent.attackCharges}`;
           const hitArray = opponent.bombAttack(coordinates, playerBoard);
           for (let i = 0; i < hitArray.length; i++) {
