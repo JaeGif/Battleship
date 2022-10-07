@@ -289,6 +289,59 @@ class Players {
     }
     return finalHits;
   }
+  strikeAttack(coordinate, axis, enemyBoard) {
+    let row = [];
+    let column = [];
+    let finalColumn = [];
+    let finalRow = [];
+    let newCoordinate = coordinate;
+    let originalCoordinate = coordinate;
+    finalColumn.push(coordinate);
+    if (axis === 'x') {
+      for (let i = 0; i < enemyBoard.size; i++) {
+        if (this._inBounds([newCoordinate[0] + 1, newCoordinate[1]])) {
+          newCoordinate = [newCoordinate[0] + 1, newCoordinate[1]];
+          column.push(newCoordinate);
+        } else if (
+          this._inBounds([originalCoordinate[0] - 1, originalCoordinate[1]])
+        ) {
+          originalCoordinate = [
+            originalCoordinate[0] - 1,
+            originalCoordinate[1],
+          ];
+          column.push(originalCoordinate);
+        }
+      }
+      for (let i = 0; i < column.length; i++) {
+        console.log(column);
+        if (this._onAvailableSpace(column[i], enemyBoard)) {
+          finalColumn.push(column[i]);
+        }
+      }
+      return finalColumn;
+    } else if (axis === 'y') {
+      for (let i = 0; i < enemyBoard.size; i++) {
+        if (this._inBounds([newCoordinate[0], newCoordinate[1] + 1])) {
+          newCoordinate = [newCoordinate[0], newCoordinate[1] + 1];
+          row.push(newCoordinate);
+        } else if (
+          this._inBounds([originalCoordinate[0], originalCoordinate[1] - 1])
+        ) {
+          originalCoordinate = [
+            originalCoordinate[0],
+            originalCoordinate[1] - 1,
+          ];
+          row.push(originalCoordinate);
+        }
+      }
+      for (let i = 0; i < row.length; i++) {
+        if (this._onAvailableSpace(row[i], enemyBoard)) {
+          finalRow.push(row[i]);
+        }
+      }
+      return finalRow;
+    }
+  }
 }
 
 export default Players;

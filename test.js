@@ -5,9 +5,5 @@ let player = new Players('Jae');
 let cpuGameboard = new Gameboards();
 
 cpuGameboard.randomAddShips();
-console.log('ship coords: ', cpuGameboard.shipCoordinates);
-player.attack([8, 9], cpuGameboard);
-console.log(cpuGameboard.recordAttack);
-
-console.log(player.bombAttack([8, 8], cpuGameboard));
-console.log(cpuGameboard.recordAttack);
+player.attack([5, 6], cpuGameboard);
+console.log(player.strikeAttack([5, 5], 'y', cpuGameboard));
