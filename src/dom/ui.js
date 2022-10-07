@@ -117,6 +117,7 @@ function uniqueAttackButtonListeners() {
     if (GameState.turn === 'player') {
       if ([...GameState.players][0].attackCharges >= 14) {
         GameState.selectedAttack = 'strike';
+        document.addEventListener('keyup', alternateAxis);
       } else {
         const announcement = document.getElementById('turn');
         announcement.textContent = `You dont have enough energy!`;
@@ -127,12 +128,23 @@ function uniqueAttackButtonListeners() {
     if (GameState.turn === 'opponent') {
       if ([...GameState.players][1].attackCharges >= 14) {
         GameState.selectedAttack = 'strike';
+        document.addEventListener('keyup', alternateAxis);
       } else {
         const announcement = document.getElementById('turn');
         announcement.textContent = `You dont have enough energy!`;
       }
     }
   });
+}
+function alternateAxis(e) {
+  console.log('alte');
+  if (e.code === 'Space') {
+    if (UiState.axis === 'x') {
+      UiState.axis = 'y';
+    } else if (UiState.axis === 'y') {
+      UiState.axis = 'x';
+    }
+  }
 }
 function sniperSpecialBoardCover() {
   const playerBoardContainer = document.getElementById('current-player-board');
@@ -323,6 +335,7 @@ function playerGridListeners(gridElement) {
           const bombedElement = document.getElementById(`${elementIdString}`);
           bombedElement.classList.add('permanently-revoke-events');
         }
+        document.removeEventListener('keyup', alternateAxis);
         GameState.selectedAttack = 'attack';
         UiState.axis = 'x';
       }
@@ -460,6 +473,7 @@ function opponentGridListeners(gridElement) {
             const bombedElement = document.getElementById(`${elementIdString}`);
             bombedElement.classList.add('permanently-revoke-events');
           }
+          document.removeEventListener('keyup', alternateAxis);
           GameState.selectedAttack = 'attack';
           UiState.axis = 'x';
         }
