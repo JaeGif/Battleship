@@ -1,6 +1,6 @@
 // displays gameboards based on whose turn it is.
 // generates gameboards, and on click effects
-import { GameState } from '../objects/stateManagers.js';
+import { GameState, UiState } from '../objects/stateManagers.js';
 import { gameOver } from '../gameloop.js';
 import { audioHit, audioMiss } from './audio.js';
 import Gameboards from '../objects/gameboard.js';
@@ -24,11 +24,221 @@ function createBoards(size = 10) {
     displayPlayerShips();
     createOpponentBoard(size);
   }
+
+  uniqueAttackButtonListeners();
   placeShipsContainer.style.display = 'none';
 
   mainGameContainer.style.display = 'flex';
   const turnAnnouncement = document.getElementById('turn');
   turnAnnouncement.textContent = `${turnPlayerName()} start your offensive!`;
+}
+function uniqueAttackButtonListeners() {
+  // radar
+  const radarButton = document.getElementById('radar-attack');
+  const radarAttackOpponent = document.getElementById('radar-attack-opponent');
+  radarAttackOpponent.addEventListener('click', () => {
+    if (GameState.turn === 'opponent') {
+      if ([...GameState.players][1].attackCharges >= 4) {
+        GameState.selectedAttack = 'radar';
+      } else {
+        const announcement = document.getElementById('turn');
+        announcement.textContent = `You dont have enough energy!`;
+      }
+    }
+  });
+  radarButton.addEventListener('click', () => {
+    if (GameState.turn === 'player') {
+      if ([...GameState.players][0].attackCharges >= 4) {
+        GameState.selectedAttack = 'radar';
+      } else {
+        const announcement = document.getElementById('turn');
+        announcement.textContent = `You dont have enough energy!`;
+      }
+    }
+  });
+  // sniper
+  const sniperButton = document.getElementById('sniper-attack');
+  const sniperAttackOpponent = document.getElementById(
+    'sniper-attack-opponent'
+  );
+
+  sniperButton.addEventListener('click', () => {
+    if (GameState.turn === 'player') {
+      if ([...GameState.players][0].attackCharges >= 7) {
+        GameState.selectedAttack = 'sniper';
+        sniperSpecialBoardCover();
+      } else {
+        const announcement = document.getElementById('turn');
+        announcement.textContent = `You dont have enough energy!`;
+      }
+    }
+  });
+  sniperAttackOpponent.addEventListener('click', () => {
+    if (GameState.turn === 'opponent') {
+      if ([...GameState.players][1].attackCharges >= 7) {
+        GameState.selectedAttack = 'sniper';
+        sniperSpecialBoardCover();
+      } else {
+        const announcement = document.getElementById('turn');
+        announcement.textContent = `You dont have enough energy!`;
+      }
+    }
+  });
+  // bomb
+  const bombButton = document.getElementById('bomb-attack');
+  const bombAttackOpponent = document.getElementById('bomb-attack-opponent');
+
+  bombButton.addEventListener('click', () => {
+    if (GameState.turn === 'player') {
+      if ([...GameState.players][0].attackCharges >= 5) {
+        GameState.selectedAttack = 'bomb';
+      } else {
+        const announcement = document.getElementById('turn');
+        announcement.textContent = `You dont have enough energy!`;
+      }
+    }
+  });
+  bombAttackOpponent.addEventListener('click', () => {
+    if (GameState.turn === 'opponent') {
+      if ([...GameState.players][1].attackCharges >= 5) {
+        GameState.selectedAttack = 'bomb';
+      } else {
+        const announcement = document.getElementById('turn');
+        announcement.textContent = `You dont have enough energy!`;
+      }
+    }
+  });
+  // strike
+  const strikeButton = document.getElementById('strike-attack');
+  const strikeAttackOpponent = document.getElementById(
+    'strike-attack-opponent'
+  );
+  strikeButton.addEventListener('click', () => {
+    if (GameState.turn === 'player') {
+      if ([...GameState.players][0].attackCharges >= 14) {
+        GameState.selectedAttack = 'strike';
+        document.addEventListener('keyup', alternateAxis);
+      } else {
+        const announcement = document.getElementById('turn');
+        announcement.textContent = `You dont have enough energy!`;
+      }
+    }
+  });
+  strikeAttackOpponent.addEventListener('click', () => {
+    if (GameState.turn === 'opponent') {
+      if ([...GameState.players][1].attackCharges >= 14) {
+        GameState.selectedAttack = 'strike';
+        document.addEventListener('keyup', alternateAxis);
+      } else {
+        const announcement = document.getElementById('turn');
+        announcement.textContent = `You dont have enough energy!`;
+      }
+    }
+  });
+}
+function alternateAxis(e) {
+  if (e.code === 'Space') {
+    if (UiState.axis === 'x') {
+      UiState.axis = 'y';
+    } else if (UiState.axis === 'y') {
+      UiState.axis = 'x';
+    }
+  }
+}
+function sniperSpecialBoardCover() {
+  const playerBoardContainer = document.getElementById('current-player-board');
+  const opponentBoardContainer = document.getElementById(
+    'current-opponent-board'
+  );
+  const turnAnnouncement = document.getElementById('turn');
+  const playerEnergyDisplay = document.getElementById('player-energy');
+  const player = [...GameState.players][0];
+  const opponentBoard = [...GameState.boards][1];
+  const opponent = [...GameState.players][1];
+  const playerBoard = [...GameState.boards][0];
+  const opponentEnergyDisplay = document.getElementById('opponent-energy');
+
+  let hitOrMiss = 'Hit!';
+  const sfxHit = audioHit();
+
+  if (GameState.turn === 'player') {
+    // disallow targeting of the enemyboard itself (prevents doubly attacking from bubbling)
+    for (let i = 0; i < opponentBoardContainer.children.length; i++) {
+      if (opponentBoardContainer.children[i].tagName === 'DIV') {
+        opponentBoardContainer.children[i].classList.add('revoke-events');
+      }
+    }
+    opponentBoardContainer.addEventListener(
+      'click',
+      () => {
+        player.attackCharges -= 7;
+        playerEnergyDisplay.textContent = `Energy: ${player.attackCharges}`;
+        const snipedCoordinates = player.sniperAttack(opponentBoard);
+        // get id of sniped coord
+        let elementIdString =
+          'b' + snipedCoordinates[0] + ',' + snipedCoordinates[1];
+        const hitElement = document.getElementById(`${elementIdString}`);
+        sfxHit.play();
+        hitElement.classList.add('hit');
+        hitElement.classList.add('permanently-revoke-events');
+        if (GameState.sunkEventFlag === true) {
+          hitOrMiss = `You sunk the ${GameState.justSunk}!`;
+          GameState.sunkEventFlag = false;
+        }
+        // allow board to be targeted again after attack is done
+
+        for (let i = 0; i < opponentBoardContainer.children.length; i++) {
+          if (opponentBoardContainer.children[i].tagName === 'DIV') {
+            opponentBoardContainer.children[i].classList.remove(
+              'revoke-events'
+            );
+          }
+        }
+
+        GameState.selectedAttack = 'attack';
+        GameState.turn = 'opponent';
+        turnAnnouncement.textContent = `${hitOrMiss} It's ${turnPlayerName()}'s Turn!`;
+      },
+      { once: true }
+    );
+  } else if (GameState.turn === 'opponent') {
+    for (let i = 0; i < playerBoardContainer.children.length; i++) {
+      if (playerBoardContainer.children[i].tagName === 'DIV') {
+        playerBoardContainer.children[i].classList.add('revoke-events');
+      }
+    }
+    playerBoardContainer.addEventListener(
+      'click',
+      () => {
+        opponent.attackCharges -= 7;
+        opponentEnergyDisplay.textContent = `Energy: ${opponent.attackCharges}`;
+        const snipedCoordinates = opponent.sniperAttack(playerBoard);
+        // get id of sniped coord
+        let elementIdString =
+          'a' + snipedCoordinates[0] + ',' + snipedCoordinates[1];
+        const hitElement = document.getElementById(`${elementIdString}`);
+        sfxHit.play();
+        hitElement.classList.add('hit');
+        hitElement.classList.add('permanently-revoke-events');
+        if (GameState.sunkEventFlag === true) {
+          hitOrMiss = `You sunk the ${GameState.justSunk}!`;
+          GameState.sunkEventFlag = false;
+        }
+        // allow board to be targeted again after attack is done
+
+        for (let i = 0; i < playerBoardContainer.children.length; i++) {
+          if (playerBoardContainer.children[i].tagName === 'DIV') {
+            playerBoardContainer.children[i].classList.remove('revoke-events');
+          }
+        }
+
+        GameState.selectedAttack = 'attack';
+        GameState.turn = 'player';
+        turnAnnouncement.textContent = `${hitOrMiss} It's ${turnPlayerName()}'s Turn!`;
+      },
+      { once: true }
+    );
+  }
 }
 function createPlayerBoard(size) {
   const playerCoordinateIterator = generateCoordinateIDs(size);
@@ -80,6 +290,7 @@ function playerGridListeners(gridElement) {
       const sfxHit = audioHit();
       const sfxMiss = audioMiss();
       const turnAnnouncement = document.getElementById('turn');
+      const playerEnergyDisplay = document.getElementById('player-energy');
 
       if (GameState.turn !== 'player') {
         playerGridListeners(gridElement);
@@ -88,7 +299,51 @@ function playerGridListeners(gridElement) {
       const player = [...GameState.players][0];
       const opponentBoard = [...GameState.boards][1];
       const coordinates = gridElement.id.slice(1).split(',');
-      player.attack(coordinates, opponentBoard);
+      if (GameState.selectedAttack === 'attack') {
+        player.attack(coordinates, opponentBoard);
+        player.attackCharges++;
+        playerEnergyDisplay.textContent = `Energy: ${player.attackCharges}`;
+      } else if (GameState.selectedAttack === 'radar') {
+        player.attackCharges -= 4;
+        playerEnergyDisplay.textContent = `Energy: ${player.attackCharges}`;
+        let count = player.radarAttack(coordinates, opponentBoard);
+        gridElement.textContent = `${count}`;
+        gridElement.style.textAlign = 'center';
+        gridElement.style.padding = '.5rem';
+        gridElement.style.fontSize = '2rem';
+        GameState.selectedAttack = 'attack';
+      } else if (GameState.selectedAttack === 'bomb') {
+        player.attackCharges -= 5;
+        playerEnergyDisplay.textContent = `Energy: ${player.attackCharges}`;
+        const hitArray = player.bombAttack(coordinates, opponentBoard);
+        for (let i = 0; i < hitArray.length; i++) {
+          player.attack(hitArray[i], opponentBoard);
+          // disable listeners on hit spots
+          let elementIdString = 'b' + hitArray[i][0] + ',' + hitArray[i][1];
+          const bombedElement = document.getElementById(`${elementIdString}`);
+          bombedElement.classList.add('permanently-revoke-events');
+        }
+        GameState.selectedAttack = 'attack';
+      } else if (GameState.selectedAttack === 'strike') {
+        player.attackCharges -= 14;
+        playerEnergyDisplay.textContent = `Energy: ${player.attackCharges}`;
+        const hitArray = player.strikeAttack(
+          coordinates,
+          UiState.axis,
+          opponentBoard
+        );
+        for (let i = 0; i < hitArray.length; i++) {
+          player.attack(hitArray[i], opponentBoard);
+          // disable listeners on hit spots
+          let elementIdString = 'b' + hitArray[i][0] + ',' + hitArray[i][1];
+          const bombedElement = document.getElementById(`${elementIdString}`);
+          bombedElement.classList.add('permanently-revoke-events');
+        }
+        document.removeEventListener('keyup', alternateAxis);
+        GameState.selectedAttack = 'attack';
+        UiState.axis = 'x';
+      }
+
       if (opponentBoard.allShipsSunk()) {
         GameState.gameOver = true;
         gameOver();
@@ -121,6 +376,7 @@ function playerGridListeners(gridElement) {
     { once: true }
   );
 }
+
 function sleep() {
   const ms = Math.random() * 1500;
   return new Promise((resolve) => setTimeout(resolve, ms));
@@ -171,6 +427,7 @@ function opponentGridListeners(gridElement) {
       const sfxMiss = audioMiss();
       let hitOrMiss = '';
       const turnAnnouncement = document.getElementById('turn');
+      const opponentEnergyDisplay = document.getElementById('opponent-energy');
 
       if (GameState.turn === 'player') {
         opponentGridListeners(gridElement);
@@ -180,7 +437,50 @@ function opponentGridListeners(gridElement) {
       const playerBoard = [...GameState.boards][0];
       const coordinates = gridElement.id.slice(1).split(',');
       if (GameState.mode === 'PvP') {
-        opponent.attack(coordinates, playerBoard);
+        if (GameState.selectedAttack === 'attack') {
+          opponent.attack(coordinates, playerBoard);
+          opponent.attackCharges++;
+          opponentEnergyDisplay.textContent = `Energy: ${opponent.attackCharges}`;
+        } else if (GameState.selectedAttack === 'radar') {
+          opponent.attackCharges -= 4;
+          opponentEnergyDisplay.textContent = `Energy: ${opponent.attackCharges}`;
+          let count = opponent.radarAttack(coordinates, playerBoard);
+          gridElement.textContent = `${count}`;
+          gridElement.style.textAlign = 'center';
+          gridElement.style.padding = '.5rem';
+          gridElement.style.fontSize = '2rem';
+          GameState.selectedAttack = 'attack';
+        } else if (GameState.selectedAttack === 'bomb') {
+          opponent.attackCharges -= 5;
+          opponentEnergyDisplay.textContent = `Energy: ${opponent.attackCharges}`;
+          const hitArray = opponent.bombAttack(coordinates, playerBoard);
+          for (let i = 0; i < hitArray.length; i++) {
+            opponent.attack(hitArray[i], playerBoard);
+            // disable listeners on hit spots
+            let elementIdString = 'a' + hitArray[i][0] + ',' + hitArray[i][1];
+            const bombedElement = document.getElementById(`${elementIdString}`);
+            bombedElement.classList.add('permanently-revoke-events');
+          }
+          GameState.selectedAttack = 'attack';
+        } else if (GameState.selectedAttack === 'strike') {
+          opponent.attackCharges -= 14;
+          opponentEnergyDisplay.textContent = `Energy: ${opponent.attackCharges}`;
+          const hitArray = opponent.strikeAttack(
+            coordinates,
+            UiState.axis,
+            playerBoard
+          );
+          for (let i = 0; i < hitArray.length; i++) {
+            opponent.attack(hitArray[i], playerBoard);
+            // disable listeners on hit spots
+            let elementIdString = 'a' + hitArray[i][0] + ',' + hitArray[i][1];
+            const bombedElement = document.getElementById(`${elementIdString}`);
+            bombedElement.classList.add('permanently-revoke-events');
+          }
+          document.removeEventListener('keyup', alternateAxis);
+          GameState.selectedAttack = 'attack';
+          UiState.axis = 'x';
+        }
 
         if (GameState.wasHit === true) {
           sfxHit.play();
@@ -310,4 +610,30 @@ async function fetchVictoryImage() {
   return;
 }
 
-export { createBoards, gameOverScreen, generateCoordinateIDs };
+// bonus DOM helper function
+function multiAttackRegistery(coordinates, hitOrMissStr) {
+  if (GameState.turn === 'player' && hitOrMissStr === 'hit') {
+    let elementIdString = 'b' + coordinates[0] + ',' + coordinates[1];
+    const bombedElement = document.getElementById(`${elementIdString}`);
+    bombedElement.classList.add('hit');
+  } else if (GameState.turn === 'player' && hitOrMissStr === 'miss') {
+    let elementIdString = 'b' + coordinates[0] + ',' + coordinates[1];
+    const bombedElement = document.getElementById(`${elementIdString}`);
+    bombedElement.classList.add('miss');
+  }
+  if (GameState.turn === 'opponent' && hitOrMissStr === 'hit') {
+    let elementIdString = 'a' + coordinates[0] + ',' + coordinates[1];
+    const bombedElement = document.getElementById(`${elementIdString}`);
+    bombedElement.classList.add('hit');
+  } else if (GameState.turn === 'opponent' && hitOrMissStr === 'miss') {
+    let elementIdString = 'a' + coordinates[0] + ',' + coordinates[1];
+    const bombedElement = document.getElementById(`${elementIdString}`);
+    bombedElement.classList.add('miss');
+  }
+}
+export {
+  createBoards,
+  gameOverScreen,
+  generateCoordinateIDs,
+  multiAttackRegistery,
+};

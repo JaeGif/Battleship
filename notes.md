@@ -1,10 +1,10 @@
 ToDo List
 
-1. Victory Screen needs playername Assignments. QOL update, change "You sunk the ..." to playerName sunk the ....
+1. Victory Screen needs playername Assignments. QOL update, change "You sunk the ..." to playerName sunk the .... DONE
 
-1. CpuAttack Patterns needs work. Smart attack works well and discards a target after the possibilities have been exhausted and removes the target when the ship is sunk.
+1. CpuAttack Patterns needs work. Smart attack works well and discards a target after the possibilities have been exhausted and removes the target when the ship is sunk. DONE
 
-cpuKillMove does not correctly target in a dx/dy position based on a 2 hit line, I need to workshop how to properly decide when the hits have been exhausted. This is the desired behavior:
+cpuKillMove does not correctly target in a dx/dy position based on a 2 hit line, I need to workshop how to properly decide when the hits have been exhausted. This is the desired behavior: DONE
 
     mock board
     0    0    next 0    0
@@ -67,13 +67,14 @@ miss on both sides causes it to reevaluate its next target, and pick one of the 
     0    0    0    0    0    0
     0    0    0    0    0    0
 
-2. Check all references to Gqmestate arrays for the weird reassignment bug use [...ajehg] instead!
+2. Check all references to Gqmestate arrays for the weird reassignment bug use [...ajehg] instead! DONE
 
-3. Add a charge counter to playerState Object to be used for making big attacks.
+3. Add a charge counter to playerState Object to be used for making big attacks. DONE
+
 4. add special attacks.
 
 - Air strike, 9 energy, mows down an entire line.
-- Radar, 4 energy, shows the number of nearby occupied squares in the immediate radius
+- Radar, 4 energy, shows the number of nearby occupied squares in the immediate radius DONE
 - Bomb - 5 energy, blows up a 2x2 square radius
 - Sniper - 5 energy, strikes any 1 random occupied enemy position
 - RtS Shield (Return to Sender) - 4 energy, the next attack from the enemy is reflected to strike the same position on the attackers board. If that position is occupied, attack a random position on the attackers board.
