@@ -36,10 +36,33 @@ function uniqueAttackButtonListeners() {
   // radar
   const radarButton = document.getElementById('radar-attack');
   const radarAttackOpponent = document.getElementById('radar-attack-opponent');
+
+  const strikeButton = document.getElementById('strike-attack');
+  const strikeAttackOpponent = document.getElementById(
+    'strike-attack-opponent'
+  );
+
+  const sniperButton = document.getElementById('sniper-attack');
+  const sniperAttackOpponent = document.getElementById(
+    'sniper-attack-opponent'
+  );
+
+  const bombButton = document.getElementById('bomb-attack');
+  const bombAttackOpponent = document.getElementById('bomb-attack-opponent');
+
   radarAttackOpponent.addEventListener('click', () => {
     if (GameState.turn === 'opponent') {
       if ([...GameState.players][1].attackCharges >= 4) {
         GameState.selectedAttack = 'radar';
+
+        radarAttackOpponent.classList.add('selected');
+        radarButton.classList.remove('selected');
+        strikeButton.classList.remove('selected');
+        strikeAttackOpponent.classList.remove('selected');
+        bombButton.classList.remove('selected');
+        bombAttackOpponent.classList.remove('selected');
+        sniperButton.classList.remove('selected');
+        sniperAttackOpponent.classList.remove('selected');
       } else {
         const announcement = document.getElementById('turn');
         announcement.textContent = `You dont have enough energy!`;
@@ -50,6 +73,15 @@ function uniqueAttackButtonListeners() {
     if (GameState.turn === 'player') {
       if ([...GameState.players][0].attackCharges >= 4) {
         GameState.selectedAttack = 'radar';
+
+        radarAttackOpponent.classList.remove('selected');
+        radarButton.classList.add('selected');
+        strikeButton.classList.remove('selected');
+        strikeAttackOpponent.classList.remove('selected');
+        bombButton.classList.remove('selected');
+        bombAttackOpponent.classList.remove('selected');
+        sniperButton.classList.remove('selected');
+        sniperAttackOpponent.classList.remove('selected');
       } else {
         const announcement = document.getElementById('turn');
         announcement.textContent = `You dont have enough energy!`;
@@ -57,15 +89,20 @@ function uniqueAttackButtonListeners() {
     }
   });
   // sniper
-  const sniperButton = document.getElementById('sniper-attack');
-  const sniperAttackOpponent = document.getElementById(
-    'sniper-attack-opponent'
-  );
 
   sniperButton.addEventListener('click', () => {
     if (GameState.turn === 'player') {
       if ([...GameState.players][0].attackCharges >= 7) {
         GameState.selectedAttack = 'sniper';
+
+        radarAttackOpponent.classList.remove('selected');
+        radarButton.classList.remove('selected');
+        strikeButton.classList.remove('selected');
+        strikeAttackOpponent.classList.remove('selected');
+        bombButton.classList.remove('selected');
+        bombAttackOpponent.classList.remove('selected');
+        sniperButton.classList.add('selected');
+        sniperAttackOpponent.classList.remove('selected');
         sniperSpecialBoardCover();
       } else {
         const announcement = document.getElementById('turn');
@@ -77,6 +114,15 @@ function uniqueAttackButtonListeners() {
     if (GameState.turn === 'opponent') {
       if ([...GameState.players][1].attackCharges >= 7) {
         GameState.selectedAttack = 'sniper';
+
+        radarAttackOpponent.classList.remove('selected');
+        radarButton.classList.remove('selected');
+        strikeButton.classList.remove('selected');
+        strikeAttackOpponent.classList.remove('selected');
+        bombButton.classList.remove('selected');
+        bombAttackOpponent.classList.remove('selected');
+        sniperButton.classList.remove('selected');
+        sniperAttackOpponent.classList.add('selected');
         sniperSpecialBoardCover();
       } else {
         const announcement = document.getElementById('turn');
@@ -85,13 +131,20 @@ function uniqueAttackButtonListeners() {
     }
   });
   // bomb
-  const bombButton = document.getElementById('bomb-attack');
-  const bombAttackOpponent = document.getElementById('bomb-attack-opponent');
 
   bombButton.addEventListener('click', () => {
     if (GameState.turn === 'player') {
       if ([...GameState.players][0].attackCharges >= 5) {
         GameState.selectedAttack = 'bomb';
+
+        radarAttackOpponent.classList.remove('selected');
+        radarButton.classList.remove('selected');
+        strikeButton.classList.remove('selected');
+        strikeAttackOpponent.classList.remove('selected');
+        bombButton.classList.add('selected');
+        bombAttackOpponent.classList.remove('selected');
+        sniperButton.classList.remove('selected');
+        sniperAttackOpponent.classList.remove('selected');
       } else {
         const announcement = document.getElementById('turn');
         announcement.textContent = `You dont have enough energy!`;
@@ -102,6 +155,15 @@ function uniqueAttackButtonListeners() {
     if (GameState.turn === 'opponent') {
       if ([...GameState.players][1].attackCharges >= 5) {
         GameState.selectedAttack = 'bomb';
+
+        radarAttackOpponent.classList.remove('selected');
+        radarButton.classList.remove('selected');
+        strikeButton.classList.remove('selected');
+        strikeAttackOpponent.classList.remove('selected');
+        bombButton.classList.remove('selected');
+        bombAttackOpponent.classList.add('selected');
+        sniperButton.classList.remove('selected');
+        sniperAttackOpponent.classList.remove('selected');
       } else {
         const announcement = document.getElementById('turn');
         announcement.textContent = `You dont have enough energy!`;
@@ -109,14 +171,20 @@ function uniqueAttackButtonListeners() {
     }
   });
   // strike
-  const strikeButton = document.getElementById('strike-attack');
-  const strikeAttackOpponent = document.getElementById(
-    'strike-attack-opponent'
-  );
+
   strikeButton.addEventListener('click', () => {
     if (GameState.turn === 'player') {
       if ([...GameState.players][0].attackCharges >= 14) {
         GameState.selectedAttack = 'strike';
+
+        radarAttackOpponent.classList.remove('selected');
+        radarButton.classList.remove('selected');
+        strikeButton.classList.add('selected');
+        strikeAttackOpponent.classList.remove('selected');
+        bombButton.classList.remove('selected');
+        bombAttackOpponent.classList.remove('selected');
+        sniperButton.classList.remove('selected');
+        sniperAttackOpponent.classList.remove('selected');
         document.addEventListener('keyup', alternateAxis);
       } else {
         const announcement = document.getElementById('turn');
@@ -128,6 +196,15 @@ function uniqueAttackButtonListeners() {
     if (GameState.turn === 'opponent') {
       if ([...GameState.players][1].attackCharges >= 14) {
         GameState.selectedAttack = 'strike';
+
+        radarAttackOpponent.classList.remove('selected');
+        radarButton.classList.remove('selected');
+        strikeButton.classList.remove('selected');
+        strikeAttackOpponent.classList.add('selected');
+        bombButton.classList.remove('selected');
+        bombAttackOpponent.classList.remove('selected');
+        sniperButton.classList.remove('selected');
+        sniperAttackOpponent.classList.remove('selected');
         document.addEventListener('keyup', alternateAxis);
       } else {
         const announcement = document.getElementById('turn');
@@ -200,6 +277,12 @@ function sniperSpecialBoardCover() {
         }
         GameState.selectedAttack = 'attack';
         GameState.turn = 'opponent';
+        const sniperButton = document.getElementById('sniper-attack');
+        const sniperAttackOpponent = document.getElementById(
+          'sniper-attack-opponent'
+        );
+        sniperButton.classList.remove('selected');
+        sniperAttackOpponent.classList.remove('selected');
         turnAnnouncement.textContent = `${hitOrMiss} It's ${turnPlayerName()}'s Turn!`;
       },
       { once: true }
@@ -240,6 +323,12 @@ function sniperSpecialBoardCover() {
         }
         GameState.selectedAttack = 'attack';
         GameState.turn = 'player';
+        const sniperButton = document.getElementById('sniper-attack');
+        const sniperAttackOpponent = document.getElementById(
+          'sniper-attack-opponent'
+        );
+        sniperButton.classList.remove('selected');
+        sniperAttackOpponent.classList.remove('selected');
         turnAnnouncement.textContent = `${hitOrMiss} It's ${turnPlayerName()}'s Turn!`;
       },
       { once: true }
@@ -371,6 +460,34 @@ function playerGridListeners(gridElement) {
       }
       if (GameState.mode === 'PvP') {
         GameState.turn = 'opponent';
+        const radarButton = document.getElementById('radar-attack');
+        const radarAttackOpponent = document.getElementById(
+          'radar-attack-opponent'
+        );
+
+        const strikeButton = document.getElementById('strike-attack');
+        const strikeAttackOpponent = document.getElementById(
+          'strike-attack-opponent'
+        );
+
+        const sniperButton = document.getElementById('sniper-attack');
+        const sniperAttackOpponent = document.getElementById(
+          'sniper-attack-opponent'
+        );
+
+        const bombButton = document.getElementById('bomb-attack');
+        const bombAttackOpponent = document.getElementById(
+          'bomb-attack-opponent'
+        );
+        radarAttackOpponent.classList.remove('selected');
+        radarButton.classList.remove('selected');
+        strikeButton.classList.remove('selected');
+        strikeAttackOpponent.classList.remove('selected');
+        bombButton.classList.remove('selected');
+        bombAttackOpponent.classList.remove('selected');
+        sniperButton.classList.remove('selected');
+        sniperAttackOpponent.classList.remove('selected');
+
         turnAnnouncement.textContent = `${hitOrMiss} It's ${turnPlayerName()}'s Turn!`;
       } else if (GameState.mode === 'PvC') {
         GameState.turn = 'computer';
@@ -509,6 +626,33 @@ function opponentGridListeners(gridElement) {
         gameOver();
       }
       GameState.turn = 'player';
+      const radarButton = document.getElementById('radar-attack');
+      const radarAttackOpponent = document.getElementById(
+        'radar-attack-opponent'
+      );
+
+      const strikeButton = document.getElementById('strike-attack');
+      const strikeAttackOpponent = document.getElementById(
+        'strike-attack-opponent'
+      );
+
+      const sniperButton = document.getElementById('sniper-attack');
+      const sniperAttackOpponent = document.getElementById(
+        'sniper-attack-opponent'
+      );
+
+      const bombButton = document.getElementById('bomb-attack');
+      const bombAttackOpponent = document.getElementById(
+        'bomb-attack-opponent'
+      );
+      radarAttackOpponent.classList.remove('selected');
+      radarButton.classList.remove('selected');
+      strikeButton.classList.remove('selected');
+      strikeAttackOpponent.classList.remove('selected');
+      bombButton.classList.remove('selected');
+      bombAttackOpponent.classList.remove('selected');
+      sniperButton.classList.remove('selected');
+      sniperAttackOpponent.classList.remove('selected');
       turnAnnouncement.textContent = `${hitOrMiss} It's ${turnPlayerName()}'s Turn!`;
     },
     { once: true }
