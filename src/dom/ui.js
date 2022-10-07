@@ -201,7 +201,7 @@ function sniperSpecialBoardCover() {
       },
       { once: true }
     );
-
+  } else if (GameState.turn === 'opponnent') {
     playerBoardContainer.addEventListener(
       'click',
       () => {
