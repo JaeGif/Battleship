@@ -217,6 +217,8 @@ div .miss {
 }
 #turn {
   font-size: 3rem;
+  margin-bottom: 1rem;
+  padding-top: 1rem;
 }
 
 #player-energy,

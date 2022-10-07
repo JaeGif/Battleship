@@ -314,7 +314,6 @@ class Players {
         }
       }
       for (let i = 0; i < column.length; i++) {
-        console.log(column);
         if (this._onAvailableSpace(column[i], enemyBoard)) {
           finalColumn.push(column[i]);
         }
