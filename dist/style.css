@@ -197,7 +197,12 @@ main {
   max-height: 6.5vh;
   overflow: visible;
 }
-
+.revoke-events {
+  pointer-events: none;
+}
+.permanently-revoke-events {
+  pointer-events: none;
+}
 .grid-div div:hover {
   background-color: rgba(136, 198, 195, 0.5);
 }

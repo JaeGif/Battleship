@@ -10,6 +10,7 @@ class GameState {
   static justSunk = '';
   static sunkEventFlag = false;
   static selectedAttack = 'attack';
+  static sniperInvalidFlag = false;
 }
 class CpuGameState {
   static cpuLastHit = [];

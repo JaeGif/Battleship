@@ -2,7 +2,7 @@
 The game is played against the computer, so make ‘computer’ players capable of making random plays.
  The AI does not have to be smart, but it should know whether or not a given move is legal.
  (i.e. it shouldn’t shoot the same coordinate twice). */
-import { CpuGameState } from '../objects/stateManagers.js';
+import { CpuGameState, GameState } from '../objects/stateManagers.js';
 
 class Players {
   constructor(name = 'Computer') {
@@ -138,6 +138,17 @@ class Players {
       this._cpuSmartMove(enemyBoard);
     }
   }
+  _inBounds(coordinate) {
+    if (
+      coordinate[0] > 9 ||
+      coordinate[1] > 9 ||
+      coordinate[0] < 0 ||
+      coordinate[1] < 0
+    ) {
+      return false;
+    }
+    return true;
+  }
   radarAttack(coordinates, enemyBoard) {
     // reveals the number of adjacent and diagonal ships to the placement of the radar. The radar drop itself counts as an attacked space
     this.attack(coordinates, enemyBoard);
@@ -206,7 +217,7 @@ class Players {
   }
   sniperAttack(enemyBoard) {
     // sniper shot attacks a random unhit enemy position
-    if (recordAttack.length === 0) {
+    if (enemyBoard.recordAttack.length === 0) {
       // this isn't currently possible to enter due to ennergy costs, but it may become useful
       // in further patches to the game.
       return this.attack(
@@ -222,23 +233,58 @@ class Players {
       for (let j = 0; j < enemyBoard.shipCoordinates[i].location.length; j++) {
         for (let k = 0; k < enemyBoard.recordAttack.length; k++) {
           if (
-            enemyBoard.shipCoordinates[i].location[j][0] !==
+            // check ALL recorded attacks to make sure the attack has not yet been made
+            enemyBoard.shipCoordinates[i].location[j][0] ===
               enemyBoard.recordAttack[k][0] &&
-            enemyBoard.shipCoordinates[i].location[j][1] !==
+            enemyBoard.shipCoordinates[i].location[j][1] ===
               enemyBoard.recordAttack[k][1]
           ) {
-            return this.attack(
-              [
-                enemyBoard.shipCoordinates[i].location[j][0],
-                enemyBoard.shipCoordinates[i].location[j][1],
-              ],
-              enemyBoard
-            );
+            GameState.sniperInvalidFlag = true;
           }
         }
+        if (!GameState.sniperInvalidFlag) {
+          this.attack(
+            [
+              enemyBoard.shipCoordinates[i].location[j][0],
+              enemyBoard.shipCoordinates[i].location[j][1],
+            ],
+            enemyBoard
+          );
+          return [
+            enemyBoard.shipCoordinates[i].location[j][0],
+            enemyBoard.shipCoordinates[i].location[j][1],
+          ];
+        }
+        GameState.sniperInvalidFlag = false;
       }
     }
-    return false;
+  }
+  bombAttack(upperLeftCoordinates, enemyBoard) {
+    const upperRight = [upperLeftCoordinates[0], upperLeftCoordinates[1] + 1];
+    const bottomRight = [
+      upperLeftCoordinates[0] + 1,
+      upperLeftCoordinates[1] + 1,
+    ];
+    const bottomLeft = [upperLeftCoordinates[0] + 1, upperLeftCoordinates[1]];
+    const hitSquare = [
+      upperLeftCoordinates,
+      upperRight,
+      bottomRight,
+      bottomLeft,
+    ];
+    let finalHits = [];
+    // send each attack to the enemy board
+    for (let i = 0; i < hitSquare.length; i++) {
+      // validate  to only pass unhit squares and in bound squares.
+      if (
+        this._onAvailableSpace(hitSquare[i], enemyBoard) &&
+        this._inBounds(hitSquare[i])
+      ) {
+        finalHits.push(hitSquare[i]);
+        this.attack(hitSquare[i], enemyBoard);
+      }
+    }
+    return finalHits;
   }
 }
 

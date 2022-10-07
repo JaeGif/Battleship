@@ -33,6 +33,7 @@ function createBoards(size = 10) {
   turnAnnouncement.textContent = `${turnPlayerName()} start your offensive!`;
 }
 function uniqueAttackButtonListeners() {
+  // radar
   const radarButton = document.getElementById('radar-attack');
   const radarAttackOpponent = document.getElementById('radar-attack-opponent');
   radarAttackOpponent.addEventListener('click', () => {
@@ -55,6 +56,124 @@ function uniqueAttackButtonListeners() {
       }
     }
   });
+  // sniper
+  const sniperButton = document.getElementById('sniper-attack');
+  const sniperAttackOpponent = document.getElementById(
+    'sniper-attack-opponent'
+  );
+
+  sniperButton.addEventListener('click', () => {
+    if (GameState.turn === 'player') {
+      if ([...GameState.players][0].attackCharges >= 5) {
+        GameState.selectedAttack = 'sniper';
+        sniperSpecialBoardCover();
+      } else {
+        const announcement = document.getElementById('turn');
+        announcement.textContent = `You dont have enough energy!`;
+      }
+    }
+  });
+  sniperAttackOpponent.addEventListener('click', () => {
+    if (GameState.turn === 'opponent') {
+      if ([...GameState.players][1].attackCharges >= 5) {
+        GameState.selectedAttack = 'sniper';
+      } else {
+        const announcement = document.getElementById('turn');
+        announcement.textContent = `You dont have enough energy!`;
+      }
+    }
+  });
+  // bomb
+}
+function sniperSpecialBoardCover() {
+  const playerBoardContainer = document.getElementById('current-player-board');
+  const opponentBoardContainer = document.getElementById(
+    'current-opponent-board'
+  );
+  const turnAnnouncement = document.getElementById('turn');
+  const playerEnergyDisplay = document.getElementById('player-energy');
+  const player = [...GameState.players][0];
+  const opponentBoard = [...GameState.boards][1];
+  const opponent = [...GameState.players][1];
+  const playerBoard = [...GameState.boards][0];
+  const opponentEnergyDisplay = document.getElementById('opponent-energy');
+
+  let hitOrMiss = 'Hit!';
+  const sfxHit = audioHit();
+
+  if (GameState.turn === 'player') {
+    // disallow targeting of the enemyboard itself (prevents doubly attacking from bubbling)
+    for (let i = 0; i < opponentBoardContainer.children.length; i++) {
+      if (opponentBoardContainer.children[i].tagName === 'DIV') {
+        opponentBoardContainer.children[i].classList.add('revoke-events');
+      }
+    }
+    opponentBoardContainer.addEventListener(
+      'click',
+      () => {
+        player.attackCharges -= 5;
+        playerEnergyDisplay.textContent = `Energy: ${player.attackCharges}`;
+        const snipedCoordinates = player.sniperAttack(opponentBoard);
+        // get id of sniped coord
+        let elementIdString =
+          'b' + snipedCoordinates[0] + ',' + snipedCoordinates[1];
+        const hitElement = document.getElementById(`${elementIdString}`);
+        sfxHit.play();
+        hitElement.classList.add('hit');
+        hitElement.classList.add('permanently-revoke-events');
+        if (GameState.sunkEventFlag === true) {
+          hitOrMiss = `You sunk the ${GameState.justSunk}!`;
+          GameState.sunkEventFlag = false;
+        }
+        // allow board to be targeted again after attack is done
+
+        for (let i = 0; i < opponentBoardContainer.children.length; i++) {
+          if (opponentBoardContainer.children[i].tagName === 'DIV') {
+            opponentBoardContainer.children[i].classList.remove(
+              'revoke-events'
+            );
+          }
+        }
+
+        GameState.selectedAttack = 'attack';
+        GameState.turn = 'opponent';
+        turnAnnouncement.textContent = `${hitOrMiss} It's ${turnPlayerName()}'s Turn!`;
+      },
+      { once: true }
+    );
+
+    playerBoardContainer.addEventListener(
+      'click',
+      () => {
+        opponent.attackCharges -= 5;
+        opponentEnergyDisplay.textContent = `Energy: ${opponent.attackCharges}`;
+        const snipedCoordinates = opponent.sniperAttack(playerBoard);
+        // get id of sniped coord
+        let elementIdString =
+          'a' + snipedCoordinates[0] + ',' + snipedCoordinates[1];
+        const hitElement = document.getElementById(`${elementIdString}`);
+        sfxHit.play();
+        hitElement.classList.add('hit');
+        hitElement.classList.add('permanently-revoke-events');
+        if (GameState.sunkEventFlag === true) {
+          hitOrMiss = `You sunk the ${GameState.justSunk}!`;
+          GameState.sunkEventFlag = false;
+        }
+        // allow board to be targeted again after attack is done
+
+        for (let i = 0; i < playerBoardContainer.children.length; i++) {
+          if (playerBoardContainer.children[i].tagName === 'DIV') {
+            playerBoardContainer.children[i].classList.remove('revoke-events');
+          }
+        }
+
+        GameState.selectedAttack = 'attack';
+        GameState.turn = 'player';
+        turnAnnouncement.textContent = `${hitOrMiss} It's ${turnPlayerName()}'s Turn!`;
+      },
+      { once: true }
+    );
+  }
 }
 function createPlayerBoard(size) {
   const playerCoordinateIterator = generateCoordinateIDs(size);
