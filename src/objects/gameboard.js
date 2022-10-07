@@ -1,3 +1,4 @@
+import { multiAttackRegistery } from '../dom/ui.js';
 import Ship from './ships.js';
 import { GameState, CpuGameState } from './stateManagers.js';
 
@@ -10,6 +11,7 @@ class Gameboards {
   recordAttack = []; // array of attacked coordinates
   sunkShips = [];
   receiveAttack(coordinates) {
+    let bombHitOrMissStr = 'miss';
     // updates the gameboards data on what spaces have been hit for the DOM
     this.recordAttack.push(coordinates);
     if (GameState.turn === 'computer') {
@@ -26,7 +28,10 @@ class Gameboards {
           coordinates[1] === this.shipCoordinates[i].location[j][1]
         ) {
           // if the coords match, it's a hit
-
+          // bomb hits
+          if (GameState.selectedAttack === 'bomb') {
+            bombHitOrMissStr = 'hit';
+          }
           this.shipCoordinates[i].object.hit(coordinates);
           GameState.wasHit = true;
 
@@ -48,9 +53,15 @@ class Gameboards {
               CpuGameState.cpuLastHit = [];
             }
           }
+          if (GameState.selectedAttack === 'bomb') {
+            multiAttackRegistery(coordinates, bombHitOrMissStr);
+          }
           return true;
         }
       }
+    }
+    if (GameState.selectedAttack === 'bomb') {
+      multiAttackRegistery(coordinates, bombHitOrMissStr);
     }
     return false;
   }

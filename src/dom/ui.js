@@ -84,6 +84,29 @@ function uniqueAttackButtonListeners() {
     }
   });
   // bomb
+  const bombButton = document.getElementById('bomb-attack');
+  const bombAttackOpponent = document.getElementById('bomb-attack-opponent');
+
+  bombButton.addEventListener('click', () => {
+    if (GameState.turn === 'player') {
+      if ([...GameState.players][0].attackCharges >= 4) {
+        GameState.selectedAttack = 'bomb';
+      } else {
+        const announcement = document.getElementById('turn');
+        announcement.textContent = `You dont have enough energy!`;
+      }
+    }
+  });
+  bombAttackOpponent.addEventListener('click', () => {
+    if (GameState.turn === 'opponent') {
+      if ([...GameState.players][1].attackCharges >= 4) {
+        GameState.selectedAttack = 'bomb';
+      } else {
+        const announcement = document.getElementById('turn');
+        announcement.textContent = `You dont have enough energy!`;
+      }
+    }
+  });
 }
 function sniperSpecialBoardCover() {
   const playerBoardContainer = document.getElementById('current-player-board');
@@ -247,7 +270,20 @@ function playerGridListeners(gridElement) {
         gridElement.style.padding = '.5rem';
         gridElement.style.fontSize = '2rem';
         GameState.selectedAttack = 'attack';
+      } else if (GameState.selectedAttack === 'bomb') {
+        player.attackCharges -= 4;
+        playerEnergyDisplay.textContent = `Energy: ${player.attackCharges}`;
+        const hitArray = player.bombAttack(coordinates, opponentBoard);
+        for (let i = 0; i < hitArray.length; i++) {
+          player.attack(hitArray[i], opponentBoard);
+          // disable listeners on hit spots
+          let elementIdString = 'b' + hitArray[i][0] + ',' + hitArray[i][1];
+          const bombedElement = document.getElementById(`${elementIdString}`);
+          bombedElement.classList.add('permanently-revoke-events');
+        }
+        GameState.selectedAttack = 'attack';
       }
+
       if (opponentBoard.allShipsSunk()) {
         GameState.gameOver = true;
         gameOver();
@@ -353,6 +389,18 @@ function opponentGridListeners(gridElement) {
           gridElement.style.textAlign = 'center';
           gridElement.style.padding = '.5rem';
           gridElement.style.fontSize = '2rem';
+          GameState.selectedAttack = 'attack';
+        } else if (GameState.selectedAttack === 'bomb') {
+          opponent.attackCharges -= 4;
+          opponentEnergyDisplay.textContent = `Energy: ${opponent.attackCharges}`;
+          const hitArray = opponent.bombAttack(coordinates, playerBoard);
+          for (let i = 0; i < hitArray.length; i++) {
+            opponent.attack(hitArray[i], playerBoard);
+            // disable listeners on hit spots
+            let elementIdString = 'a' + hitArray[i][0] + ',' + hitArray[i][1];
+            const bombedElement = document.getElementById(`${elementIdString}`);
+            bombedElement.classList.add('permanently-revoke-events');
+          }
           GameState.selectedAttack = 'attack';
         }
 
@@ -484,4 +532,30 @@ async function fetchVictoryImage() {
   return;
 }
 
-export { createBoards, gameOverScreen, generateCoordinateIDs };
+// bonus DOM helper function
+function multiAttackRegistery(coordinates, hitOrMissStr) {
+  if (GameState.turn === 'player' && hitOrMissStr === 'hit') {
+    let elementIdString = 'b' + coordinates[0] + ',' + coordinates[1];
+    const bombedElement = document.getElementById(`${elementIdString}`);
+    bombedElement.classList.add('hit');
+  } else if (GameState.turn === 'player' && hitOrMissStr === 'miss') {
+    let elementIdString = 'b' + coordinates[0] + ',' + coordinates[1];
+    const bombedElement = document.getElementById(`${elementIdString}`);
+    bombedElement.classList.add('miss');
+  }
+  if (GameState.turn === 'opponent' && hitOrMissStr === 'hit') {
+    let elementIdString = 'a' + coordinates[0] + ',' + coordinates[1];
+    const bombedElement = document.getElementById(`${elementIdString}`);
+    bombedElement.classList.add('hit');
+  } else if (GameState.turn === 'opponent' && hitOrMissStr === 'miss') {
+    let elementIdString = 'a' + coordinates[0] + ',' + coordinates[1];
+    const bombedElement = document.getElementById(`${elementIdString}`);
+    bombedElement.classList.add('miss');
+  }
+}
+export {
+  createBoards,
+  gameOverScreen,
+  generateCoordinateIDs,
+  multiAttackRegistery,
+};

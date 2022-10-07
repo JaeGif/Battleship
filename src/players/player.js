@@ -259,7 +259,11 @@ class Players {
       }
     }
   }
-  bombAttack(upperLeftCoordinates, enemyBoard) {
+  bombAttack(coordinates, enemyBoard) {
+    let upperLeftCoordinates = [
+      parseInt(coordinates[0]),
+      parseInt(coordinates[1]),
+    ];
     const upperRight = [upperLeftCoordinates[0], upperLeftCoordinates[1] + 1];
     const bottomRight = [
       upperLeftCoordinates[0] + 1,
@@ -281,7 +285,6 @@ class Players {
         this._inBounds(hitSquare[i])
       ) {
         finalHits.push(hitSquare[i]);
-        this.attack(hitSquare[i], enemyBoard);
       }
     }
     return finalHits;
