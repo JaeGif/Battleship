@@ -194,7 +194,10 @@ function sniperSpecialBoardCover() {
             );
           }
         }
-
+        if (opponentBoard.allShipsSunk()) {
+          GameState.gameOver = true;
+          gameOver();
+        }
         GameState.selectedAttack = 'attack';
         GameState.turn = 'opponent';
         turnAnnouncement.textContent = `${hitOrMiss} It's ${turnPlayerName()}'s Turn!`;
@@ -231,7 +234,10 @@ function sniperSpecialBoardCover() {
             playerBoardContainer.children[i].classList.remove('revoke-events');
           }
         }
-
+        if (playerBoard.allShipsSunk()) {
+          GameState.gameOver = true;
+          gameOver();
+        }
         GameState.selectedAttack = 'attack';
         GameState.turn = 'player';
         turnAnnouncement.textContent = `${hitOrMiss} It's ${turnPlayerName()}'s Turn!`;
@@ -310,7 +316,7 @@ function playerGridListeners(gridElement) {
         gridElement.textContent = `${count}`;
         gridElement.style.textAlign = 'center';
         gridElement.style.padding = '.5rem';
-        gridElement.style.fontSize = '2rem';
+        gridElement.style.fontSize = '1.75rem';
         GameState.selectedAttack = 'attack';
       } else if (GameState.selectedAttack === 'bomb') {
         player.attackCharges -= 5;
@@ -448,7 +454,7 @@ function opponentGridListeners(gridElement) {
           gridElement.textContent = `${count}`;
           gridElement.style.textAlign = 'center';
           gridElement.style.padding = '.5rem';
-          gridElement.style.fontSize = '2rem';
+          gridElement.style.fontSize = '1.75rem';
           GameState.selectedAttack = 'attack';
         } else if (GameState.selectedAttack === 'bomb') {
           opponent.attackCharges -= 5;
