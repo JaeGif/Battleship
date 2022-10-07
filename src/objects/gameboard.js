@@ -29,7 +29,10 @@ class Gameboards {
         ) {
           // if the coords match, it's a hit
           // bomb hits
-          if (GameState.selectedAttack === 'bomb') {
+          if (
+            GameState.selectedAttack === 'bomb' ||
+            GameState.selectedAttack === 'strike'
+          ) {
             bombHitOrMissStr = 'hit';
           }
           this.shipCoordinates[i].object.hit(coordinates);
@@ -53,14 +56,20 @@ class Gameboards {
               CpuGameState.cpuLastHit = [];
             }
           }
-          if (GameState.selectedAttack === 'bomb') {
+          if (
+            GameState.selectedAttack === 'bomb' ||
+            GameState.selectedAttack === 'strike'
+          ) {
             multiAttackRegistery(coordinates, bombHitOrMissStr);
           }
           return true;
         }
       }
     }
-    if (GameState.selectedAttack === 'bomb') {
+    if (
+      GameState.selectedAttack === 'bomb' ||
+      GameState.selectedAttack === 'strike'
+    ) {
       multiAttackRegistery(coordinates, bombHitOrMissStr);
     }
     return false;
