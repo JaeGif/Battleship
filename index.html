@@ -22,6 +22,7 @@
     <div id="menu">
       <button id="pvc">Single Player</button>
       <button id="multiplayer">Multiplayer Local</button>
+      <button id="instructions-menu">How to Play</button>
       <button id="options">Options</button>
       <div id="single-player-name">
         <input
@@ -47,6 +48,75 @@
           />
         </div>
         <button type="submit" id="new-game-btn-multiplayer">Start Game</button>
+      </div>
+    </div>
+    <!-- Inner Instructions Page -->
+    <div id="instructions-menu">
+      <h1>How To Play</h1>
+      <div id="instructions-wrapper">
+        <div id="general-battleship-instructions">
+          <h2>Battleship</h2>
+        </div>
+        <div id="drop-down-attack-details-container">
+          <details>
+            <summary class="instruction-header">Radar</summary>
+            <p class="instruction-details">
+              A Radar costs 4 energy to use. When dropped in <br />
+              enemy waters, it reveals the number of nearby <br />
+              occupied squares up to 8 (excluding itself).
+              <img
+                class="instructional-img"
+                src="/dist/assets/instructional/radar.png"
+              />
+            </p>
+          </details>
+          <details>
+            <summary class="instruction-header">Sniper</summary>
+            <p class="instruction-details">
+              The Sniper costs 7 energy. When selected, click <br />
+              anywhere on the enemy board to target a random <br />
+              unhit square.
+            </p>
+          </details>
+          <details>
+            <summary class="instruction-header">Bomb</summary>
+            <p class="instruction-details">
+              A Bomb costs 5 energy to use. When dropped in <br />
+              enemy waters, it explodes, targeting 4 <br />
+              adjacent squares.
+            </p>
+            <div class="instruction-details">
+              <div>
+                <imgcruiser
+                  class="instructional-img"
+                  src="/dist/assets/instructional/bombBefore.png"
+                />
+                <p>
+                  Before Dropping the space to be attacked <br />is highlighted
+                </p>
+              </div>
+              <div>
+                <img
+                  class="instructional-img"
+                  src="/dist/assets/instructional/bombAfter.png"
+                />
+                <p>
+                  After Dropping, all 4 squares are blown to <br />
+                  bits
+                </p>
+              </div>
+            </div>
+          </details>
+          <details>
+            <summary class="instruction-header">Strike</summary>
+            <p class="instruction-details">
+              The Strike costs a huge 14 energy to use! It's <br />
+              expensive and powerful. Use it to obliterate <br />
+              an entire column. Tapping space after selection <br />
+              will change the orientation of the strike.
+            </p>
+          </details>
+        </div>
       </div>
     </div>
     <!-- Inner Options -->

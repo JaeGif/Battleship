@@ -16,7 +16,7 @@ body {
   background-attachment: fixed;
 }
 #play-card {
-  display: flex;
+  display: none;
   flex-direction: column;
   justify-content: space-evenly;
   align-items: center;
@@ -160,6 +160,39 @@ hr {
   align-items: center;
   justify-content: center;
   height: 100vh;
+}
+/* Instructions Menu */
+#instructions-menu {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  width: 100vw;
+  height: 100vh;
+}
+#instructions-wrapper {
+  width: 100%;
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+}
+#general-battleship-instructions {
+  width: 70vw;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+}
+#drop-down-attack-details-container {
+  width: 40vw;
+}
+#instructions-menu h1 {
+  font-size: 3.5rem;
+}
+.instruction-details {
+  max-height: 50vh;
+  overflow: scroll;
+}
+.instructional-img {
+  height: 50vh;
 }
 /* Main Game CSS File */
 
