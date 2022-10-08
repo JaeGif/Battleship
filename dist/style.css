@@ -199,6 +199,7 @@ main {
 }
 .revoke-events {
   pointer-events: none;
+  cursor: pointer;
 }
 .permanently-revoke-events {
   pointer-events: none;
