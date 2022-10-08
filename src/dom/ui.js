@@ -471,36 +471,11 @@ function playerGridListeners(gridElement) {
       }
       if (GameState.mode === 'PvP') {
         GameState.turn = 'opponent';
-        const radarButton = document.getElementById('radar-attack');
-        const radarAttackOpponent = document.getElementById(
-          'radar-attack-opponent'
-        );
-
-        const strikeButton = document.getElementById('strike-attack');
-        const strikeAttackOpponent = document.getElementById(
-          'strike-attack-opponent'
-        );
-
-        const sniperButton = document.getElementById('sniper-attack');
-        const sniperAttackOpponent = document.getElementById(
-          'sniper-attack-opponent'
-        );
-
-        const bombButton = document.getElementById('bomb-attack');
-        const bombAttackOpponent = document.getElementById(
-          'bomb-attack-opponent'
-        );
-        radarAttackOpponent.classList.remove('selected');
-        radarButton.classList.remove('selected');
-        strikeButton.classList.remove('selected');
-        strikeAttackOpponent.classList.remove('selected');
-        bombButton.classList.remove('selected');
-        bombAttackOpponent.classList.remove('selected');
-        sniperButton.classList.remove('selected');
-        sniperAttackOpponent.classList.remove('selected');
+        removeSelectedAttackTag();
 
         turnAnnouncement.textContent = `${hitOrMiss} It's ${turnPlayerName()}'s Turn!`;
       } else if (GameState.mode === 'PvC') {
+        removeSelectedAttackTag();
         GameState.turn = 'computer';
         turnAnnouncement.textContent = `${hitOrMiss} It's ${turnPlayerName()}'s Turn!`;
 
@@ -510,7 +485,31 @@ function playerGridListeners(gridElement) {
     { once: true }
   );
 }
+function removeSelectedAttackTag() {
+  const radarButton = document.getElementById('radar-attack');
+  const radarAttackOpponent = document.getElementById('radar-attack-opponent');
 
+  const strikeButton = document.getElementById('strike-attack');
+  const strikeAttackOpponent = document.getElementById(
+    'strike-attack-opponent'
+  );
+
+  const sniperButton = document.getElementById('sniper-attack');
+  const sniperAttackOpponent = document.getElementById(
+    'sniper-attack-opponent'
+  );
+
+  const bombButton = document.getElementById('bomb-attack');
+  const bombAttackOpponent = document.getElementById('bomb-attack-opponent');
+  radarAttackOpponent.classList.remove('selected');
+  radarButton.classList.remove('selected');
+  strikeButton.classList.remove('selected');
+  strikeAttackOpponent.classList.remove('selected');
+  bombButton.classList.remove('selected');
+  bombAttackOpponent.classList.remove('selected');
+  sniperButton.classList.remove('selected');
+  sniperAttackOpponent.classList.remove('selected');
+}
 function sleep() {
   const ms = Math.random() * 1500;
   return new Promise((resolve) => setTimeout(resolve, ms));
