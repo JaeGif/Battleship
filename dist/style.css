@@ -378,7 +378,7 @@ div.invalid-placement {
   top: 50%;
   margin-left: -11.25rem;
   margin-top: -20rem;
-  height: 40rem;
+  height: fit-content;
   width: 20rem;
   z-index: 1;
   color: #fff;
