@@ -22,6 +22,7 @@ function createBoards(size = 10) {
     createOpponentBoard(size);
   } else if (GameState.mode === 'PvC') {
     displayPlayerShips();
+
     createOpponentBoard(size);
   }
 
@@ -262,6 +263,7 @@ function sniperSpecialBoardCover() {
           hitOrMiss = `You sunk the ${GameState.justSunk}!`;
           GameState.sunkEventFlag = false;
         }
+        GameState.wasHit = false;
         // allow board to be targeted again after attack is done
 
         for (let i = 0; i < opponentBoardContainer.children.length; i++) {
@@ -276,13 +278,12 @@ function sniperSpecialBoardCover() {
           gameOver();
         }
         GameState.selectedAttack = 'attack';
-        GameState.turn = 'opponent';
-        const sniperButton = document.getElementById('sniper-attack');
-        const sniperAttackOpponent = document.getElementById(
-          'sniper-attack-opponent'
-        );
-        sniperButton.classList.remove('selected');
-        sniperAttackOpponent.classList.remove('selected');
+        if (GameState.mode === 'PvP') {
+          GameState.turn = 'opponent';
+        } else if (GameState.mode === 'PvC') {
+          GameState.turn = 'computer';
+          computerGameLoop();
+        }
         turnAnnouncement.textContent = `${hitOrMiss} It's ${turnPlayerName()}'s Turn!`;
       },
       { once: true }
@@ -311,6 +312,7 @@ function sniperSpecialBoardCover() {
           GameState.sunkEventFlag = false;
         }
         // allow board to be targeted again after attack is done
+        GameState.wasHit = false;
 
         for (let i = 0; i < playerBoardContainer.children.length; i++) {
           if (playerBoardContainer.children[i].tagName === 'DIV') {
@@ -394,11 +396,15 @@ function playerGridListeners(gridElement) {
       const player = [...GameState.players][0];
       const opponentBoard = [...GameState.boards][1];
       const coordinates = gridElement.id.slice(1).split(',');
+
+      // regular attack logic
       if (GameState.selectedAttack === 'attack') {
         player.attack(coordinates, opponentBoard);
         player.attackCharges++;
         playerEnergyDisplay.textContent = `Energy: ${player.attackCharges}`;
-      } else if (GameState.selectedAttack === 'radar') {
+      }
+      // radar attack logic
+      else if (GameState.selectedAttack === 'radar') {
         player.attackCharges -= 4;
         playerEnergyDisplay.textContent = `Energy: ${player.attackCharges}`;
         let count = player.radarAttack(coordinates, opponentBoard);
@@ -407,7 +413,9 @@ function playerGridListeners(gridElement) {
         gridElement.style.padding = '.5rem';
         gridElement.style.fontSize = '1.75rem';
         GameState.selectedAttack = 'attack';
-      } else if (GameState.selectedAttack === 'bomb') {
+      }
+      // bomb attack logic
+      else if (GameState.selectedAttack === 'bomb') {
         player.attackCharges -= 5;
         playerEnergyDisplay.textContent = `Energy: ${player.attackCharges}`;
         const hitArray = player.bombAttack(coordinates, opponentBoard);
@@ -419,7 +427,9 @@ function playerGridListeners(gridElement) {
           bombedElement.classList.add('permanently-revoke-events');
         }
         GameState.selectedAttack = 'attack';
-      } else if (GameState.selectedAttack === 'strike') {
+      }
+      // strike attack logic
+      else if (GameState.selectedAttack === 'strike') {
         player.attackCharges -= 14;
         playerEnergyDisplay.textContent = `Energy: ${player.attackCharges}`;
         const hitArray = player.strikeAttack(
@@ -439,6 +449,7 @@ function playerGridListeners(gridElement) {
         UiState.axis = 'x';
       }
 
+      // if sunk check for
       if (opponentBoard.allShipsSunk()) {
         GameState.gameOver = true;
         gameOver();
@@ -731,6 +742,7 @@ function displayPlayerShips() {
   let occupiedSpace = '';
 
   const playerBoard = [...GameState.boards][0];
+  const opponentBoard = [...GameState.boards][1];
   for (let i = 0; i < playerBoard.shipCoordinates.length; i++) {
     for (let j = 0; j < playerBoard.shipCoordinates[i].location.length; j++) {
       occupiedSpace =
@@ -741,6 +753,17 @@ function displayPlayerShips() {
       gridElement.classList.add('reveal');
     }
   }
+  // this sectionn is for displaying opponent ships for debugging purposes.
+  /*   for (let i = 0; i < opponentBoard.shipCoordinates.length; i++) {
+    for (let j = 0; j < opponentBoard.shipCoordinates[i].location.length; j++) {
+      occupiedSpace =
+        opponentBoard.shipCoordinates[i].location[j][0] +
+        ',' +
+        opponentBoard.shipCoordinates[i].location[j][1];
+      const gridElement = document.getElementById(`b${occupiedSpace}`);
+      gridElement.classList.add('reveal');
+    }
+  } */
 }
 async function fetchBackgroundImage() {
   const gifId = 'XPlcxsFs8BIKk';
