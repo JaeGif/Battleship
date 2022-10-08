@@ -384,6 +384,9 @@ div.invalid-placement {
   color: #fff;
   padding: 20px;
   padding-top: 15px;
+  background-color: rgba(0, 204, 255, 0.655);
+  border: solid 5px white;
+  border-radius: 3px;
 }
 #game-over-modal h1 {
   font-size: 4rem;
