@@ -6,7 +6,6 @@ You can implement a system for allowing players to place their ships later.
 
 import { gameOverScreen } from './dom/ui.js';
 import { placementPage } from './dom/placement.js';
-import { GameState } from './objects/stateManagers.js';
 
 function newGame() {
   placementPage();

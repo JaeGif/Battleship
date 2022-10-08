@@ -691,6 +691,12 @@ function turnPlayerName() {
 }
 
 function gameOverScreen() {
+  const opponentBoardContainer = document.getElementById(
+    'current-opponent-board'
+  );
+  const playerBoardContainer = document.getElementById('current-player-board');
+  playerBoardContainer.classList.add('game-over');
+  opponentBoardContainer.classList.add('game-over');
   const modalContainer = document.getElementById('game-over-modal');
   const winnerNameP = document.getElementById('winner-name');
   const numShipsRemaining = document.getElementById('num-remaining');

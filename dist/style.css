@@ -399,6 +399,9 @@ div.invalid-placement {
   height: 10rem;
   width: auto;
 }
+.game-over {
+  background-color: rgba(135, 135, 135, 0.75);
+}
 .replay-btn {
   cursor: pointer;
   font-size: 3rem;
