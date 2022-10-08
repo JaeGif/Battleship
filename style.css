@@ -199,6 +199,7 @@ main {
 }
 .revoke-events {
   pointer-events: none;
+  cursor: pointer;
 }
 .permanently-revoke-events {
   pointer-events: none;
@@ -377,12 +378,15 @@ div.invalid-placement {
   top: 50%;
   margin-left: -11.25rem;
   margin-top: -20rem;
-  height: 30rem;
+  height: 40rem;
   width: 20rem;
   z-index: 1;
   color: #fff;
   padding: 20px;
   padding-top: 15px;
+  background-color: rgba(0, 204, 255, 0.655);
+  border: solid 5px white;
+  border-radius: 3px;
 }
 #game-over-modal h1 {
   font-size: 4rem;
