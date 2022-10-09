@@ -173,16 +173,42 @@ hr {
   width: 100%;
   display: flex;
   justify-content: space-evenly;
-  align-items: center;
 }
 #general-battleship-instructions {
   width: 70vw;
   display: flex;
   align-items: center;
   flex-direction: column;
+  justify-content: center;
+  line-height: 1rem;
+}
+.flow-to-scroll {
+  height: 60vh;
+  overflow: scroll;
+}
+#rule-header {
+  font-size: 2.5rem;
+}
+em {
+  color: red;
+  font-style: normal;
+}
+.emphasize-sections {
+  color: white;
+  font-size: 2rem;
 }
 #drop-down-attack-details-container {
   width: 40vw;
+  overflow: scroll;
+  height: 65vh;
+  margin-top: 3rem;
+}
+.instruction-header {
+  font-size: 2rem;
+}
+.instruction-header:hover {
+  color: red;
+  cursor: pointer;
 }
 #instructions-menu h1 {
   font-size: 3.5rem;
@@ -190,9 +216,27 @@ hr {
 .instruction-details {
   max-height: 50vh;
   overflow: scroll;
+  font-size: 1.5rem;
+}
+.instruction-details-rulebook {
+  max-height: 50vh;
+  font-size: 1.5rem;
 }
 .instructional-img {
   height: 50vh;
+}
+#return-button {
+  position: absolute;
+  bottom: 0;
+  background: none;
+  border: none;
+  font-size: 3rem;
+  cursor: pointer;
+  margin: 0;
+  padding: 0;
+}
+#return-button:hover {
+  color: red;
 }
 /* Main Game CSS File */
 

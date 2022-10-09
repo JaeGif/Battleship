@@ -55,69 +55,160 @@
       <h1>How To Play</h1>
       <div id="instructions-wrapper">
         <div id="general-battleship-instructions">
-          <h2>Battleship</h2>
+          <h2 id="rule-header">Rulebook</h2>
+          <div class="flow-to-scroll">
+            <p class="instruction-details-rulebook">
+              This is more than just a classic game of Battleship <br />
+              in this version, you can strategize and use special <br />
+              attacks to weaken your opponents position.
+            </p>
+            <h2 class="emphasize-sections">Selecting a Mode</h2>
+            <p class="instruction-details-rulebook">
+              Currently, there are 2 modes available. You can play <br />
+              against a relativly smart computer, or against a friend <br />
+              locally on the same device.
+            </p>
+            <h2 class="emphasize-sections">Placing Ships</h2>
+            <p class="instruction-details-rulebook">
+              Thanks to drag and drop, placing ships is relatively easy! <br />
+              simply mouse over the next ship in line,
+              <em>left-click and drag</em>
+              <br />
+              the ship to the position you want to drop it on. <br />
+              This is where things get a little tricky though. The grid you
+              <br />
+              are hovering when you release the ships position marks the 1st
+              <br />
+              ship piece, no matter the length of the ship. <br />
+            </p>
+
+            <p class="instruction-details-rulebook">
+              In this example the ship is dragged to the <em>red</em> position.
+              <br />
+              When it is placed, the ship will fill out it's remaining <br />
+              length along the chosen axis (marked in
+              <em style="color: rgb(0, 208, 0)">green</em>).
+            </p>
+            <img
+              class="instructional-img"
+              src="/dist/assets/instructional/shipPlacement.png"
+            />
+            <p class="instruction-details-rulebook">
+              Pay attention to the <em>length</em> of each ship! If there isn't
+              <br />
+              Enough space left to place the ship, it won't drop and you'll
+              <br />
+              have to try again. <br />
+            </p>
+            <p class="instruction-details-rulebook">
+              The <em>randomize</em> button will automatically place all of
+              your<br />
+              ships in randomly selected spots on the grid in a random axis
+              <br />
+            </p>
+            <h2 class="emphasize-sections">Gameplay</h2>
+            <p class="instruction-details-rulebook">
+              When a game starts, player 1 can attack any square on their <br />
+              opponent's board. Both players start with 0 energy. You build
+              <br />
+              1 energy every turn. The energy can be used on special attacks
+              <br />
+              that have interesting effects on your opponents boards.
+            </p>
+            <p class="instruction-details-rulebook">
+              <em>Red</em> squares indicate that the attack <em>hit</em> that
+              cell!<br />
+              while <em style="color: grey">grey</em>squares indicate a
+              <em style="color: grey">miss</em>. Target around a hit cell
+              <br />
+              until the ship is finally sunk!
+            </p>
+            <img
+              class="instructional-img"
+              src="/dist/assets/instructional/generalGamplay.png"
+            />
+            <p class="instruction-details">
+              After you sink all of your opponents ships the game will end.
+              <br />
+              The winning player and some details are displayed and you can
+              <br />
+              try again from the beginning.
+            </p>
+            <img
+              class="instructional-img"
+              src="/dist/assets/instructional/victoryScreen.png"
+            />
+          </div>
         </div>
-        <div id="drop-down-attack-details-container">
-          <details>
-            <summary class="instruction-header">Radar</summary>
-            <p class="instruction-details">
-              A Radar costs 4 energy to use. When dropped in <br />
-              enemy waters, it reveals the number of nearby <br />
-              occupied squares up to 8 (excluding itself).
-              <img
-                class="instructional-img"
-                src="/dist/assets/instructional/radar.png"
-              />
-            </p>
-          </details>
-          <details>
-            <summary class="instruction-header">Sniper</summary>
-            <p class="instruction-details">
-              The Sniper costs 7 energy. When selected, click <br />
-              anywhere on the enemy board to target a random <br />
-              unhit square.
-            </p>
-          </details>
-          <details>
-            <summary class="instruction-header">Bomb</summary>
-            <p class="instruction-details">
-              A Bomb costs 5 energy to use. When dropped in <br />
-              enemy waters, it explodes, targeting 4 <br />
-              adjacent squares.
-            </p>
-            <div class="instruction-details">
-              <div>
-                <imgcruiser
-                  class="instructional-img"
-                  src="/dist/assets/instructional/bombBefore.png"
-                />
-                <p>
-                  Before Dropping the space to be attacked <br />is highlighted
-                </p>
-              </div>
-              <div>
+        <div id="specials-wrapper">
+          <h1>Special Attacks</h1>
+
+          <div id="drop-down-attack-details-container">
+            <details>
+              <summary class="instruction-header">Radar</summary>
+              <p class="instruction-details">
+                A Radar costs 4 energy to use. When <br />
+                dropped in enemy waters, it reveals the number <br />
+                of nearby occupied squares up to 8 <br />
+                (excluding itself).
                 <img
                   class="instructional-img"
-                  src="/dist/assets/instructional/bombAfter.png"
+                  src="/dist/assets/instructional/radar.png"
                 />
-                <p>
-                  After Dropping, all 4 squares are blown to <br />
-                  bits
-                </p>
+              </p>
+            </details>
+            <details>
+              <summary class="instruction-header">Sniper</summary>
+              <p class="instruction-details">
+                The Sniper costs 7 energy. When <br />
+                selected, click anywhere on the enemy <br />
+                board to target a random unhit ship space.
+              </p>
+            </details>
+            <details>
+              <summary class="instruction-header">Bomb</summary>
+              <p class="instruction-details">
+                A Bomb costs 5 energy to use. When dropped in <br />
+                enemy waters, it explodes, targeting 4 <br />
+                adjacent squares.
+              </p>
+              <div class="instruction-details">
+                <div>
+                  <p>
+                    Before Dropping the space to be attacked <br />is
+                    highlighted
+                  </p>
+                  <img
+                    class="instructional-img"
+                    src="/dist/assets/instructional/bombBefore.png"
+                  />
+                </div>
+                <div>
+                  <p>
+                    After Dropping, all 4 squares are blown to <br />
+                    bits
+                  </p>
+                  <img
+                    class="instructional-img"
+                    src="/dist/assets/instructional/bombAfter.png"
+                  />
+                </div>
               </div>
-            </div>
-          </details>
-          <details>
-            <summary class="instruction-header">Strike</summary>
-            <p class="instruction-details">
-              The Strike costs a huge 14 energy to use! It's <br />
-              expensive and powerful. Use it to obliterate <br />
-              an entire column. Tapping space after selection <br />
-              will change the orientation of the strike.
-            </p>
-          </details>
+            </details>
+            <details>
+              <summary class="instruction-header">Strike</summary>
+              <p class="instruction-details">
+                The Strike costs a huge 14 energy to use! It's <br />
+                expensive and powerful. Use it to obliterate <br />
+                an entire column or row. Tapping space after <br />
+                selection will change the orientation of the strike.
+              </p>
+            </details>
+          </div>
         </div>
       </div>
+
+      <button id="return-button">Back</button>
     </div>
     <!-- Inner Options -->
     <div id="options-menu">
