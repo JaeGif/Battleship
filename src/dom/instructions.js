@@ -48,11 +48,11 @@ function openInstructionsFromGameHandler() {
 }
 function openAnyDropDownEvents() {
   const srcImg = document.getElementById('src-code-logo');
-
+  const parentOfImage = document.getElementById('specials-wrapper-container');
   const headers = document.getElementsByClassName('instruction-header');
   for (let i = 0; i < headers.length; i++) {
     headers[i].addEventListener('click', () => {
-      srcImg.removeAttribute('src');
+      srcImg.remove();
     });
   }
 }
