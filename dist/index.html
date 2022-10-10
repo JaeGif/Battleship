@@ -7,7 +7,7 @@
     <title>Battleship</title>
     <link rel="icon" href="./icons/icoin.png" />
     <link rel="stylesheet" href="style.css" />
-    <script type="module" defer src="main.js"></script>
+    <script type="module" defer src="../src/index.js"></script>
   </head>
   <body>
     <!-- Title Screen -->
@@ -51,7 +51,7 @@
       </div>
     </div>
     <!-- Inner Instructions Page -->
-    <div id="instructions-menu">
+    <div id="instructions-menu-container">
       <h1>How To Play</h1>
       <div id="instructions-wrapper">
         <div id="general-battleship-instructions">
@@ -140,71 +140,76 @@
             />
           </div>
         </div>
-        <div id="specials-wrapper">
-          <h1>Special Attacks</h1>
+        <div id="specials-wrapper-container">
+          <div id="specials-wrapper">
+            <h1>Special Attacks</h1>
 
-          <div id="drop-down-attack-details-container">
-            <details>
-              <summary class="instruction-header">Radar</summary>
-              <p class="instruction-details">
-                A Radar costs 4 energy to use. When <br />
-                dropped in enemy waters, it reveals the number <br />
-                of nearby occupied squares up to 8 <br />
-                (excluding itself).
-                <img
-                  class="instructional-img"
-                  src="/dist/assets/instructional/radar.png"
-                />
-              </p>
-            </details>
-            <details>
-              <summary class="instruction-header">Sniper</summary>
-              <p class="instruction-details">
-                The Sniper costs 7 energy. When <br />
-                selected, click anywhere on the enemy <br />
-                board to target a random unhit ship space.
-              </p>
-            </details>
-            <details>
-              <summary class="instruction-header">Bomb</summary>
-              <p class="instruction-details">
-                A Bomb costs 5 energy to use. When dropped in <br />
-                enemy waters, it explodes, targeting 4 <br />
-                adjacent squares.
-              </p>
-              <div class="instruction-details">
-                <div>
-                  <p>
-                    Before Dropping the space to be attacked <br />is
-                    highlighted
-                  </p>
+            <div id="drop-down-attack-details-container">
+              <details>
+                <summary class="instruction-header">Radar</summary>
+                <p class="instruction-details">
+                  A Radar costs 4 energy to use. When <br />
+                  dropped in enemy waters, it reveals the number <br />
+                  of nearby occupied squares up to 8 <br />
+                  (excluding itself).
                   <img
                     class="instructional-img"
-                    src="/dist/assets/instructional/bombBefore.png"
+                    src="/dist/assets/instructional/radar.png"
                   />
+                </p>
+              </details>
+              <details>
+                <summary class="instruction-header">Sniper</summary>
+                <p class="instruction-details">
+                  The Sniper costs 7 energy. When <br />
+                  selected, click anywhere on the enemy <br />
+                  board to target a random unhit ship space.
+                </p>
+              </details>
+              <details>
+                <summary class="instruction-header">Bomb</summary>
+                <p class="instruction-details">
+                  A Bomb costs 5 energy to use. When dropped in <br />
+                  enemy waters, it explodes, targeting 4 <br />
+                  adjacent squares.
+                </p>
+                <div class="instruction-details">
+                  <div>
+                    <p>
+                      Before Dropping the space to be attacked <br />is
+                      highlighted
+                    </p>
+                    <img
+                      class="instructional-img"
+                      src="/dist/assets/instructional/bombBefore.png"
+                    />
+                  </div>
+                  <div>
+                    <p>
+                      After Dropping, all 4 squares are blown to <br />
+                      bits
+                    </p>
+                    <img
+                      class="instructional-img"
+                      src="/dist/assets/instructional/bombAfter.png"
+                    />
+                  </div>
                 </div>
-                <div>
-                  <p>
-                    After Dropping, all 4 squares are blown to <br />
-                    bits
-                  </p>
-                  <img
-                    class="instructional-img"
-                    src="/dist/assets/instructional/bombAfter.png"
-                  />
-                </div>
-              </div>
-            </details>
-            <details>
-              <summary class="instruction-header">Strike</summary>
-              <p class="instruction-details">
-                The Strike costs a huge 14 energy to use! It's <br />
-                expensive and powerful. Use it to obliterate <br />
-                an entire column or row. Tapping space after <br />
-                selection will change the orientation of the strike.
-              </p>
-            </details>
+              </details>
+              <details>
+                <summary class="instruction-header">Strike</summary>
+                <p class="instruction-details">
+                  The Strike costs a huge 14 energy to use! It's <br />
+                  expensive and powerful. Use it to obliterate <br />
+                  an entire column or row. Tapping space after <br />
+                  selection will change the orientation of the strike.
+                </p>
+              </details>
+            </div>
           </div>
+          <a href="https://github.com/JaeGif/Battleship"
+            ><img id="src-code-logo" src="/dist/icons/github.png"
+          /></a>
         </div>
       </div>
 

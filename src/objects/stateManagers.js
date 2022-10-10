@@ -22,6 +22,7 @@ class UiState {
   static currentShip = [];
   static currentShipIndex = 0;
   static currentPlacementBoard = 'player';
+  static returnState = 'menu';
 }
 class AudioState {
   static volume = 1;

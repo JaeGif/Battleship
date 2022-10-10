@@ -2,7 +2,12 @@ import { GameState, AudioState } from '../objects/stateManagers.js';
 import Players from '../players/player.js';
 import { newGame } from '../gameloop.js';
 import Gameboards from '../objects/gameboard.js';
-import { audioWeAre, audioCantEscape, audioHit, audioMiss } from './audio.js';
+import {
+  openInstructionsFromGameHandler,
+  openInstructionsFromMenuHandler,
+  instructionsReturnHandler,
+} from './instructions.js';
+import { audioWeAre, audioCantEscape } from './audio.js';
 
 function gameModeSelect() {
   AudioState.currentlyPlaying = changeCurrentSong();
@@ -34,6 +39,9 @@ function gameModeSelect() {
     const sfxMenu = document.getElementById('music');
     const modal = document.getElementById('sfx-modal');
 
+    menu.style.display = 'none';
+    optionsMenu.style.display = 'flex';
+
     sfxMenu.addEventListener('click', () => {
       modal.style.display = 'flex';
       addAudioOptionListeners();
@@ -43,14 +51,13 @@ function gameModeSelect() {
     credits.addEventListener('click', () => {
       creditScroll.style.display = 'flex';
     });
-    menu.style.display = 'none';
-    optionsMenu.style.display = 'flex';
     optionsBack.addEventListener('click', () => {
       exitOptionsHandler();
       modal.style.display = 'none';
       sfxMenu.style.display = 'flex';
       credits.style.display = 'flex';
     });
+
     window.addEventListener('keypress', function (e) {
       if (e.key === 'Enter') {
         exitOptionsHandler();
@@ -59,6 +66,12 @@ function gameModeSelect() {
         credits.style.display = 'flex';
       }
     });
+  });
+  const instructionsBtn = document.getElementById('instructions-menu');
+  const instructions = document.getElementById('instructions-menu-container');
+
+  instructionsBtn.addEventListener('click', () => {
+    openInstructionsFromMenuHandler();
   });
 
   captureNames();
