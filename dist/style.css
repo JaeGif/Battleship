@@ -402,32 +402,32 @@ footer {
   transform: rotate(90deg) translate(3.5rem, 2.5rem);
 }
 #destroyer.y {
-  -webkit-transform: rotate(90deg) translate(2rem, 1rem);
-  -moz-transform: rotate(90deg) translate(2rem, 1rem);
-  -o-transform: rotate(90deg) translate(2rem, 1rem);
-  -ms-transform: rotate(90deg) translate(2rem, 1rem);
-  transform: rotate(90deg) translate(2rem, 1rem);
+  -webkit-transform: rotate(90deg) translate(4vh, 2.25vh);
+  -moz-transform: rotate(90deg) translate(4vh, 2.25vh);
+  -o-transform: rotate(90deg) translate(4vh, 2.25vh);
+  -ms-transform: rotate(90deg) translate(4vh, 2.25vh);
+  transform: rotate(90deg) translate(4vh, 2.25vh);
 }
 #carrier.y {
-  -webkit-transform: rotate(90deg) translate(6.25rem, 5.25rem);
-  -moz-transform: rotate(90deg) translate(6.25rem, 5.25rem);
-  -o-transform: rotate(90deg) translate(6.25rem, 5.25rem);
-  -ms-transform: rotate(90deg) translate(6.25rem, 5.25rem);
-  transform: rotate(90deg) translate(6.25rem, 5.25rem);
+  -webkit-transform: rotate(90deg) translate(13vh, 12vh);
+  -moz-transform: rotate(90deg) translate(13vh, 12vh);
+  -o-transform: rotate(90deg) translate(13vh, 12vh);
+  -ms-transform: rotate(90deg) translate(13vh, 12vh);
+  transform: rotate(90deg) translate(13vh, 12vh);
 }
 #battleship.y {
-  -webkit-transform: rotate(90deg) translate(4.5rem, 3.75rem);
-  -moz-transform: rotate(90deg) translate(4.5rem, 3.75rem);
-  -o-transform: rotate(90deg) translate(4.5rem, 3.75rem);
-  -ms-transform: rotate(90deg) translate(4.5rem, 3.75rem);
-  transform: rotate(90deg) translate(4.5rem, 3.75rem);
+  -webkit-transform: rotate(90deg) translate(10.5vh, 8.5vh);
+  -moz-transform: rotate(90deg) translate(10.5vh, 8.5vh);
+  -o-transform: rotate(90deg) translate(10.5vh, 8.5vh);
+  -ms-transform: rotate(90deg) translate(10.5vh, 8.5vh);
+  transform: rotate(90deg) translate(10.5vh, 8.5vh);
 }
 #cruiser.y {
-  -webkit-transform: rotate(90deg) translate(3.25rem, 2.5rem);
-  -moz-transform: rotate(90deg) translate(3.25rem, 2.5rem);
-  -o-transform: rotate(90deg) translate(3.25rem, 2.5rem);
-  -ms-transform: rotate(90deg) translate(3.25rem, 2.5rem);
-  transform: rotate(90deg) translate(3.25rem, 2.5rem);
+  -webkit-transform: rotate(90deg) translate(6.9vh, 5.5vh);
+  -moz-transform: rotate(90deg) translate(6.9vh, 5.5vh);
+  -o-transform: rotate(90deg) translate(6.9vh, 5.5vh);
+  -ms-transform: rotate(90deg) translate(6.9vh, 5.5vh);
+  transform: rotate(90deg) translate(6.9vh, 5.5vh);
 }
 #details-grouping-container {
   height: fit-content;

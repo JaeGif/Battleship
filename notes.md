@@ -78,3 +78,10 @@ miss on both sides causes it to reevaluate its next target, and pick one of the 
 - Bomb - 5 energy, blows up a 2x2 square radius
 - Sniper - 5 energy, strikes any 1 random occupied enemy position
 - RtS Shield (Return to Sender) - 4 energy, the next attack from the enemy is reflected to strike the same position on the attackers board. If that position is occupied, attack a random position on the attackers board.
+
+Learned:
+
+Critical for this project:
+
+- Object copies have deep and shallow references. Some make a copy, some alter the original object and some reference the original object.
+- If it can be done with CSS, do it with CSS. JS should be used exclusively for logic, dynamicism and custom effects. CSS is significantly less time consuming, more readable, and performant.
