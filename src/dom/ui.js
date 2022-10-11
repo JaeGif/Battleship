@@ -409,9 +409,8 @@ function playerGridListeners(gridElement) {
         playerEnergyDisplay.textContent = `Energy: ${player.attackCharges}`;
         let count = player.radarAttack(coordinates, opponentBoard);
         gridElement.textContent = `${count}`;
-        gridElement.style.textAlign = 'center';
-        gridElement.style.padding = '.5rem';
-        gridElement.style.fontSize = '4.2vh';
+        gridElement.classList.add('radar');
+
         GameState.selectedAttack = 'attack';
       }
       // bomb attack logic
@@ -579,9 +578,8 @@ function opponentGridListeners(gridElement) {
           opponentEnergyDisplay.textContent = `Energy: ${opponent.attackCharges}`;
           let count = opponent.radarAttack(coordinates, playerBoard);
           gridElement.textContent = `${count}`;
-          gridElement.style.textAlign = 'center';
-          gridElement.style.padding = '.5rem';
-          gridElement.style.fontSize = '4.2vh';
+          gridElement.classList.add('radar');
+
           GameState.selectedAttack = 'attack';
         } else if (GameState.selectedAttack === 'bomb') {
           opponent.attackCharges -= 5;
