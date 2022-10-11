@@ -411,7 +411,7 @@ function playerGridListeners(gridElement) {
         gridElement.textContent = `${count}`;
         gridElement.style.textAlign = 'center';
         gridElement.style.padding = '.5rem';
-        gridElement.style.fontSize = '1.75rem';
+        gridElement.style.fontSize = '4.2vh';
         GameState.selectedAttack = 'attack';
       }
       // bomb attack logic
@@ -581,7 +581,7 @@ function opponentGridListeners(gridElement) {
           gridElement.textContent = `${count}`;
           gridElement.style.textAlign = 'center';
           gridElement.style.padding = '.5rem';
-          gridElement.style.fontSize = '1.75rem';
+          gridElement.style.fontSize = '4.2vh';
           GameState.selectedAttack = 'attack';
         } else if (GameState.selectedAttack === 'bomb') {
           opponent.attackCharges -= 5;
