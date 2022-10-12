@@ -7,7 +7,7 @@ import {
   openInstructionsFromMenuHandler,
   instructionsReturnHandler,
 } from './instructions.js';
-import { audioWeAre, audioCantEscape } from './audio.js';
+import { audioWeAre, audioCantEscape, audioKatakuriTheme } from './audio.js';
 
 function gameModeSelect() {
   AudioState.currentlyPlaying = changeCurrentSong();
@@ -81,6 +81,8 @@ function changeCurrentSong() {
     return audioWeAre();
   } else if (AudioState.song === 'assets/sfx/cant-escape-fight-8-bit.mp3') {
     return audioCantEscape();
+  } else if (AudioState.song === 'assets/sfx/katakuri-theme.mp3') {
+    return audioKatakuriTheme();
   }
 }
 function addAudioOptionListeners() {
@@ -89,14 +91,17 @@ function addAudioOptionListeners() {
   const highVolume = document.getElementById('high-volume');
   const mediumVolume = document.getElementById('medium-volume');
   const lowVolume = document.getElementById('low-volume');
+  const noVolume = document.getElementById('no-volume');
 
   const weAreSong = document.getElementById('we-are');
   const cantEscapeSong = document.getElementById('cant-escape');
+  const katakuriTheme = document.getElementById('katakuri-theme');
 
   highVolume.addEventListener('click', () => {
     highVolume.classList.add('selected');
     mediumVolume.classList.remove('selected');
     lowVolume.classList.remove('selected');
+    noVolume.classList.remove('selected');
 
     AudioState.volume = 1;
     AudioState.currentlyPlaying.volume = AudioState.volume;
@@ -105,6 +110,7 @@ function addAudioOptionListeners() {
     highVolume.classList.remove('selected');
     mediumVolume.classList.add('selected');
     lowVolume.classList.remove('selected');
+    noVolume.classList.remove('selected');
 
     AudioState.volume = 0.66;
     AudioState.currentlyPlaying.volume = AudioState.volume;
@@ -112,15 +118,26 @@ function addAudioOptionListeners() {
   lowVolume.addEventListener('click', () => {
     highVolume.classList.remove('selected');
     mediumVolume.classList.remove('selected');
-
     lowVolume.classList.add('selected');
+    noVolume.classList.remove('selected');
+
     AudioState.volume = 0.33;
+    AudioState.currentlyPlaying.volume = AudioState.volume;
+  });
+  noVolume.addEventListener('click', () => {
+    highVolume.classList.remove('selected');
+    mediumVolume.classList.remove('selected');
+    lowVolume.classList.remove('selected');
+    noVolume.classList.add('selected');
+
+    AudioState.volume = 0;
     AudioState.currentlyPlaying.volume = AudioState.volume;
   });
 
   weAreSong.addEventListener('click', () => {
     weAreSong.classList.add('selected');
     cantEscapeSong.classList.remove('selected');
+    katakuriTheme.classList.remove('selected');
 
     AudioState.song = 'assets/sfx/we-are-8-bit.mp3';
     AudioState.currentlyPlaying.pause();
@@ -132,7 +149,22 @@ function addAudioOptionListeners() {
   cantEscapeSong.addEventListener('click', () => {
     cantEscapeSong.classList.add('selected');
     weAreSong.classList.remove('selected');
+    katakuriTheme.classList.remove('selected');
+
     AudioState.song = 'assets/sfx/cant-escape-fight-8-bit.mp3';
+    AudioState.currentlyPlaying.pause();
+    AudioState.currentlyPlaying = {};
+    AudioState.currentlyPlaying = changeCurrentSong();
+    AudioState.currentlyPlaying.volume = AudioState.volume;
+
+    AudioState.currentlyPlaying.play();
+  });
+  katakuriTheme.addEventListener('click', () => {
+    katakuriTheme.classList.add('selected');
+    weAreSong.classList.remove('selected');
+    cantEscapeSong.classList.remove('selected');
+
+    AudioState.song = 'assets/sfx/katakuri-theme.mp3';
     AudioState.currentlyPlaying.pause();
     AudioState.currentlyPlaying = {};
     AudioState.currentlyPlaying = changeCurrentSong();

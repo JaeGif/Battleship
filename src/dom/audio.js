@@ -19,5 +19,10 @@ function audioCantEscape() {
   game.loop = true;
   return game;
 }
+function audioKatakuriTheme() {
+  const katakuri = new Audio('assets/sfx/katakuri-theme.mp3');
+  katakuri.loop = true;
+  return katakuri;
+}
 
-export { audioHit, audioMiss, audioWeAre, audioCantEscape };
+export { audioHit, audioMiss, audioWeAre, audioCantEscape, audioKatakuriTheme };

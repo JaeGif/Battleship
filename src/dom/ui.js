@@ -705,11 +705,14 @@ function gameOverScreen() {
     if ([...GameState.players][1].name === '') {
       winner = 'Player 2';
     }
+    if (GameState.mode === 'PvC') {
+      winner = 'Computer';
+    }
     numShips = 5 - [...GameState.boards][1].sunkShips.length;
   } else {
     winner = [...GameState.players][0].name;
     if ([...GameState.players][0].name === '') {
-      winner = 'Player 2';
+      winner = 'Player 1';
     }
 
     numShips = 5 - [...GameState.boards][0].sunkShips.length;
