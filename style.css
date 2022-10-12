@@ -81,9 +81,9 @@ body {
   -webkit-transform: translateY(100%);
   transform: translateY(100%);
 
-  -moz-animation: my-animation 10s linear infinite;
-  -webkit-animation: my-animation 10s linear infinite;
-  animation: my-animation 10s linear infinite;
+  -moz-animation: my-animation 11s linear infinite;
+  -webkit-animation: my-animation 11s linear infinite;
+  animation: my-animation 11s linear infinite;
 }
 /* Music Menu */
 
