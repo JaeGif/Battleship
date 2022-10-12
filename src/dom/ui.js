@@ -277,6 +277,8 @@ function sniperSpecialBoardCover() {
           GameState.gameOver = true;
           gameOver();
         }
+        removeSelectedAttackTag();
+
         GameState.selectedAttack = 'attack';
         if (GameState.mode === 'PvP') {
           GameState.turn = 'opponent';
@@ -324,6 +326,8 @@ function sniperSpecialBoardCover() {
           gameOver();
         }
         GameState.selectedAttack = 'attack';
+        removeSelectedAttackTag();
+
         GameState.turn = 'player';
         const sniperButton = document.getElementById('sniper-attack');
         const sniperAttackOpponent = document.getElementById(
