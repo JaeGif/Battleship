@@ -14,6 +14,7 @@ body {
   background-position: bottom;
   background-repeat: no-repeat;
   background-attachment: fixed;
+  margin: 0;
 }
 #play-card {
   display: flex;
