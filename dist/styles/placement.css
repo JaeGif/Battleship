@@ -1,0 +1,107 @@
+/* Ship Placement screen */
+#placement-page-body-container {
+  display: none;
+  flex-direction: column;
+  justify-content: space-evenly;
+  align-items: center;
+  height: 100vh;
+}
+#placement-page-body-container > h1 {
+  font-size: 3rem;
+}
+.ship-img {
+  height: 6vh;
+  position: relative;
+  z-index: 1;
+}
+#battleship {
+  aspect-ratio: 4/1;
+}
+#carrier {
+  aspect-ratio: 5/1;
+}
+#cruiser,
+#submarine {
+  aspect-ratio: 3/1;
+}
+#destroyer {
+  aspect-ratio: 2/1;
+}
+
+#submarine.y {
+  -webkit-transform: rotate(90deg) translate(3.5rem, 2.5rem);
+  -moz-transform: rotate(90deg) translate(3.5rem, 2.5rem);
+  -o-transform: rotate(90deg) translate(3.5rem, 2.5rem);
+  -ms-transform: rotate(90deg) translate(3.5rem, 2.5rem);
+  transform: rotate(90deg) translate(3.5rem, 2.5rem);
+}
+#destroyer.y {
+  -webkit-transform: rotate(90deg) translate(2rem, 1rem);
+  -moz-transform: rotate(90deg) translate(2rem, 1rem);
+  -o-transform: rotate(90deg) translate(2rem, 1rem);
+  -ms-transform: rotate(90deg) translate(2rem, 1rem);
+  transform: rotate(90deg) translate(2rem, 1rem);
+}
+#carrier.y {
+  -webkit-transform: rotate(90deg) translate(6.25rem, 5.25rem);
+  -moz-transform: rotate(90deg) translate(6.25rem, 5.25rem);
+  -o-transform: rotate(90deg) translate(6.25rem, 5.25rem);
+  -ms-transform: rotate(90deg) translate(6.25rem, 5.25rem);
+  transform: rotate(90deg) translate(6.25rem, 5.25rem);
+}
+#battleship.y {
+  -webkit-transform: rotate(90deg) translate(4.5rem, 3.75rem);
+  -moz-transform: rotate(90deg) translate(4.5rem, 3.75rem);
+  -o-transform: rotate(90deg) translate(4.5rem, 3.75rem);
+  -ms-transform: rotate(90deg) translate(4.5rem, 3.75rem);
+  transform: rotate(90deg) translate(4.5rem, 3.75rem);
+}
+#cruiser.y {
+  -webkit-transform: rotate(90deg) translate(3.25rem, 2.5rem);
+  -moz-transform: rotate(90deg) translate(3.25rem, 2.5rem);
+  -o-transform: rotate(90deg) translate(3.25rem, 2.5rem);
+  -ms-transform: rotate(90deg) translate(3.25rem, 2.5rem);
+  transform: rotate(90deg) translate(3.25rem, 2.5rem);
+}
+#details-grouping-container {
+  height: fit-content;
+  padding: 1rem;
+}
+#ship-display-container {
+  display: flex;
+  height: fit-content;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+#unplaced-ship-container {
+  height: fit-content;
+  width: fit-content;
+}
+div.ship-position {
+  background-color: green;
+}
+div.invalid-placement {
+  background-color: red;
+}
+#change-orientation,
+#randomize-button {
+  margin: 1rem;
+  background: none;
+  border: none;
+  font-size: 3rem;
+}
+#change-orientation:hover,
+#randomize-button:hover {
+  cursor: pointer;
+  color: red;
+}
+#inner-placement-wrapper {
+  display: flex;
+  width: 100%;
+  justify-content: space-evenly;
+  align-items: center;
+}
+.board-containers h1 {
+  color: white;
+}

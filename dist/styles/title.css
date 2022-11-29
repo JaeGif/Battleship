@@ -1,0 +1,117 @@
+@font-face {
+  font-family: Retro;
+  src: url(../assets/fonts/ARCADECLASSIC.TTF);
+}
+* {
+  font-family: Retro;
+  word-spacing: 0.5rem;
+}
+body {
+  background-color: white;
+  height: 100vh;
+  background-image: url(../assets/battleshipbackground.png);
+  background-size: cover;
+  background-position: bottom;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+}
+#play-card {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+  align-items: center;
+  height: 100vh;
+}
+.column-wrapper {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 3rem;
+}
+#play {
+  cursor: pointer;
+  font-size: 5rem;
+  animation: blinker 1s step-start infinite;
+}
+@keyframes blinker {
+  50% {
+    color: rgb(255, 0, 43);
+  }
+}
+/* Title Screen CSS File */
+#card-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+#title-screen {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+  align-items: center;
+  height: 85vh;
+  width: 35vw;
+  border: solid black 2px;
+  border-radius: 5px;
+  background-color: mediumvioletred;
+}
+#title {
+  margin-top: -2rem;
+  width: 100vw;
+  text-align: center;
+  height: 15vh;
+  font-size: 92px;
+  font-weight: 600;
+  mix-blend-mode: screen;
+  color: #fff;
+}
+#title-ship {
+  height: 5rem;
+}
+#title-gh {
+  height: 5rem;
+}
+#author-info-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+a {
+  text-decoration: none;
+}
+#author-name {
+  display: flex;
+  align-items: center;
+  gap: 3rem;
+}
+a:visited,
+a:link {
+  color: inherit;
+}
+
+#single-player-name {
+  display: none;
+  justify-content: space-between;
+  gap: 1rem;
+  align-items: center;
+}
+#multiplayer-name {
+  display: none;
+  justify-content: center;
+  gap: 0rem;
+  align-items: center;
+}
+input {
+  height: 2rem;
+  line-height: 2rem;
+  font-size: 1.5rem;
+}
+#new-game-btn {
+  height: 2rem;
+  width: 5rem;
+  background-color: #fff;
+  border: none;
+  border-radius: 2px;
+}
