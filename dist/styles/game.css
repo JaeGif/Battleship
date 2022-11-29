@@ -1,0 +1,96 @@
+main {
+  display: none;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 90vh;
+}
+#highest-board-container {
+  width: 100vw;
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+}
+.board-containers {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+.grid-div {
+  display: grid;
+  grid-template-columns: repeat(10, 1fr);
+  grid-template-rows: repeat(10, 1fr);
+  height: 65vh;
+  aspect-ratio: 1 / 1;
+}
+
+.grid-div div {
+  border: solid 1px black;
+  background-color: rgba(47, 117, 182, 0.5);
+  max-width: 6.5vh;
+  max-height: 6.5vh;
+  overflow: visible;
+}
+.revoke-events {
+  pointer-events: none;
+  cursor: pointer;
+}
+.permanently-revoke-events {
+  pointer-events: none;
+}
+.grid-div div:hover {
+  background-color: rgba(136, 198, 195, 0.5);
+}
+div .reveal {
+  background-color: green;
+}
+div .hit {
+  background-color: rgb(251, 62, 100);
+}
+div .miss {
+  background-color: gray;
+}
+#turn {
+  font-size: 3rem;
+  margin-bottom: 1rem;
+  padding-top: 1rem;
+}
+
+#player-energy,
+#opponent-energy {
+  margin: 0;
+  padding: 0;
+}
+.attacks-structural-div {
+  width: 100%;
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+}
+.special-attacks-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+}
+.special-attacks-wrapper button {
+  background: none;
+  border: none;
+  font-size: 1.5rem;
+  cursor: pointer;
+}
+.special-attacks-wrapper button:hover {
+  color: red;
+}
+.special-attacks-wrapper h2 {
+  margin: 0;
+  padding: 0;
+  color: yellow;
+}
+
+footer {
+  display: none;
+  justify-content: center;
+  align-items: center;
+}
