@@ -30,10 +30,12 @@ body {
   align-items: center;
   gap: 3rem;
 }
+.blink {
+  animation: blinker 1s step-start infinite;
+}
 #play {
   cursor: pointer;
   font-size: 5rem;
-  animation: blinker 1s step-start infinite;
 }
 @keyframes blinker {
   50% {
@@ -574,11 +576,20 @@ a:link {
 #single-player-name {
   display: none;
   justify-content: space-between;
+  flex-direction: column;
   gap: 1rem;
   align-items: center;
 }
 #multiplayer-name {
   display: none;
+  flex-direction: column;
+  justify-content: center;
+  gap: 0rem;
+  align-items: center;
+}
+#online-player-name {
+  display: none;
+  flex-direction: column;
   justify-content: center;
   gap: 0rem;
   align-items: center;
