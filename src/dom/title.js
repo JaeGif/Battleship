@@ -17,20 +17,32 @@ function gameModeSelect() {
 
   const pvcButton = document.getElementById('pvc');
   const pvpButton = document.getElementById('multiplayer');
+  const pvpRoomButton = document.getElementById('socket-play');
   const optionsButton = document.getElementById('options');
   const soloForm = document.getElementById('single-player-name');
   const doubleForm = document.getElementById('multiplayer-name');
+  const onlineForm = document.getElementById('online-player-name');
+
   const optionsBack = document.getElementById('return-to-menu');
 
   pvcButton.addEventListener('click', () => {
     GameState.mode = 'PvC';
     soloForm.style.display = 'flex';
     doubleForm.style.display = 'none';
+    onlineForm.style.display = 'none';
   });
   pvpButton.addEventListener('click', () => {
     GameState.mode = 'PvP';
     soloForm.style.display = 'none';
     doubleForm.style.display = 'flex';
+    onlineForm.style.display = 'none';
+  });
+  pvpRoomButton.addEventListener('click', () => {
+    console.log('cl');
+    GameState.mode = 'Socket';
+    onlineForm.style.display = 'flex';
+    soloForm.style.display = 'none';
+    doubleForm.style.display = 'none';
   });
   optionsButton.addEventListener('click', () => {
     const optionsMenu = document.getElementById('options-menu');
@@ -187,6 +199,7 @@ function captureNames() {
   const newGameMultiplayer = document.getElementById(
     'new-game-btn-multiplayer'
   );
+  const newGameOnline = document.getElementById('new-game-btn-online');
 
   const soloForm = document.getElementById('single-player-name');
   const doubleForm = document.getElementById('multiplayer-name');
@@ -197,6 +210,7 @@ function captureNames() {
   const soloPlayerName = document.getElementById('single-player-input');
   const player1Name = document.getElementById('player1-input');
   const player2Name = document.getElementById('player2-input');
+  const onlinePlayerName = document.getElementById('online-player-name');
 
   newGameSolo.addEventListener('click', () => {
     let humanPlayer = new Players(soloPlayerName.value);
@@ -206,6 +220,32 @@ function captureNames() {
 
     const playerBoard = new Gameboards(soloPlayerName.value);
     const opponentBoard = new Gameboards('Computer');
+
+    GameState.boards.push(playerBoard);
+    GameState.boards.push(opponentBoard);
+
+    addShips.style.display = 'flex';
+    menu.style.display = 'none';
+    newGame();
+  });
+
+  newGameOnline.addEventListener('click', () => {
+    // HERE
+    // This function needs to be suspended awaiting
+    // the opponent to ALSO press Join Room.
+    // When both players are in the same room, the game may begin
+    // Socket.io has a room joined event
+
+    let currentPlayer = new Players(onlinePlayerName.value);
+
+    // REPLACE WITH ENEMY PLAYERS ROOM NAME
+    let enemyPlayer = new Players('Opponent');
+
+    GameState.players.push(currentPlayer);
+    GameState.players.push(enemyPlayer);
+
+    const playerBoard = new Gameboards(soloPlayerName.value);
+    const opponentBoard = new Gameboards('Opponent');
 
     GameState.boards.push(playerBoard);
     GameState.boards.push(opponentBoard);

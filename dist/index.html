@@ -7,7 +7,7 @@
     <title>Battleship</title>
     <link rel="icon" href="./icons/icoin.png" />
     <link rel="stylesheet" href="style.css" />
-    <script type="module" defer src="main.js"></script>
+    <script type="module" defer src="../src/index.js"></script>
   </head>
   <body>
     <!-- Title Screen -->
@@ -16,12 +16,13 @@
         <h2>Totally not</h2>
         <h1 id="title">Battleship</h1>
       </div>
-      <p id="play">Play</p>
+      <p class="blink" id="play">Play</p>
     </div>
     <!-- Game Select Modal -->
     <div id="menu">
       <button id="pvc">Single Player</button>
       <button id="multiplayer">Multiplayer Local</button>
+      <button id="socket-play">Play Online</button>
       <button id="instructions-menu">How to Play</button>
       <button id="options">Options</button>
       <div id="single-player-name">
@@ -30,7 +31,25 @@
           type="text"
           placeholder="Player Name"
           value=""
-        /><button type="button" id="new-game-btn-solo">Start Game</button>
+        /><button class="blink" type="button" id="new-game-btn-solo">
+          Start Game
+        </button>
+      </div>
+      <div id="online-player-name">
+        <input
+          id="online-player-input"
+          type="text"
+          placeholder="Player Name"
+          value=""
+        />
+        <input
+          id="room-id-input"
+          type="text"
+          placeholder="Enter Room ID"
+          value=""
+        /><button class="blink" type="button" id="new-game-btn-online">
+          Join Room
+        </button>
       </div>
       <div id="multiplayer-name">
         <div>
@@ -47,7 +66,9 @@
             value=""
           />
         </div>
-        <button type="submit" id="new-game-btn-multiplayer">Start Game</button>
+        <button class="blink" type="submit" id="new-game-btn-multiplayer">
+          Start Game
+        </button>
       </div>
     </div>
     <!-- Inner Instructions Page -->
