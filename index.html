@@ -7,6 +7,13 @@
     <title>Battleship</title>
     <link rel="icon" href="./icons/icoin.png" />
     <link rel="stylesheet" href="style.css" />
+    <script type="importmap">
+      {
+        "imports": {
+          "socket.io-client": "https://cdn.socket.io/4.7.2/socket.io.esm.min.js"
+        }
+      }
+    </script>
     <script type="module" defer src="../src/index.js"></script>
   </head>
   <body>
@@ -43,12 +50,26 @@
           value=""
         />
         <input
+          style="display: none"
           id="room-id-input"
           type="text"
           placeholder="Enter Room ID"
           value=""
-        /><button class="blink" type="button" id="new-game-btn-online">
+        />
+        <div style="display: none" id="room-id-container">
+          <span class="center"
+            ><p>Waiting for other players</p>
+            <div class="lds-circle"><div></div></div>
+          </span>
+          <p id="room-id-text"></p>
+        </div>
+        <button class="" type="button" id="new-game-btn-online">
           Join Room
+        </button>
+
+        <p class="smaller-text">-OR-</p>
+        <button class="" type="button" id="create-new-game-btn-online">
+          Create Room
         </button>
       </div>
       <div id="multiplayer-name">
