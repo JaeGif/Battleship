@@ -52,6 +52,22 @@ function gameModeSelect() {
   });
   pvpJoinRoomButton.addEventListener('click', () => {
     roomIdInput.style.display = 'flex';
+    const socket = io('http://localhost:8080', {
+      reconnectionDelay: 1000,
+      reconnection: true,
+      reconnectionAttemps: 10,
+      transports: ['websocket'],
+    });
+    const clientSocketHandler = new SocketClientOrders(io, socket);
+
+    window.addEventListener('beforeunload', () => {
+      socket.close();
+    });
+    socket.on('connect', () => {
+      clientSocketHandler.invokeListeners();
+      console.log(roomIdInput.value);
+      socket.emit('join_room', roomIdInput.value);
+    });
   });
   pvpCreateRoomButton.addEventListener('click', () => {
     roomIDContainer.style.display = 'flex';
@@ -230,7 +246,7 @@ function captureNames() {
   const createNewRoomOnline = document.getElementById(
     'create-new-game-btn-online'
   );
-  const joinNewGameOnline = document.getElementById('new-game-btn-online');
+  const joinNewGameOnline = document.getElementById('join-lobby');
 
   const menu = document.getElementById('menu');
   const addShips = document.getElementById('placement-page-body-container');
@@ -258,6 +274,22 @@ function captureNames() {
   });
   createNewRoomOnline.addEventListener('click', () => {});
   joinNewGameOnline.addEventListener('click', () => {
+    console.log('passed');
+    const socket = io('http://localhost:8080', {
+      reconnectionDelay: 1000,
+      reconnection: true,
+      reconnectionAttemps: 10,
+      transports: ['websocket'],
+    });
+    const clientSocketHandler = new SocketClientOrders(io, socket);
+
+    window.addEventListener('beforeunload', () => {
+      socket.close();
+    });
+    socket.on('connect', () => {
+      clientSocketHandler.invokeListeners();
+      socket.emit('join_room');
+    });
     // HERE
     // This function needs to be suspended awaiting
     // the opponent to ALSO press Join Room.

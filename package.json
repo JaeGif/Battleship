@@ -17,6 +17,7 @@
   },
   "dependencies": {
     "mobile-drag-drop": "^3.0.0-beta.0",
+    "short-unique-id": "^5.0.3",
     "socket.io-client": "^4.7.2"
   }
 }
