@@ -67,7 +67,10 @@ function gameModeSelect() {
       });
       socket.on('connect', () => {
         clientSocketHandler.invokeListeners();
-        socket.emit('join_room', roomIdInput.value);
+        socket.emit('join_room', {
+          id: roomIdInput.value,
+          name: onlineForm.value,
+        });
       });
     });
   });
@@ -86,7 +89,7 @@ function gameModeSelect() {
     });
     socket.on('connect', () => {
       clientSocketHandler.invokeListeners();
-      socket.emit('create_room');
+      socket.emit('create_room', onlineForm.value);
     });
   });
 
@@ -245,10 +248,6 @@ function captureNames() {
   const newGameMultiplayer = document.getElementById(
     'new-game-btn-multiplayer'
   );
-  const createNewRoomOnline = document.getElementById(
-    'create-new-game-btn-online'
-  );
-  const joinNewGameOnline = document.getElementById('join-lobby');
 
   const menu = document.getElementById('menu');
   const addShips = document.getElementById('placement-page-body-container');
@@ -256,7 +255,6 @@ function captureNames() {
   const soloPlayerName = document.getElementById('single-player-input');
   const player1Name = document.getElementById('player1-input');
   const player2Name = document.getElementById('player2-input');
-  const onlinePlayerName = document.getElementById('online-player-name');
 
   newGameSolo.addEventListener('click', () => {
     let humanPlayer = new Players(soloPlayerName.value);
@@ -274,48 +272,7 @@ function captureNames() {
     menu.style.display = 'none';
     newGame();
   });
-  createNewRoomOnline.addEventListener('click', () => {});
-  joinNewGameOnline.addEventListener('click', () => {
-    console.log('passed');
-    const socket = io('http://localhost:8080', {
-      reconnectionDelay: 1000,
-      reconnection: true,
-      reconnectionAttemps: 10,
-      transports: ['websocket'],
-    });
-    const clientSocketHandler = new SocketClientOrders(io, socket);
 
-    window.addEventListener('beforeunload', () => {
-      socket.close();
-    });
-    socket.on('connect', () => {
-      clientSocketHandler.invokeListeners();
-      socket.emit('join_room');
-    });
-    // HERE
-    // This function needs to be suspended awaiting
-    // the opponent to ALSO press Join Room.
-    // When both players are in the same room, the game may begin
-    // Socket.io has a room joined event
-
-    let currentPlayer = new Players(onlinePlayerName.value);
-
-    // REPLACE WITH ENEMY PLAYERS ROOM NAME
-    let enemyPlayer = new Players('Opponent');
-
-    GameState.players.push(currentPlayer);
-    GameState.players.push(enemyPlayer);
-
-    const playerBoard = new Gameboards(soloPlayerName.value);
-    const opponentBoard = new Gameboards('Opponent');
-
-    GameState.boards.push(playerBoard);
-    GameState.boards.push(opponentBoard);
-
-    addShips.style.display = 'flex';
-    menu.style.display = 'none';
-    newGame();
-  });
   newGameMultiplayer.addEventListener('click', () => {
     let player1 = new Players(player1Name.value);
     let player2 = new Players(player2Name.value);
