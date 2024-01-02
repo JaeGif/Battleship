@@ -52,21 +52,23 @@ function gameModeSelect() {
   });
   pvpJoinRoomButton.addEventListener('click', () => {
     roomIdInput.style.display = 'flex';
-    const socket = io('http://localhost:8080', {
-      reconnectionDelay: 1000,
-      reconnection: true,
-      reconnectionAttemps: 10,
-      transports: ['websocket'],
-    });
-    const clientSocketHandler = new SocketClientOrders(io, socket);
+    pvpJoinRoomButton.addEventListener('click', () => {
+      if (roomIdInput.value === '') return;
+      const socket = io('http://localhost:8080', {
+        reconnectionDelay: 1000,
+        reconnection: true,
+        reconnectionAttemps: 10,
+        transports: ['websocket'],
+      });
+      const clientSocketHandler = new SocketClientOrders(io, socket);
 
-    window.addEventListener('beforeunload', () => {
-      socket.close();
-    });
-    socket.on('connect', () => {
-      clientSocketHandler.invokeListeners();
-      console.log(roomIdInput.value);
-      socket.emit('join_room', roomIdInput.value);
+      window.addEventListener('beforeunload', () => {
+        socket.close();
+      });
+      socket.on('connect', () => {
+        clientSocketHandler.invokeListeners();
+        socket.emit('join_room', roomIdInput.value);
+      });
     });
   });
   pvpCreateRoomButton.addEventListener('click', () => {
@@ -84,7 +86,7 @@ function gameModeSelect() {
     });
     socket.on('connect', () => {
       clientSocketHandler.invokeListeners();
-      socket.emit('join_room');
+      socket.emit('create_room');
     });
   });
 
