@@ -1,7 +1,7 @@
-import { GameState } from './objects/stateManagers';
-import Gameboards from './objects/gameboard';
-import Players from './players/player';
-import { newGame } from './gameloop';
+import { GameState } from './objects/stateManagers.js';
+import Gameboards from './objects/gameboard.js';
+import Players from './players/player.js';
+import { newGame } from './gameloop.js';
 
 export default class SocketClientOrders {
   constructor(io, socket) {
@@ -26,8 +26,14 @@ export default class SocketClientOrders {
   initializeGame(opponentName) {
     initializeBoards(opponentName);
   }
-
+  beginGame(opponentBoard) {
+    GameState.boards.push(opponentBoard);
+    console.log(GameState);
+  }
   invokeListeners() {
+    this.socket.on('begin_full_game', (opponentBoard) =>
+      this.beginGame(opponentBoard)
+    );
     this.socket.on('initialize_game', (opponentName) =>
       this.initializeGame(opponentName)
     );
@@ -47,16 +53,14 @@ const initializeBoards = (opponentName) => {
   const onlinePlayerName = document.getElementById('online-player-name');
 
   let currentPlayer = new Players(onlinePlayerName.value);
-  let enemyPlayer = new Players(opponentName);
+  let opponentPlayer = new Players(opponentName);
 
   GameState.players.push(currentPlayer);
-  GameState.players.push(enemyPlayer);
+  GameState.players.push(opponentPlayer);
 
   const playerBoard = new Gameboards(onlinePlayerName);
-  const opponentBoard = new Gameboards(opponentName);
 
   GameState.boards.push(playerBoard);
-  GameState.boards.push(opponentBoard);
 
   addShips.style.display = 'flex';
   menu.style.display = 'none';

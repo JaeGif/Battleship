@@ -1,7 +1,7 @@
 import Ship from '../objects/ships.js';
 import { generateCoordinateIDs, createBoards } from './ui.js';
 import { GameState, UiState } from '../objects/stateManagers.js';
-
+import { socket, clientSocketHandler } from '../services/socket.js';
 function dynamicallyGenerateBoard(size = 10) {
   const coordinateIterator = generateCoordinateIDs(size);
   const boardContainer = document.getElementById('placement-board');
@@ -29,7 +29,7 @@ function addDragDropListener(target) {
         let y = parseInt(xTargetId[1]) + i;
         let coordId = x + ',' + y;
         let coveredCoordinate = document.getElementById(`${coordId}`);
-      } //replace with less thann ship length
+      } //replace with less than ship length
     }
   });
   target.addEventListener('dragleave', (e) => {
@@ -134,6 +134,7 @@ function nextShipIteration() {
   UiState.currentShipIndex++;
 
   if (UiState.currentShipIndex >= 5) {
+    // All ships have been placed if this section is reached
     const mainGamePage = document.getElementById('game');
     const shipPlacementPage = document.getElementById(
       'placement-page-body-container'
@@ -149,9 +150,15 @@ function nextShipIteration() {
 
       resetPlacement();
       return placementPage();
+    } else if (GameState.mode === 'Socket') {
+      // sends board info to all room members EXCEPT SENDER
+      socket.emit('ships_placed', GameState.boards[0]);
+
+      // send all board data to the other client
     }
     shipPlacementPage.style.display = 'none';
     mainGamePage.style.display = 'flex';
+    // here all the ships have been placed
     createBoards();
   }
 }
@@ -188,6 +195,10 @@ function addShipToBoard(shipCoords) {
       [...UiState.currentShip][UiState.currentShipIndex].shipObj,
       shipCoords
     );
+  }
+  if (GameState.mode === 'Socket') {
+    // send data when the opponent has fully placed their board
+    // need to send information about your own board
   }
 }
 /* Display */

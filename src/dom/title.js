@@ -8,7 +8,7 @@ import {
   instructionsReturnHandler,
 } from './instructions.js';
 import { audioWeAre, audioCantEscape, audioKatakuriTheme } from './audio.js';
-import { io } from 'socket.io-client';
+import { socket, clientSocketHandler } from '../services/socket.js';
 import SocketClientOrders from '../socketOrders.js';
 
 function gameModeSelect() {
@@ -54,42 +54,26 @@ function gameModeSelect() {
     roomIdInput.style.display = 'flex';
     pvpJoinRoomButton.addEventListener('click', () => {
       if (roomIdInput.value === '') return;
-      const socket = io('http://localhost:8080', {
-        reconnectionDelay: 1000,
-        reconnection: true,
-        reconnectionAttemps: 10,
-        transports: ['websocket'],
-      });
-      const clientSocketHandler = new SocketClientOrders(io, socket);
+      console.log(socket);
 
-      window.addEventListener('beforeunload', () => {
-        socket.close();
+      console.log('connection entered kek');
+      clientSocketHandler.invokeListeners();
+      socket.emit('join_room', {
+        id: roomIdInput.value,
+        name: onlineForm.value,
       });
-      socket.on('connect', () => {
-        clientSocketHandler.invokeListeners();
-        socket.emit('join_room', {
-          id: roomIdInput.value,
-          name: onlineForm.value,
-        });
-      });
+      console.log('joining');
     });
   });
   pvpCreateRoomButton.addEventListener('click', () => {
     roomIDContainer.style.display = 'flex';
-    const socket = io('http://localhost:8080', {
-      reconnectionDelay: 1000,
-      reconnection: true,
-      reconnectionAttemps: 10,
-      transports: ['websocket'],
-    });
-    const clientSocketHandler = new SocketClientOrders(io, socket);
 
-    window.addEventListener('beforeunload', () => {
-      socket.close();
-    });
     socket.on('connect', () => {
       clientSocketHandler.invokeListeners();
       socket.emit('create_room', onlineForm.value);
+      // store socket and io to start events
+      // from any disjointed code point later
+      console.log('creating');
     });
   });
 

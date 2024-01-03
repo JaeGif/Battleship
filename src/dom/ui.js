@@ -22,7 +22,9 @@ function createBoards(size = 10) {
     createOpponentBoard(size);
   } else if (GameState.mode === 'PvC') {
     displayPlayerShips();
-
+    createOpponentBoard(size);
+  } else if (GameState.mode === 'Socket') {
+    displayPlayerShips();
     createOpponentBoard(size);
   }
 
