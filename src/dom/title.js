@@ -57,6 +57,7 @@ function gameModeSelect() {
         'online-player-input'
       ).value;
       clientSocketHandler.invokeListeners();
+      clientSocketHandler.joinerOrCreator = 'joiner';
       socket.emit('join_room', {
         id: roomIdInput.value,
         name: onlinePlayerNameValue,
@@ -70,6 +71,8 @@ function gameModeSelect() {
       'online-player-input'
     ).value;
     clientSocketHandler.invokeListeners();
+    clientSocketHandler.joinerOrCreator = 'creator';
+
     socket.emit('create_room', onlinePlayerNameValue);
     // store socket and io to start events
     // from any disjointed code point later

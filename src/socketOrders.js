@@ -4,7 +4,7 @@ import Players from './players/player.js';
 import { newGame } from './gameloop.js';
 import { createBoards } from './dom/ui.js';
 import Ship from './objects/ships.js';
-
+import { clientSocketHandler } from './services/socket.js';
 const mainGamePage = document.getElementById('game');
 const shipPlacementPage = document.getElementById(
   'placement-page-body-container'
@@ -14,9 +14,19 @@ export default class SocketClientOrders {
     this.io = io;
     this.socket = socket;
     this.room = '';
+    this.joinerOrCreator = '';
   }
   receiveAttack(payload) {
-    console.log(payload.type, payload.coordinates);
+    let opponent = GameState.players[1];
+    let myBoard = GameState.boards[0];
+    GameState.turn = 'player';
+    opponent.attack(payload.coordinates, myBoard, true);
+  }
+  receiveRadar(payload) {
+    // payload | {grid: HTMLdivElement, count: number}
+    const gridEl = document.getElementById(`${payload.grid.id}`);
+    gridEl.textContent = `${payload.count}`;
+    gridEl.classList.add('radar');
   }
   disconnect() {}
   sendMessage() {}
@@ -51,6 +61,7 @@ export default class SocketClientOrders {
     this.socket.emit('increment_ready_check');
   }
   invokeListeners() {
+    this.socket.on('receive_radar', (payload) => this.receiveRadar(payload));
     this.socket.on('receive_attack', (payload) => this.receiveAttack(payload));
     this.socket.on('send_board', (shipCoords) =>
       this.createOpponentBoard(shipCoords)
@@ -64,7 +75,6 @@ export default class SocketClientOrders {
     );
     this.socket.on('failed_to_join', () => this.failedToJoinRoom());
     this.socket.on('disconnect', () => this.disconnect());
-    this.socket.on('receiveAttack', () => this.receiveAttack());
   }
 }
 
@@ -74,6 +84,10 @@ const initializeBoards = (opponentName) => {
 
   const onlinePlayerName = document.getElementById('online-player-input');
 
+  if (clientSocketHandler.joinerOrCreator === 'joiner') {
+    opponentName = opponentName.creator;
+  } else opponentName = opponentName.joiner;
+  console.log('opps: ', opponentName);
   let currentPlayer = new Players(onlinePlayerName.value);
   let opponentPlayer = new Players(opponentName);
 

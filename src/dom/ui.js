@@ -288,6 +288,8 @@ function sniperSpecialBoardCover() {
         } else if (GameState.mode === 'PvC') {
           GameState.turn = 'computer';
           computerGameLoop();
+        } else if (GameState.mode === 'Socket') {
+          GameState.turn = 'opponent';
         }
         turnAnnouncement.textContent = `${hitOrMiss} It's ${turnPlayerName()}'s Turn!`;
       },
@@ -299,49 +301,53 @@ function sniperSpecialBoardCover() {
         playerBoardContainer.children[i].classList.add('revoke-events');
       }
     }
-    playerBoardContainer.addEventListener(
-      'click',
-      () => {
-        opponent.attackCharges -= 7;
-        opponentEnergyDisplay.textContent = `Energy: ${opponent.attackCharges}`;
-        const snipedCoordinates = opponent.sniperAttack(playerBoard);
-        // get id of sniped coord
-        let elementIdString =
-          'a' + snipedCoordinates[0] + ',' + snipedCoordinates[1];
-        const hitElement = document.getElementById(`${elementIdString}`);
-        sfxHit.play();
-        hitElement.classList.add('hit');
-        hitElement.classList.add('permanently-revoke-events');
-        if (GameState.sunkEventFlag === true) {
-          hitOrMiss = `You sunk the ${GameState.justSunk}!`;
-          GameState.sunkEventFlag = false;
-        }
-        // allow board to be targeted again after attack is done
-        GameState.wasHit = false;
-
-        for (let i = 0; i < playerBoardContainer.children.length; i++) {
-          if (playerBoardContainer.children[i].tagName === 'DIV') {
-            playerBoardContainer.children[i].classList.remove('revoke-events');
+    if (GameState.mode !== 'Socket') {
+      playerBoardContainer.addEventListener(
+        'click',
+        () => {
+          opponent.attackCharges -= 7;
+          opponentEnergyDisplay.textContent = `Energy: ${opponent.attackCharges}`;
+          const snipedCoordinates = opponent.sniperAttack(playerBoard);
+          // get id of sniped coord
+          let elementIdString =
+            'a' + snipedCoordinates[0] + ',' + snipedCoordinates[1];
+          const hitElement = document.getElementById(`${elementIdString}`);
+          sfxHit.play();
+          hitElement.classList.add('hit');
+          hitElement.classList.add('permanently-revoke-events');
+          if (GameState.sunkEventFlag === true) {
+            hitOrMiss = `You sunk the ${GameState.justSunk}!`;
+            GameState.sunkEventFlag = false;
           }
-        }
-        if (playerBoard.allShipsSunk()) {
-          GameState.gameOver = true;
-          gameOver();
-        }
-        GameState.selectedAttack = 'attack';
-        removeSelectedAttackTag();
+          // allow board to be targeted again after attack is done
+          GameState.wasHit = false;
 
-        GameState.turn = 'player';
-        const sniperButton = document.getElementById('sniper-attack');
-        const sniperAttackOpponent = document.getElementById(
-          'sniper-attack-opponent'
-        );
-        sniperButton.classList.remove('selected');
-        sniperAttackOpponent.classList.remove('selected');
-        turnAnnouncement.textContent = `${hitOrMiss} It's ${turnPlayerName()}'s Turn!`;
-      },
-      { once: true }
-    );
+          for (let i = 0; i < playerBoardContainer.children.length; i++) {
+            if (playerBoardContainer.children[i].tagName === 'DIV') {
+              playerBoardContainer.children[i].classList.remove(
+                'revoke-events'
+              );
+            }
+          }
+          if (playerBoard.allShipsSunk()) {
+            GameState.gameOver = true;
+            gameOver();
+          }
+          GameState.selectedAttack = 'attack';
+          removeSelectedAttackTag();
+
+          GameState.turn = 'player';
+          const sniperButton = document.getElementById('sniper-attack');
+          const sniperAttackOpponent = document.getElementById(
+            'sniper-attack-opponent'
+          );
+          sniperButton.classList.remove('selected');
+          sniperAttackOpponent.classList.remove('selected');
+          turnAnnouncement.textContent = `${hitOrMiss} It's ${turnPlayerName()}'s Turn!`;
+        },
+        { once: true }
+      );
+    }
   }
 }
 function createPlayerBoard(size) {
@@ -396,7 +402,7 @@ function playerGridListeners(gridElement) {
       const turnAnnouncement = document.getElementById('turn');
       const playerEnergyDisplay = document.getElementById('player-energy');
 
-      if (GameState.mode !== 'Socket' && GameState.turn !== 'player') {
+      if (GameState.turn !== 'player') {
         playerGridListeners(gridElement);
         return;
       }
@@ -415,10 +421,11 @@ function playerGridListeners(gridElement) {
       else if (GameState.selectedAttack === 'radar') {
         player.attackCharges -= 4;
         playerEnergyDisplay.textContent = `Energy: ${player.attackCharges}`;
-        let count = player.radarAttack(coordinates, opponentBoard);
+        const count = player.radarAttack(coordinates, opponentBoard);
         gridElement.textContent = `${count}`;
         gridElement.classList.add('radar');
-
+        // need to send the radar change to opponent as well
+        socket.emit('send_radar', { grid: gridElement, count: count });
         GameState.selectedAttack = 'attack';
       }
       // bomb attack logic
@@ -490,10 +497,7 @@ function playerGridListeners(gridElement) {
       } else if (GameState.mode === 'Socket') {
         GameState.turn = 'opponent';
         removeSelectedAttackTag();
-        socket.emit('send_attack', {
-          type: GameState.selectedAttack,
-          coordinates,
-        });
+        turnAnnouncement.textContent = `${hitOrMiss} It's ${turnPlayerName()}'s Turn!`;
       }
     },
     { once: true }
@@ -781,6 +785,7 @@ function displayPlayerShips() {
         opponentBoard.shipCoordinates[i].location[j][0] +
         ',' +
         opponentBoard.shipCoordinates[i].location[j][1];
+
       const gridElement = document.getElementById(`b${occupiedSpace}`);
       gridElement.classList.add('reveal');
     }
