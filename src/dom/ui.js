@@ -358,7 +358,7 @@ function createPlayerBoard(size) {
     const coordinateGrid = document.createElement('div');
     coordinateGrid.className = 'player-grid-elements';
     coordinateGrid.id = `a${playerCoordinateIterator.next().value}`;
-    opponentGridListeners(coordinateGrid);
+    if (GameState.mode !== 'Socket') opponentGridListeners(coordinateGrid);
     playerBoardContainer.appendChild(coordinateGrid);
   }
 }
@@ -367,7 +367,16 @@ function createOpponentBoard(size) {
   const opponentBoardContainer = document.getElementById(
     'current-opponent-board'
   );
-
+  if (GameState.mode === 'PvC' || GameState.mode === 'Socket') {
+    const specialsContainerChildren = Array.from(
+      document.getElementById('specials-container').childNodes
+    );
+    console.log(specialsContainerChildren);
+    for (let i = 0; i < specialsContainerChildren.length; i++) {
+      if (specialsContainerChildren[i].style)
+        specialsContainerChildren[i].style.visibility = 'hidden';
+    }
+  }
   for (let i = 0; i < size * size; i++) {
     const coordinateGrid = document.createElement('div');
     coordinateGrid.className = 'opponent-grid-elements';

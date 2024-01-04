@@ -24,6 +24,7 @@ export default class SocketClientOrders {
   }
   receiveRadar(payload) {
     // payload | {grid: HTMLdivElement, count: number}
+    console.log(payload);
     const gridEl = document.getElementById(`${payload.grid.id}`);
     gridEl.textContent = `${payload.count}`;
     gridEl.classList.add('radar');
@@ -44,18 +45,19 @@ export default class SocketClientOrders {
     initializeBoards(opponentName);
   }
   beginGame() {
-    shipPlacementPage.style.display = 'none';
+    shipPlacementPage.style.display = ' none';
     mainGamePage.style.display = 'flex';
     // here all the ships have been placed
-    console.log('passing');
 
     createBoards();
   }
 
   createOpponentBoard(shipCoords) {
-    console.log('creating');
     for (let i = 0; i < shipCoords.length; i++) {
-      const newShip = new Ship(shipCoords.length, shipCoords.name);
+      const newShip = new Ship(
+        shipCoords[i].object.length,
+        shipCoords[i].object.name
+      );
       GameState.boards[1].addShip(newShip, shipCoords[i].location);
     }
     this.socket.emit('increment_ready_check');
