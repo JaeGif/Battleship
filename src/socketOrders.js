@@ -72,7 +72,7 @@ const initializeBoards = (opponentName) => {
   const menu = document.getElementById('menu');
   const addShips = document.getElementById('placement-page-body-container');
 
-  const onlinePlayerName = document.getElementById('online-player-name');
+  const onlinePlayerName = document.getElementById('online-player-input');
 
   let currentPlayer = new Players(onlinePlayerName.value);
   let opponentPlayer = new Players(opponentName);
@@ -80,8 +80,8 @@ const initializeBoards = (opponentName) => {
   GameState.players.push(currentPlayer);
   GameState.players.push(opponentPlayer);
 
-  const playerBoard = new Gameboards(onlinePlayerName);
-  const opponentBoard = new Gameboards(opponentPlayer);
+  const playerBoard = new Gameboards(onlinePlayerName.value);
+  const opponentBoard = new Gameboards(opponentName);
 
   GameState.boards.push(playerBoard);
   GameState.boards.push(opponentBoard);

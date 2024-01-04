@@ -53,20 +53,24 @@ function gameModeSelect() {
     roomIdInput.style.display = 'flex';
     pvpJoinRoomButton.addEventListener('click', () => {
       if (roomIdInput.value === '') return;
-
+      const onlinePlayerNameValue = document.getElementById(
+        'online-player-input'
+      ).value;
       clientSocketHandler.invokeListeners();
       socket.emit('join_room', {
         id: roomIdInput.value,
-        name: onlineForm.value,
+        name: onlinePlayerNameValue,
       });
       GameState.turn = 'opponent';
     });
   });
   pvpCreateRoomButton.addEventListener('click', () => {
     roomIDContainer.style.display = 'flex';
-
+    const onlinePlayerNameValue = document.getElementById(
+      'online-player-input'
+    ).value;
     clientSocketHandler.invokeListeners();
-    socket.emit('create_room', onlineForm.value);
+    socket.emit('create_room', onlinePlayerNameValue);
     // store socket and io to start events
     // from any disjointed code point later
   });
