@@ -4,6 +4,7 @@ import { GameState, UiState } from '../objects/stateManagers.js';
 import { gameOver } from '../gameloop.js';
 import { audioHit, audioMiss } from './audio.js';
 import Gameboards from '../objects/gameboard.js';
+import { socket } from '../services/socket.js';
 
 function createBoards(size = 10) {
   fetchVictoryImage();
@@ -395,16 +396,16 @@ function playerGridListeners(gridElement) {
       const turnAnnouncement = document.getElementById('turn');
       const playerEnergyDisplay = document.getElementById('player-energy');
 
-      if (GameState.turn !== 'player') {
+      if (GameState.mode !== 'Socket' && GameState.turn !== 'player') {
         playerGridListeners(gridElement);
         return;
       }
+
       const player = [...GameState.players][0];
       const opponentBoard = [...GameState.boards][1];
       const coordinates = gridElement.id.slice(1).split(',');
 
       // regular attack logic
-      console.log('board', opponentBoard);
       if (GameState.selectedAttack === 'attack') {
         player.attack(coordinates, opponentBoard);
         player.attackCharges++;
@@ -486,6 +487,13 @@ function playerGridListeners(gridElement) {
         turnAnnouncement.textContent = `${hitOrMiss} It's ${turnPlayerName()}'s Turn!`;
 
         computerGameLoop();
+      } else if (GameState.mode === 'Socket') {
+        GameState.turn = 'opponent';
+        removeSelectedAttackTag();
+        socket.emit('send_attack', {
+          type: GameState.selectedAttack,
+          coordinates,
+        });
       }
     },
     { once: true }

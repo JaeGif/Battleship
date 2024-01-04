@@ -15,8 +15,9 @@ export default class SocketClientOrders {
     this.socket = socket;
     this.room = '';
   }
-  sendAttack() {}
-  receiveAttack() {}
+  receiveAttack(payload) {
+    console.log(payload.type, payload.coordinates);
+  }
   disconnect() {}
   sendMessage() {}
   successfullyJoinedRoom(payload) {
@@ -37,6 +38,7 @@ export default class SocketClientOrders {
     mainGamePage.style.display = 'flex';
     // here all the ships have been placed
     console.log('passing');
+
     createBoards();
   }
 
@@ -49,7 +51,7 @@ export default class SocketClientOrders {
     this.socket.emit('increment_ready_check');
   }
   invokeListeners() {
-    console.log('invoked');
+    this.socket.on('receive_attack', (payload) => this.receiveAttack(payload));
     this.socket.on('send_board', (shipCoords) =>
       this.createOpponentBoard(shipCoords)
     );

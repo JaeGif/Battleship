@@ -59,6 +59,7 @@ function gameModeSelect() {
         id: roomIdInput.value,
         name: onlineForm.value,
       });
+      GameState.turn = 'opponent';
     });
   });
   pvpCreateRoomButton.addEventListener('click', () => {
