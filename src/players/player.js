@@ -12,10 +12,10 @@ class Players {
   previousHit = [];
   attack(coordinateStringy, enemyBoard, incoming = false) {
     // send every attacked coordinate from here
-    console.log(incoming, coordinateStringy, enemyBoard);
 
-    if (incoming) enemyBoard = GameState.boards[1];
-    if (!incoming) {
+    if (incoming && GameState.mode === 'Socket')
+      enemyBoard = GameState.boards[1];
+    if (!incoming && GameState.mode === 'Socket') {
       socket.emit('send_attack', {
         type: GameState.selectedAttack,
         coordinates: coordinateStringy,

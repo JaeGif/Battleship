@@ -11,7 +11,6 @@ class Gameboards {
   recordAttack = []; // array of attacked coordinates
   sunkShips = [];
   receiveAttack(coordinates) {
-    console.log('attacking here', coordinates);
     let bombHitOrMissStr = 'miss';
     // updates the gameboards data on what spaces have been hit for the DOM
     this.recordAttack.push(coordinates);
@@ -38,6 +37,7 @@ class Gameboards {
           }
           this.shipCoordinates[i].object.hit(coordinates);
           GameState.wasHit = true;
+          console.log('wasHit update');
 
           if (GameState.turn === 'computer') {
             CpuGameState.cpuLastHit.push(coordinates);

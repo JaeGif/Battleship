@@ -368,10 +368,10 @@ function createOpponentBoard(size) {
     'current-opponent-board'
   );
   if (GameState.mode === 'PvC' || GameState.mode === 'Socket') {
+    // hide specials bar in modes that don't require user to see it
     const specialsContainerChildren = Array.from(
       document.getElementById('specials-container').childNodes
     );
-    console.log(specialsContainerChildren);
     for (let i = 0; i < specialsContainerChildren.length; i++) {
       if (specialsContainerChildren[i].style)
         specialsContainerChildren[i].style.visibility = 'hidden';
@@ -404,11 +404,6 @@ function playerGridListeners(gridElement) {
   gridElement.addEventListener(
     'click',
     () => {
-      let hitOrMiss = '';
-
-      const sfxHit = audioHit();
-      const sfxMiss = audioMiss();
-      const turnAnnouncement = document.getElementById('turn');
       const playerEnergyDisplay = document.getElementById('player-energy');
 
       if (GameState.turn !== 'player') {
@@ -477,36 +472,19 @@ function playerGridListeners(gridElement) {
         GameState.gameOver = true;
         gameOver();
       }
-      if (GameState.wasHit === true) {
-        sfxHit.play();
-        gridElement.classList.add('hit');
-        hitOrMiss = 'Its a hit!';
-        if (GameState.sunkEventFlag === true) {
-          hitOrMiss = `You sunk the ${GameState.justSunk}!`;
+      uiUpdateHitOrMiss(gridElement);
 
-          GameState.sunkEventFlag = false;
-        }
-        GameState.wasHit = false;
-      } else {
-        sfxMiss.play();
-        hitOrMiss = 'Miss...';
-        gridElement.classList.add('miss');
-      }
       if (GameState.mode === 'PvP') {
         GameState.turn = 'opponent';
         removeSelectedAttackTag();
-
-        turnAnnouncement.textContent = `${hitOrMiss} It's ${turnPlayerName()}'s Turn!`;
       } else if (GameState.mode === 'PvC') {
         removeSelectedAttackTag();
         GameState.turn = 'computer';
-        turnAnnouncement.textContent = `${hitOrMiss} It's ${turnPlayerName()}'s Turn!`;
 
         computerGameLoop();
       } else if (GameState.mode === 'Socket') {
         GameState.turn = 'opponent';
         removeSelectedAttackTag();
-        turnAnnouncement.textContent = `${hitOrMiss} It's ${turnPlayerName()}'s Turn!`;
       }
     },
     { once: true }
@@ -583,10 +561,6 @@ function opponentGridListeners(gridElement) {
   gridElement.addEventListener(
     'click',
     () => {
-      const sfxHit = audioHit();
-      const sfxMiss = audioMiss();
-      let hitOrMiss = '';
-      const turnAnnouncement = document.getElementById('turn');
       const opponentEnergyDisplay = document.getElementById('opponent-energy');
 
       if (GameState.turn === 'player') {
@@ -641,20 +615,7 @@ function opponentGridListeners(gridElement) {
           UiState.axis = 'x';
         }
 
-        if (GameState.wasHit === true) {
-          sfxHit.play();
-          gridElement.classList.add('hit');
-          hitOrMiss = 'Its a hit!';
-          if (GameState.sunkEventFlag === true) {
-            hitOrMiss = `You sunk the ${GameState.justSunk}!`;
-            GameState.sunkEventFlag = false;
-          }
-          GameState.wasHit = false;
-        } else {
-          sfxMiss.play();
-          gridElement.classList.add('miss');
-          hitOrMiss = 'Miss...';
-        }
+        uiUpdateHitOrMiss(gridElement);
       }
       if (playerBoard.allShipsSunk()) {
         GameState.gameOver = true;
@@ -689,13 +650,34 @@ function opponentGridListeners(gridElement) {
       bombAttackOpponent.classList.remove('selected');
       sniperButton.classList.remove('selected');
       sniperAttackOpponent.classList.remove('selected');
-      turnAnnouncement.textContent = `${hitOrMiss} It's ${turnPlayerName()}'s Turn!`;
     },
     { once: true }
   );
 }
+export function uiUpdateHitOrMiss(gridElement) {
+  const sfxHit = audioHit();
+  const sfxMiss = audioMiss();
+  let hitOrMiss = '';
+  const turnAnnouncement = document.getElementById('turn');
 
-function turnPlayerName() {
+  console.log(GameState.wasHit);
+  if (GameState.wasHit === true) {
+    sfxHit.play();
+    gridElement.classList.add('hit');
+    hitOrMiss = 'Its a hit!';
+    if (GameState.sunkEventFlag === true) {
+      hitOrMiss = `You sunk the ${GameState.justSunk}!`;
+      GameState.sunkEventFlag = false;
+    }
+    GameState.wasHit = false;
+  } else {
+    sfxMiss.play();
+    gridElement.classList.add('miss');
+    hitOrMiss = 'Miss...';
+  }
+  turnAnnouncement.textContent = `${hitOrMiss} It's ${turnPlayerName()}'s Turn!`;
+}
+export function turnPlayerName() {
   const playerBoard = [...GameState.boards][0];
   const computerBoard = [...GameState.boards][1];
 

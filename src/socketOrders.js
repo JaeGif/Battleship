@@ -2,7 +2,7 @@ import { GameState } from './objects/stateManagers.js';
 import Gameboards from './objects/gameboard.js';
 import Players from './players/player.js';
 import { newGame } from './gameloop.js';
-import { createBoards } from './dom/ui.js';
+import { createBoards, turnPlayerName, uiUpdateHitOrMiss } from './dom/ui.js';
 import Ship from './objects/ships.js';
 import { clientSocketHandler } from './services/socket.js';
 const mainGamePage = document.getElementById('game');
@@ -19,12 +19,14 @@ export default class SocketClientOrders {
   receiveAttack(payload) {
     let opponent = GameState.players[1];
     let myBoard = GameState.boards[0];
-    GameState.turn = 'player';
+
     opponent.attack(payload.coordinates, myBoard, true);
+    const gridElement = document.getElementById('a' + payload.coordinates);
+    uiUpdateHitOrMiss(gridElement);
+    GameState.turn = 'player';
   }
   receiveRadar(payload) {
     // payload | {grid: HTMLdivElement, count: number}
-    console.log(payload);
     const gridEl = document.getElementById(`${payload.grid.id}`);
     gridEl.textContent = `${payload.count}`;
     gridEl.classList.add('radar');
