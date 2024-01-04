@@ -404,6 +404,7 @@ function playerGridListeners(gridElement) {
       const coordinates = gridElement.id.slice(1).split(',');
 
       // regular attack logic
+      console.log('board', opponentBoard);
       if (GameState.selectedAttack === 'attack') {
         player.attack(coordinates, opponentBoard);
         player.attackCharges++;

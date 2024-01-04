@@ -153,8 +153,7 @@ function nextShipIteration() {
     } else if (GameState.mode === 'Socket') {
       console.log('yeeting');
       // sends board info to all room members EXCEPT SENDER
-      socket.emit('ships_placed', GameState.boards[0]);
-      console.log(GameState.boards);
+      socket.emit('ships_placed', GameState.boards[0].shipCoordinates);
       // send all board data to the other client
     }
     if (GameState.mode != 'Socket') {

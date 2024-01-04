@@ -3,6 +3,7 @@ import Gameboards from './objects/gameboard.js';
 import Players from './players/player.js';
 import { newGame } from './gameloop.js';
 import { createBoards } from './dom/ui.js';
+import Ship from './objects/ships.js';
 
 const mainGamePage = document.getElementById('game');
 const shipPlacementPage = document.getElementById(
@@ -39,15 +40,18 @@ export default class SocketClientOrders {
     createBoards();
   }
 
-  createOpponentBoard(opponentBoard) {
+  createOpponentBoard(shipCoords) {
     console.log('creating');
-    GameState.boards.push(opponentBoard);
+    for (let i = 0; i < shipCoords.length; i++) {
+      const newShip = new Ship(shipCoords.length, shipCoords.name);
+      GameState.boards[1].addShip(newShip, shipCoords[i].location);
+    }
     this.socket.emit('increment_ready_check');
   }
   invokeListeners() {
     console.log('invoked');
-    this.socket.on('send_board', (opponentBoard) =>
-      this.createOpponentBoard(opponentBoard)
+    this.socket.on('send_board', (shipCoords) =>
+      this.createOpponentBoard(shipCoords)
     );
     this.socket.on('begin_full_game', () => this.beginGame());
     this.socket.on('initialize_game', (opponentName) =>
@@ -75,8 +79,10 @@ const initializeBoards = (opponentName) => {
   GameState.players.push(opponentPlayer);
 
   const playerBoard = new Gameboards(onlinePlayerName);
+  const opponentBoard = new Gameboards(opponentPlayer);
 
   GameState.boards.push(playerBoard);
+  GameState.boards.push(opponentBoard);
 
   addShips.style.display = 'flex';
   menu.style.display = 'none';
