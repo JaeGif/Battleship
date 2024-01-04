@@ -9,7 +9,6 @@ import {
 } from './instructions.js';
 import { audioWeAre, audioCantEscape, audioKatakuriTheme } from './audio.js';
 import { socket, clientSocketHandler } from '../services/socket.js';
-import SocketClientOrders from '../socketOrders.js';
 
 function gameModeSelect() {
   AudioState.currentlyPlaying = changeCurrentSong();
@@ -54,27 +53,21 @@ function gameModeSelect() {
     roomIdInput.style.display = 'flex';
     pvpJoinRoomButton.addEventListener('click', () => {
       if (roomIdInput.value === '') return;
-      console.log(socket);
 
-      console.log('connection entered kek');
       clientSocketHandler.invokeListeners();
       socket.emit('join_room', {
         id: roomIdInput.value,
         name: onlineForm.value,
       });
-      console.log('joining');
     });
   });
   pvpCreateRoomButton.addEventListener('click', () => {
     roomIDContainer.style.display = 'flex';
 
-    socket.on('connect', () => {
-      clientSocketHandler.invokeListeners();
-      socket.emit('create_room', onlineForm.value);
-      // store socket and io to start events
-      // from any disjointed code point later
-      console.log('creating');
-    });
+    clientSocketHandler.invokeListeners();
+    socket.emit('create_room', onlineForm.value);
+    // store socket and io to start events
+    // from any disjointed code point later
   });
 
   optionsButton.addEventListener('click', () => {

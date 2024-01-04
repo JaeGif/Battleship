@@ -8,9 +8,6 @@ const socket = io('http://localhost:8080', {
   transports: ['websocket'],
 });
 
-window.addEventListener('beforeunload', () => {
-  socket.close();
-});
 const clientSocketHandler = new SocketClientOrders(io, socket);
 
 export { socket, clientSocketHandler };

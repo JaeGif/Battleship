@@ -2,7 +2,12 @@ import { GameState } from './objects/stateManagers.js';
 import Gameboards from './objects/gameboard.js';
 import Players from './players/player.js';
 import { newGame } from './gameloop.js';
+import { createBoards } from './dom/ui.js';
 
+const mainGamePage = document.getElementById('game');
+const shipPlacementPage = document.getElementById(
+  'placement-page-body-container'
+);
 export default class SocketClientOrders {
   constructor(io, socket) {
     this.io = io;
@@ -26,14 +31,25 @@ export default class SocketClientOrders {
   initializeGame(opponentName) {
     initializeBoards(opponentName);
   }
-  beginGame(opponentBoard) {
+  beginGame() {
+    shipPlacementPage.style.display = 'none';
+    mainGamePage.style.display = 'flex';
+    // here all the ships have been placed
+    console.log('passing');
+    createBoards();
+  }
+
+  createOpponentBoard(opponentBoard) {
+    console.log('creating');
     GameState.boards.push(opponentBoard);
-    console.log(GameState);
+    this.socket.emit('increment_ready_check');
   }
   invokeListeners() {
-    this.socket.on('begin_full_game', (opponentBoard) =>
-      this.beginGame(opponentBoard)
+    console.log('invoked');
+    this.socket.on('send_board', (opponentBoard) =>
+      this.createOpponentBoard(opponentBoard)
     );
+    this.socket.on('begin_full_game', () => this.beginGame());
     this.socket.on('initialize_game', (opponentName) =>
       this.initializeGame(opponentName)
     );

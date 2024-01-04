@@ -151,15 +151,19 @@ function nextShipIteration() {
       resetPlacement();
       return placementPage();
     } else if (GameState.mode === 'Socket') {
+      console.log('yeeting');
       // sends board info to all room members EXCEPT SENDER
       socket.emit('ships_placed', GameState.boards[0]);
-
+      console.log(GameState.boards);
       // send all board data to the other client
     }
-    shipPlacementPage.style.display = 'none';
-    mainGamePage.style.display = 'flex';
-    // here all the ships have been placed
-    createBoards();
+    if (GameState.mode != 'Socket') {
+      shipPlacementPage.style.display = 'none';
+      mainGamePage.style.display = 'flex';
+      // here all the ships have been placed
+      console.log('passing');
+      createBoards();
+    }
   }
 }
 function resetAxis() {
