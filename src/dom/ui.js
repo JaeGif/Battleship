@@ -3,7 +3,6 @@
 import { GameState, UiState } from '../objects/stateManagers.js';
 import { gameOver } from '../gameloop.js';
 import { audioHit, audioMiss } from './audio.js';
-import Gameboards from '../objects/gameboard.js';
 import { socket } from '../services/socket.js';
 
 function createBoards(size = 10) {
@@ -468,11 +467,11 @@ function playerGridListeners(gridElement) {
       }
 
       // if sunk check for
+
       if (opponentBoard.allShipsSunk()) {
         GameState.gameOver = true;
         gameOver();
       }
-      uiUpdateHitOrMiss(gridElement);
 
       if (GameState.mode === 'PvP') {
         GameState.turn = 'opponent';
@@ -486,6 +485,7 @@ function playerGridListeners(gridElement) {
         GameState.turn = 'opponent';
         removeSelectedAttackTag();
       }
+      uiUpdateHitOrMiss(gridElement);
     },
     { once: true }
   );
@@ -516,6 +516,8 @@ function removeSelectedAttackTag() {
   sniperAttackOpponent.classList.remove('selected');
 }
 function sleep() {
+  // add random lag to computer action so it seems
+  // more natural, like a real(er) player
   const ms = Math.random() * 1500;
   return new Promise((resolve) => setTimeout(resolve, ms));
 }
@@ -614,7 +616,7 @@ function opponentGridListeners(gridElement) {
           GameState.selectedAttack = 'attack';
           UiState.axis = 'x';
         }
-
+        GameState.turn = 'player';
         uiUpdateHitOrMiss(gridElement);
       }
       if (playerBoard.allShipsSunk()) {
@@ -622,7 +624,6 @@ function opponentGridListeners(gridElement) {
 
         gameOver();
       }
-      GameState.turn = 'player';
       const radarButton = document.getElementById('radar-attack');
       const radarAttackOpponent = document.getElementById(
         'radar-attack-opponent'
@@ -660,7 +661,6 @@ export function uiUpdateHitOrMiss(gridElement) {
   let hitOrMiss = '';
   const turnAnnouncement = document.getElementById('turn');
 
-  console.log(GameState.wasHit);
   if (GameState.wasHit === true) {
     sfxHit.play();
     gridElement.classList.add('hit');
