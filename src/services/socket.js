@@ -1,7 +1,7 @@
 import { io } from 'socket.io-client';
 import SocketClientOrders from '../socketOrders.js';
 
-const socket = io('http://localhost:8080', {
+const socket = io('https://battleshipserver-production.up.railway.app', {
   reconnectionDelay: 1000,
   reconnection: true,
   reconnectionAttemps: 10,
