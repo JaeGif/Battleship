@@ -89,6 +89,4 @@ Critical for this project:
 
 BUGLIST
 
-- Currently, the attacks are landing on the opposite players board
-
-If player 1 attacks, the attack is reflected on their own board on the opponents page
+- When bomb is used, players turns are not correctly swapped

@@ -482,7 +482,6 @@ function playerGridListeners(gridElement) {
 
         computerGameLoop();
       } else if (GameState.mode === 'Socket') {
-        GameState.turn = 'opponent';
         removeSelectedAttackTag();
       }
       uiUpdateHitOrMiss(gridElement);
@@ -633,7 +632,6 @@ export function uiUpdateHitOrMiss(gridElement) {
   const sfxMiss = audioMiss();
   let hitOrMiss = '';
   const turnAnnouncement = document.getElementById('turn');
-  console.log('receiver, after attack processing', GameState);
   if (GameState.wasHit === true) {
     sfxHit.play();
     gridElement.classList.add('hit');
@@ -648,9 +646,13 @@ export function uiUpdateHitOrMiss(gridElement) {
     gridElement.classList.add('miss');
     hitOrMiss = 'Miss...';
   }
-  console.log('receiver, after ui updates (supposedly)', GameState);
-
+  if (GameState.mode === 'Socket') swapTurns();
   turnAnnouncement.textContent = `${hitOrMiss} It's ${turnPlayerName()}'s Turn!`;
+}
+function swapTurns() {
+  GameState.turn === 'player'
+    ? (GameState.turn = 'opponent')
+    : (GameState.turn = 'player');
 }
 export function turnPlayerName() {
   const playerBoard = [...GameState.boards][0];

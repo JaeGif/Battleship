@@ -24,7 +24,6 @@ export default class SocketClientOrders {
 
     opponent.attack(payload.coordinates, myBoard, true);
     const gridElement = document.getElementById('a' + payload.coordinates);
-    this.__swapTurns();
     uiUpdateHitOrMiss(gridElement);
   }
   receiveRadar(payload) {
@@ -64,13 +63,7 @@ export default class SocketClientOrders {
     }
     this.socket.emit('increment_ready_check');
   }
-  __swapTurns() {
-    console.log(GameState.turn);
-    GameState.turn === 'player'
-      ? (GameState.turn = 'opponent')
-      : (GameState.turn = 'player');
-    console.log(GameState.turn);
-  }
+
   invokeListeners() {
     this.socket.on('receive_radar', (payload) => this.receiveRadar(payload));
     this.socket.on('receive_attack', (payload) => this.receiveAttack(payload));
