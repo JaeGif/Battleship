@@ -13,6 +13,13 @@
     <link rel="stylesheet" href="./styles/placement.css" />
     <link rel="stylesheet" href="./styles/title.css" /> -->
 
+    <script type="importmap">
+      {
+        "imports": {
+          "socket.io-client": "https://cdn.socket.io/4.7.2/socket.io.esm.min.js"
+        }
+      }
+    </script>
     <script type="module" defer src="main.js"></script>
   </head>
   <body>
@@ -22,12 +29,13 @@
         <h2>Totally not</h2>
         <h1 id="title">Battleship</h1>
       </div>
-      <p id="play">Play</p>
+      <p class="blink" id="play">Play</p>
     </div>
     <!-- Game Select Modal -->
     <div id="menu">
       <button id="pvc">Single Player</button>
       <button id="multiplayer">Multiplayer Local</button>
+      <button id="socket-play">Play Online</button>
       <button id="instructions-menu">How to Play</button>
       <button id="options">Options</button>
       <div id="single-player-name">
@@ -37,7 +45,39 @@
           type="text"
           placeholder="Player Name"
           value=""
-        /><button type="button" id="new-game-btn-solo">Start Game</button>
+        /><button class="blink" type="button" id="new-game-btn-solo">
+          Start Game
+        </button>
+      </div>
+      <div id="online-player-name">
+        <input
+          id="online-player-input"
+          type="text"
+          placeholder="Player Name"
+          value=""
+        />
+        <input
+          style="display: none"
+          id="room-id-input"
+          type="text"
+          placeholder="Enter Room ID"
+          value=""
+        />
+        <div style="display: none" id="room-id-container">
+          <span class="center"
+            ><p>Waiting for other players</p>
+            <div class="lds-circle"><div></div></div>
+          </span>
+          <p id="room-id-text"></p>
+        </div>
+        <button class="" type="button" id="new-game-btn-online">
+          Join Room
+        </button>
+
+        <p class="smaller-text">-OR-</p>
+        <button class="" type="button" id="create-new-game-btn-online">
+          Create Room
+        </button>
       </div>
       <div id="multiplayer-name">
         <div>
@@ -56,7 +96,9 @@
             value=""
           />
         </div>
-        <button type="submit" id="new-game-btn-multiplayer">Start Game</button>
+        <button class="blink" type="submit" id="new-game-btn-multiplayer">
+          Start Game
+        </button>
       </div>
     </div>
     <!-- Inner Instructions Page -->
@@ -320,17 +362,13 @@
               </button>
               <h2>14</h2>
             </div>
-            <!--             <div class="special-attacks-wrapper">
-              <button id="shield-attack">Shield</button>
-              <h2>8</h2>
-            </div> -->
           </div>
           <h1 id="player-name">Player 1</h1>
         </div>
         <div class="board-containers" id="opponent-container">
           <h2 id="opponent-energy">Energy: 0</h2>
           <div class="grid-div" id="current-opponent-board"></div>
-          <div class="attacks-structural-div">
+          <div class="attacks-structural-div" id="specials-container">
             <div class="special-attacks-wrapper">
               <button id="radar-attack-opponent">Radar</button>
               <h2>4</h2>
