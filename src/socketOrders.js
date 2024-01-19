@@ -19,11 +19,13 @@ export default class SocketClientOrders {
   receiveAttack(payload) {
     let opponent = GameState.players[1];
     let myBoard = GameState.boards[0];
+    console.log('check payload', payload);
+    console.log('receive before processing', GameState);
 
     opponent.attack(payload.coordinates, myBoard, true);
     const gridElement = document.getElementById('a' + payload.coordinates);
+    this.__swapTurns();
     uiUpdateHitOrMiss(gridElement);
-    GameState.turn = 'player';
   }
   receiveRadar(payload) {
     // payload | {grid: HTMLdivElement, count: number}
@@ -31,8 +33,7 @@ export default class SocketClientOrders {
     gridEl.textContent = `${payload.count}`;
     gridEl.classList.add('radar');
   }
-  disconnect() {}
-  sendMessage() {}
+
   successfullyJoinedRoom(payload) {
     this.room = payload;
     console.log('Successfully connected client!', this.room);
@@ -50,7 +51,6 @@ export default class SocketClientOrders {
     shipPlacementPage.style.display = ' none';
     mainGamePage.style.display = 'flex';
     // here all the ships have been placed
-
     createBoards();
   }
 
@@ -63,6 +63,13 @@ export default class SocketClientOrders {
       GameState.boards[1].addShip(newShip, shipCoords[i].location);
     }
     this.socket.emit('increment_ready_check');
+  }
+  __swapTurns() {
+    console.log(GameState.turn);
+    GameState.turn === 'player'
+      ? (GameState.turn = 'opponent')
+      : (GameState.turn = 'player');
+    console.log(GameState.turn);
   }
   invokeListeners() {
     this.socket.on('receive_radar', (payload) => this.receiveRadar(payload));
@@ -78,7 +85,6 @@ export default class SocketClientOrders {
       this.successfullyJoinedRoom(payload)
     );
     this.socket.on('failed_to_join', () => this.failedToJoinRoom());
-    this.socket.on('disconnect', () => this.disconnect());
   }
 }
 
@@ -104,6 +110,7 @@ const initializeBoards = (opponentName) => {
   GameState.boards.push(playerBoard);
   GameState.boards.push(opponentBoard);
 
+  console.log('board state as soon as innitialized:', GameState);
   addShips.style.display = 'flex';
   menu.style.display = 'none';
 

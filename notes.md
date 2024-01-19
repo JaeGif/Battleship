@@ -86,3 +86,9 @@ Critical for this project:
 - Object copies have deep and shallow references. Some make a copy, some alter the original object and some reference the original object.
 - If it can be done with CSS, do it with CSS. JS should be used exclusively for logic, dynamicism and custom effects. CSS is significantly less time consuming, more readable, and performant.
 - For things you don't want to change with font size, or may break the display if a user has an odd font size, use vh/vw or %.
+
+BUGLIST
+
+- Currently, the attacks are landing on the opposite players board
+
+If player 1 attacks, the attack is reflected on their own board on the opponents page

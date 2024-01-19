@@ -24,8 +24,8 @@ function createBoards(size = 10) {
     displayPlayerShips();
     createOpponentBoard(size);
   } else if (GameState.mode === 'Socket') {
-    displayPlayerShips();
     createOpponentBoard(size);
+    displayPlayerShips();
   }
 
   uniqueAttackButtonListeners();
@@ -616,41 +616,14 @@ function opponentGridListeners(gridElement) {
           GameState.selectedAttack = 'attack';
           UiState.axis = 'x';
         }
-        GameState.turn = 'player';
-        uiUpdateHitOrMiss(gridElement);
       }
+      GameState.turn = 'player';
+      uiUpdateHitOrMiss(gridElement);
       if (playerBoard.allShipsSunk()) {
         GameState.gameOver = true;
-
         gameOver();
       }
-      const radarButton = document.getElementById('radar-attack');
-      const radarAttackOpponent = document.getElementById(
-        'radar-attack-opponent'
-      );
-
-      const strikeButton = document.getElementById('strike-attack');
-      const strikeAttackOpponent = document.getElementById(
-        'strike-attack-opponent'
-      );
-
-      const sniperButton = document.getElementById('sniper-attack');
-      const sniperAttackOpponent = document.getElementById(
-        'sniper-attack-opponent'
-      );
-
-      const bombButton = document.getElementById('bomb-attack');
-      const bombAttackOpponent = document.getElementById(
-        'bomb-attack-opponent'
-      );
-      radarAttackOpponent.classList.remove('selected');
-      radarButton.classList.remove('selected');
-      strikeButton.classList.remove('selected');
-      strikeAttackOpponent.classList.remove('selected');
-      bombButton.classList.remove('selected');
-      bombAttackOpponent.classList.remove('selected');
-      sniperButton.classList.remove('selected');
-      sniperAttackOpponent.classList.remove('selected');
+      removeSelectedAttackTag();
     },
     { once: true }
   );
@@ -660,7 +633,7 @@ export function uiUpdateHitOrMiss(gridElement) {
   const sfxMiss = audioMiss();
   let hitOrMiss = '';
   const turnAnnouncement = document.getElementById('turn');
-
+  console.log('receiver, after attack processing', GameState);
   if (GameState.wasHit === true) {
     sfxHit.play();
     gridElement.classList.add('hit');
@@ -675,6 +648,8 @@ export function uiUpdateHitOrMiss(gridElement) {
     gridElement.classList.add('miss');
     hitOrMiss = 'Miss...';
   }
+  console.log('receiver, after ui updates (supposedly)', GameState);
+
   turnAnnouncement.textContent = `${hitOrMiss} It's ${turnPlayerName()}'s Turn!`;
 }
 export function turnPlayerName() {
@@ -770,17 +745,16 @@ function displayPlayerShips() {
     }
   }
   // this sectionn is for displaying opponent ships for debugging purposes.
-  /*   for (let i = 0; i < opponentBoard.shipCoordinates.length; i++) {
+  for (let i = 0; i < opponentBoard.shipCoordinates.length; i++) {
     for (let j = 0; j < opponentBoard.shipCoordinates[i].location.length; j++) {
       occupiedSpace =
         opponentBoard.shipCoordinates[i].location[j][0] +
         ',' +
         opponentBoard.shipCoordinates[i].location[j][1];
-
       const gridElement = document.getElementById(`b${occupiedSpace}`);
       gridElement.classList.add('reveal');
     }
-  } */
+  }
 }
 async function fetchBackgroundImage() {
   const gifId = 'XPlcxsFs8BIKk';
