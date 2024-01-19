@@ -3,14 +3,24 @@ The game is played against the computer, so make ‘computer’ players capable 
  The AI does not have to be smart, but it should know whether or not a given move is legal.
  (i.e. it shouldn’t shoot the same coordinate twice). */
 import { CpuGameState, GameState } from '../objects/stateManagers.js';
-
+import { socket } from '../services/socket.js';
 class Players {
   constructor(name = 'Computer') {
     this.name = name;
   }
   attackCharges = 0;
   previousHit = [];
-  attack(coordinateStringy, enemyBoard) {
+  attack(coordinateStringy, enemyBoard, incoming = false) {
+    // send every attacked coordinate from here
+
+    /*     if (incoming && GameState.mode === 'Socket')
+      enemyBoard = GameState.boards[1]; */
+    if (!incoming && GameState.mode === 'Socket') {
+      socket.emit('send_attack', {
+        type: GameState.selectedAttack,
+        coordinates: coordinateStringy,
+      });
+    }
     // checks that an attack has not been previously made
     let coordinates = [
       parseInt(coordinateStringy[0]),

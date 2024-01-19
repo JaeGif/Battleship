@@ -37,6 +37,7 @@ class Gameboards {
           }
           this.shipCoordinates[i].object.hit(coordinates);
           GameState.wasHit = true;
+          console.log('wasHit update');
 
           if (GameState.turn === 'computer') {
             CpuGameState.cpuLastHit.push(coordinates);

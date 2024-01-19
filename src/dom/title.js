@@ -8,6 +8,7 @@ import {
   instructionsReturnHandler,
 } from './instructions.js';
 import { audioWeAre, audioCantEscape, audioKatakuriTheme } from './audio.js';
+import { socket, clientSocketHandler } from '../services/socket.js';
 
 function gameModeSelect() {
   AudioState.currentlyPlaying = changeCurrentSong();
@@ -17,21 +18,66 @@ function gameModeSelect() {
 
   const pvcButton = document.getElementById('pvc');
   const pvpButton = document.getElementById('multiplayer');
+  const pvpRoomButton = document.getElementById('socket-play');
   const optionsButton = document.getElementById('options');
   const soloForm = document.getElementById('single-player-name');
   const doubleForm = document.getElementById('multiplayer-name');
+  const onlineForm = document.getElementById('online-player-name');
+  const pvpJoinRoomButton = document.getElementById('new-game-btn-online');
+  const pvpCreateRoomButton = document.getElementById(
+    'create-new-game-btn-online'
+  );
+  const roomIDContainer = document.getElementById('room-id-container');
+  const roomIdInput = document.getElementById('room-id-input');
   const optionsBack = document.getElementById('return-to-menu');
 
   pvcButton.addEventListener('click', () => {
     GameState.mode = 'PvC';
     soloForm.style.display = 'flex';
     doubleForm.style.display = 'none';
+    onlineForm.style.display = 'none';
   });
   pvpButton.addEventListener('click', () => {
     GameState.mode = 'PvP';
     soloForm.style.display = 'none';
     doubleForm.style.display = 'flex';
+    onlineForm.style.display = 'none';
   });
+  pvpRoomButton.addEventListener('click', () => {
+    GameState.mode = 'Socket';
+    onlineForm.style.display = 'flex';
+    soloForm.style.display = 'none';
+    doubleForm.style.display = 'none';
+  });
+  pvpJoinRoomButton.addEventListener('click', () => {
+    roomIdInput.style.display = 'flex';
+    pvpJoinRoomButton.addEventListener('click', () => {
+      if (roomIdInput.value === '') return;
+      const onlinePlayerNameValue = document.getElementById(
+        'online-player-input'
+      ).value;
+      clientSocketHandler.invokeListeners();
+      clientSocketHandler.joinerOrCreator = 'joiner';
+      socket.emit('join_room', {
+        id: roomIdInput.value,
+        name: onlinePlayerNameValue,
+      });
+      GameState.turn = 'opponent';
+    });
+  });
+  pvpCreateRoomButton.addEventListener('click', () => {
+    roomIDContainer.style.display = 'flex';
+    const onlinePlayerNameValue = document.getElementById(
+      'online-player-input'
+    ).value;
+    clientSocketHandler.invokeListeners();
+    clientSocketHandler.joinerOrCreator = 'creator';
+
+    socket.emit('create_room', onlinePlayerNameValue);
+    // store socket and io to start events
+    // from any disjointed code point later
+  });
+
   optionsButton.addEventListener('click', () => {
     const optionsMenu = document.getElementById('options-menu');
     const credits = document.getElementById('credits');
@@ -188,9 +234,6 @@ function captureNames() {
     'new-game-btn-multiplayer'
   );
 
-  const soloForm = document.getElementById('single-player-name');
-  const doubleForm = document.getElementById('multiplayer-name');
-
   const menu = document.getElementById('menu');
   const addShips = document.getElementById('placement-page-body-container');
 
@@ -214,6 +257,7 @@ function captureNames() {
     menu.style.display = 'none';
     newGame();
   });
+
   newGameMultiplayer.addEventListener('click', () => {
     let player1 = new Players(player1Name.value);
     let player2 = new Players(player2Name.value);

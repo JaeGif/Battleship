@@ -3,7 +3,7 @@ class GameState {
   static turn = 'player';
   static players = [];
   static boards = [];
-  static mode = 'PvP';
+  static mode = 'PvP'; // 'PvP', 'Socket', 'PvC'
   static wasHit = false;
   static cpuAttacked = [];
   static gameOver = false;
